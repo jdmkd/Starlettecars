@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mail_token_sended</title>
+</head>
+<body>
+        <h1>mail_token_sended</h1>
+
+        <div id="messages" class="messages" style="  color: #ff4141;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            margin: 10px 0 0 60px;
+            position: relative;">
+                {% if messages %}
+                    {% comment %} <h1>{{tags}}</h1> {% endcomment %}
+                    {% comment %} <h1>{{messages}}</h1> {% endcomment %}
+                    {% for msg in messages %}
+                        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show msg" data-bs-toggle="collapse" data-bs-target="collapse" aria-expanded="false" aria-controls="collapse" role="alert" style="font-size:12px;">
+                        <strong>{{ msg }}</strong>
+                        
+                        </div>
+                        <button type="button" class="close btn-close" style="background: none;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <script>
+                {% comment %} let msg_closebtn = document.getElementsByClassName("close"); {% endcomment %}
+                let msg_closebtn = document.querySelector(".close");
+
+                msg_closebtn.addEventListener('click', () =>{
+                    messages = document.querySelector(".messages");
+                    messages.style.cssText = 'display:none;'
+                    
+                });
+            </script>
+        <a href="{% url 'login_and_registration' %}">login_and_registration</a></li>
+</body>
+</html>

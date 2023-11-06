@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> {% endcomment %}
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <!-- font awesome cdn link  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
+    <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
+    <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
+
+</head>
+<body>
+    <header class="header">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <a href="/" class="logo"> <span>Starlette</span>cars </a>
+        <div>
+            {% comment %} {% if user.is_authenticated %} {% endcomment %}
+            {% if request.session.log_user %}
+            <div class="headername">
+            <h1><a href="/myprofile">Welcome, {{udata.fname}} </a></li></h1>
+            </div>
+            {% endif %}
+        </div>
+        <nav class="navbar">
+            <a href="/">home</a>
+            <a href="/vehicles">vehicles</a>
+            <a href="/services">services</a>
+            <!-- <a href="  ">featured</a> -->
+            <a href=" /feedback ">feedback</a>
+            <a href="/contact">contact</a>
+
+            
+        </nav>
+        <div class="action">
+            <div class="profile" onclick="menuToggle();">
+                {% if udata.updProfile_photo %}
+                <img src="/media/{{ udata.updProfile_photo }}" alt=""/>
+                {% else %}
+                <img src="{% static 'image/profileicons/profile-user.png' %}" alt="{% static 'image/profileicons/profile-user.png' %}"/>
+                {% endif %}                 
+            </div>
+            
+            <div class="umenu">
+                <h3>My <span>Profile</span></h3>
+                <ul>
+                    {% if request.session.log_user %}
+                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="/myprofile">My
+                            Profile</a></li>
+                    <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
+                        href="/logout">Logout</a></li>
+                    {% else %}
+                    <li id="login-btn" class="login-btn">
+                        <img src="{% static 'image/profileicons/edit.png' %}"><a href="#">Login & Reg</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a>
+                    </li>
+                    {% if request.session.log_user %}
+                    <li>
+                        <img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking History</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    
+    {% if messages %}
+    <section class="popup_message">
+        {% comment %} <button class="show-modal">Show Modal</button>
+        <span class="overlay"></span> {% endcomment %}
+        {% for message in messages %} 
+            <div class="modal_box">
+                </button>
+                <i class="fa-regular fa-circle-check"></i>
+                <h3>{{ message }}</h3>
+                <div class="buttons">
+                    <button class="close_btn">Ok, Close</button>
+                </div>
+            </div>
+        {% endfor %}            
+    </section>
+    {% endif %}
+
+    <section class="vehicle_booking_hist" id="vehicle_booking_hist">
+        <h1 class="vehicle_booking_hist_heading">
+            Your Booking History
+            {% comment %} <span>popular vehicles</span> {% endcomment %}
+        </h1>
+        <div class="swiper vehicle_booking_hist-slider">
+            <div class="swiper-wrapper">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% for vdata in vdata %}
+                    {% if vdata.vehicle_id.buss_vehicle_status == "Booked" and vdata.is_cancelled == False %}
+                    <div class="swiper-slide box">
+                        <img src="/media/{{ vdata.vehicle_id.buss_vehicle_photo }}" alt="" width="300" height="200">
+                        <div class="content">
+                            {% comment %} <p>EMAIL : {{ vdata.login_id }}<br></p> {% endcomment %}
+                            <p>Vehicle Name : {{ vdata.vehicle_id }}</p>
+                            <p>From : {{ vdata.from_duration }} To :{{ vdata.from_to}}</p>
+                            <p>Amount :{{ vdata.amount }} INR</p>
+                            <p>Date & TIME : {{ vdata.booking_date }}</p>
+                            <p>Payment-Status: {{ vdata.paystatus}}</p>
+                            <p>Vehicle type : {{ vdata.vehicle_id.buss_vehicle_type }}<br></p>
+                            <p>Vehicle color : {{ vdata.vehicle_id.buss_vehicle_color }}<br></p>
+                            <p>location : {{ vdata.vehicle_id.buss_vehicle_location }}</p>
+                            <p>vehicle number : {{ vdata.vehicle_id.buss_vehicle_number }}</p>
+                            <p>vehicle status : {{ vdata.vehicle_id.buss_vehicle_status}}</p>
+                            {% comment %} <p>description :{{ vdata.vehicle_id.buss_vehicle_description|slice:"0:35" }}...</p> {% endcomment %}
+                            {% comment %} <p>STATUS : {{ vdata.paystatus}}</p> {% endcomment %}
+                            {% if vdata.paystatus %}
+                                <p>Status : <small class="badge badge-success"> Completed</small></p>
+                            {% else %}
+                                <p>Status : <small class="badge badge-warning"> Pending</small></p>
+                            {% endif %}
+                            <a class="cancel-bookings" href="/cancelbooking/{{ vdata.id }}">Cancel Booking</a>
+                            {% comment %} <a href="/checkout/{{ vdata.id }}" class="btn">Book</a> {% endcomment %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+
+
+
+    <script src=" {% static 'js/script.js' %} "></script>
+    <script src=" {% static 'js/uiconscript.js' %} "></script>
+    <script src=" {% static 'js/buss_script.js' %} "></script>
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

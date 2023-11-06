@@ -1,0 +1,24 @@
+{% extends 'buss_master.html' %}
+{% load static %}
+
+{% block title %}
+    Rental Business Account
+{% endblock%}
+
+{% comment %} <a href="{% url 'Registration' %}">Login & register</a> {% endcomment %}
+{% block logo %}
+            <a href="/rental_business" class="logo"> <span>Starlette</span>Business </a>
+{% endblock  %}
+
+{% block Welcome_Name %}
+        {% comment %} {% if user.is_authenticated %} {% endcomment %}
+        {% if request.session.buss_log_user %}
+        <div class="headername">
+            <h1><a href="http://">Welcome, {{buss_udata.buss_fname}} </a></li></h1>
+        </div>
+        {% endif %}
+{% endblock  %}
+
+
+
+    

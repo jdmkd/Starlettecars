@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    
+
+    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
+    <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
+    <style>
+        .panel-body {
+            padding: 15px;
+            background: #f1f1f126;
+          }
+
+        .form-gap {
+            padding-top: 70px;
+            margin:0;
+            
+            {% comment %} background-color:blue; {% endcomment %}
+        }
+        .form-control {
+            padding: 20px 12px;
+        }
+        .col-md-4 {
+            width: auto;
+
+            margin:0;
+            left:10vw;
+            {% comment %} padding:0; {% endcomment %}
+        }
+        @media (min-width: 992px){
+            .col-md-4 {
+                width: auto;
+                
+            }
+        }
+    </style>
+    <title>reset password</title>
+</head>
+<body>
+
+    <div class="form-gap"></div>
+    
+    <div class="container" style="padding:50px 60px 20px 0px" >
+        
+        <div class="row" style="padding:20px 0px 0px 0px; left: -35px; position:relative;">
+            
+            <div class="col-md-4 col-md-offset-4" >
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <div class="text-center">
+                      {% comment %} <h3><i class="fa fa-lock fa-4x"></i></h3> {% endcomment %}
+                      <h2 class="text-center">Your password has been changed</h2>
+                      <p><a href="/">Go to Home page</a> </p>
+                      {% if request.session.log_user %}
+                        <a href="{% url 'editprofile'%}">my profile</a>
+                      {% else %}
+                        <a href="{% url 'login'%}">Login</a>
+                      {% endif %}
+                      <div class="panel-body">
+        
+                    
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+    <script src=" {% static 'js/script.js' %} "></script>
+    <script src=" {% static 'js/passvalid.js' %} "></script>
+    <script src=" {% static 'js/uiconscript.js' %} "></script>
+
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</body>
+</html>
+
+
+{% comment %} {% block footer %}
+{% endblock %} {% endcomment %}
