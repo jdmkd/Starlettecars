@@ -29,7 +29,6 @@ def buss_index(request):
             userdata = request.session["buss_log_user"]
             buss_udata = business_user.objects.get(id=id)
             fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
-            print("this is Else!!!!!!!")
             print(fetch_buss_vehicle)
             buss_user_data = {
                     "userdata":userdata,
@@ -46,13 +45,7 @@ def buss_index(request):
                     "fetch_buss_vehicle":fetch_buss_vehicle,
                 }
         # print("this is exception: ",e)
-
-    
-    # x = list(buss_vehicle.objects.all())
-    # x = random.sample(x, 9)
-
-    # messages.success(request,"hey!! This is a Success message.")
-    # messages.error(request,"hey!! This is a Error message.")
+        
     return render(request, "buss_index.html",buss_user_data)
     # return HttpResponse('Hello, welcome to the index page.')
 
@@ -260,12 +253,16 @@ def verificationerror(request):
     return render(request, "buss_accounts/verificationerror.html")
 
 def generate_random_vehicle_id():
-    last_used_obj, created = buss_vehicle.objects.get_or_create(id=1000)
-    last_used_id = int(last_used_obj.buss_vehicle_id[3:])
-    new_last_used_id = last_used_id + 1
-    last_used_obj.buss_vehicle_id = f'BUS{new_last_used_id:04d}'
-    # last_used_obj.save()
-    return last_used_obj.buss_vehicle_id
+    if buss_vehicle.objects.exists():
+        last_used_obj = buss_vehicle.objects.latest('buss_vehicle_id')
+        last_used_id = str(last_used_obj.buss_vehicle_id)[3:]
+        new_last_used_id = str(int(last_used_id) + 1)
+        new_last_used_id = int(new_last_used_id)
+    else:
+        new_last_used_id = 1000
+
+    new_vehicle_id = f'BUS{new_last_used_id:04d}'
+    return new_vehicle_id
     
 def add_new_vehicle(request):
     vehicle_company = buss_vehicle.VEHICLE_COMPANY_CHOICES

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Token send</title>
+    <title>Verification Token Sended</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -13,23 +13,24 @@
 <body>
     {% comment %} <h1>Token send page</h1> {% endcomment %}
 
-    <div class="global_container"  style="align-content: center;
-                                            align-items: center;
+    <div class="global_container"  style="
                                             display: flex;
-                                            top: 30vh;
-                                            position: absolute;
-                                            left: 65vh;
-                                            margin:10px 10px;
-                                            padding:20px 20px;
+                                            /* top: 30vh; */
+                                            /* position: absolute; */
+                                            margin:.7rem .7rem;
+                                            padding:2rem 2rem;
+                                            align-content: center;
+                                            align-items: center;
+                                            height: 30rem;
+                                            justify-content: center;
                                             ">
         <div class="card login_form">
             <div class="card_body" style=" margin:20px 20px; padding: 20px 20px;">
-                <h3 class="card_title test_center">we send an Email to you</h3>
+                <h3 class="card_title test_center">we send an Email to you for Verification</h3>
                 <div class="card_text">
                     Please check your Gmail
                 </div>
-                <p style="">We sent an email to {{ associated_user }}....</p>
-                {% comment %} <p class="card_title test_center">Please check the email address {{ associated_user }} for instructions to reset your password.</p> {% endcomment %}
+                <p style="">We sent a Verification Token to <b>{{ associated_user }}</b>....</p>
                 <a href="/accounts/reset_password" class="btn btn-primary mx-3 my-2">Resend email</a>
                 <a href="{% url 'login' %}" class=" btn btn-primary mx-1 px-3 ">Back to login</a>
             </div>

@@ -518,14 +518,39 @@ a .my-bookings:hover{
     padding-top: 10rem;
     text-align: center;
     overflow-x: hidden;
-    
+    height: 40rem;
 }
 
 .home h3{
     color:var(--black);
-    font-size: 7.5vw;
+    font-size: 10rem;
     text-transform: uppercase;
 
+}
+@media(max-width:712px){
+    .home{
+        padding: 10rem 0 5rem 0;
+        text-align: center;
+        overflow-x: hidden;
+        /* overflow:auto; */
+        height: auto;
+    }
+    .home h3{
+        font-size: 8rem;
+    }
+}
+@media(max-width:576px){
+    .home{
+        padding: 10rem 0 5rem 0;
+    }
+    .home h3{
+        font-size: 6rem;
+    }
+}
+@media(max-width:435px){
+    .home h3{
+        font-size: 5rem;
+    }
 }
 
 .home img{
@@ -539,15 +564,15 @@ a .my-bookings:hover{
     margin: .5rem 0;
     position: relative;
     border-radius: 20px;
-    border: 2px solid rgba(205, 205, 205, 0.76);
+    /* border: 2px solid rgba(205, 205, 205, 0.76); */
     /* background-color: rgba(177, 234, 158, 0.297); */
-    z-index: -9;
+    /* z-index: -9; */
 }
 
 .icons-container{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    gap:1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap:3.5rem;
     padding-top: 5rem;
     padding-bottom: 5rem;
     background: #eee;
@@ -559,7 +584,7 @@ a .my-bookings:hover{
     align-items: center;
     box-shadow: var(--box-shadow);
     border-radius: .5rem;
-    padding:2rem;
+    padding:4rem;
     gap:1.5rem;
 }
 

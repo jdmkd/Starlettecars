@@ -24,8 +24,7 @@
                  
                     <div class="modal_box">
                         <i class="fa-regular fa-circle-check"></i>
-                        <h3 style = "">
-                            {{ message }}</h3>
+                        <h3 style = "">{{ message }}</h3>
                         <div class="buttons">
                             <button class="close_btn">Ok, Close</button>
                         </div>
@@ -39,9 +38,9 @@
                 font-weight: 500;
                 color: #000;
                 text-align: center;
-                {% comment %} background: #dfeeecbc;; {% endcomment %}
+                 /* background: #dfeeecbc;;  */
                 border-radius: 10px;
-                {% comment %} box-shadow: 2px 2px 3px #7e7d7da9; {% endcomment %}
+                 /* box-shadow: 2px 2px 3px #7e7d7da9; */
                 padding:0px 10px 5px 10px;
                 margin: 0;                                
                 /* border: 1px solid #56565666; */
@@ -57,18 +56,18 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     
-                    {% comment %} <div class="field input-field">
+                    <!-- <div class="field input-field">
                         <input type="text" placeholder="buss_vehicle_owner" class="input" name="buss_vehicle_owner" required>
-                    </div> {% endcomment %}
+                    </div> -->
                     <div class="field_add_new input-field">
                         {% comment %} <p>Enter your name :</p> {% endcomment %}
                         {% comment %} <label for="vehicle_company">Select Vehicle Company:</label> {% endcomment %}
                         <select name="buss_vehicle_company_name" id="vehicle_type" class="" required>
                             <option value="" disabled selected hidden>Select Vehicle Company</option>
                             {% for choice in v_choice_data.vehicle_company %}
-                            {% comment %} {% if choice.0 != 'Company Name' %} {% endcomment %}
+                            <!-- {% comment %} {% if choice.0 != 'Company Name' %} {% endcomment %} -->
                             <option value="{{ choice.0 }}" >{{ choice.1 }}</option>
-                            {% comment %} {% endif %} {% endcomment %}
+                            <!-- {% comment %} {% endif %} {% endcomment %} -->
                             {% endfor %}
                         </select>   
                         <input type="text" placeholder="Model name" class="input" name="buss_vehicle_model_name" required>

@@ -14,7 +14,6 @@ class showuser(admin.ModelAdmin):
         "updProfile_image",
         "updProfile_photo",
         "password",
-        "rpassword",
         "role",
         "status",
         "created_at",

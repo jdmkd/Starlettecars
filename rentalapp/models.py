@@ -11,10 +11,13 @@ class usertable(models.Model):
     lname = models.CharField(max_length=20)
     emailid = models.CharField(max_length=40)
     password = models.CharField(max_length=30)
-    rpassword = models.CharField(max_length=30, blank=True, null=True)
     phonenum = models.CharField(max_length=13, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
+
+    def update_last_login(self):
+        self.last_login = timezone.now()
+        self.save()
 
     auth_token = models.CharField(max_length=100, null=True)
     

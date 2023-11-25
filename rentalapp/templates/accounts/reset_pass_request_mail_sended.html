@@ -15,9 +15,9 @@
         <div class="card login_form" style="margin: 10px 5px; padding: 10px 10px; position: relative;border: 1px solid #0003;top: 25vh; width: 30vw;left: 34vw;max-width: 70vw;">
             <div class="card_body" style=" margin:10px 5px; padding: 10px 15px; display: grid;">
                 <p style="">Password reset email has been sended to your verified email...</p>
-                <p class="card_title test_center">Please check the email address {{ associated_user }} for instructions to reset your password.</p>
+                <p class="card_title test_center">Please check the email address <b>{{ associated_user }}</b> for instructions to reset your password.</p>
                 <a href="/accounts/reset_password" class="btn btn-primary">Resend email</a>
-                <a href="{% url 'login' %}" class="mt-2 mx-5 px-5 ">Back to login</a>
+                <a href="{% url 'login' %}" class="mt-2 mx-1 px-5 ">Back to login</a>
             </div>
         </div>
     </div>

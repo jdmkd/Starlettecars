@@ -24,7 +24,6 @@
         <div id="menu-btn" class="fas fa-bars"></div>
         <a href="/" class="logo"> <span>Starlette</span>cars </a>
         <div>
-            {% comment %} {% if user.is_authenticated %} {% endcomment %}
             {% if request.session.log_user %}
             <div class="headername">
             <h1><a href="/myprofile">Welcome, {{udata.fname}} </a></li></h1>

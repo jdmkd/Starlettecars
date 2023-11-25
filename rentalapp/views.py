@@ -28,14 +28,15 @@ def index(request):
     except KeyError:
         userdata = "Please login!!"
         udata = "Please login!!"
-        
+
     fetchvehicle = buss_vehicle.objects.all()
     vlist = list(fetchvehicle)
-
-    for i in range(1, len(fetchvehicle) + 1):
-        if i <= len(vlist):
-            x = random.sample(vlist, i)
-
+    if fetchvehicle:
+        for i in range(1, len(fetchvehicle) + 1):
+            if i <= len(vlist):
+                x = random.sample(vlist, i)
+    else:
+        x = None
     return render(request,"index.html",{"vehicle": fetchvehicle, "x": x, "udata": udata, "userdata": userdata})
 
 
@@ -46,10 +47,8 @@ def services(request):
     try:
         if request.session["log_id"]:
             id = request.session["log_id"]
-            userdata = request.session["log_user"]
             udata = usertable.objects.filter(id=id)[0]
     except KeyError:
-        userdata = "Please login!!"
         udata = "Please login!!"
     return render(request, "services.html", {"udata": udata})
 
@@ -71,17 +70,17 @@ def vehicles(request):
         userdata = "Please login!!"
         udata = "Please login!!"
     fetchvehicle = buss_vehicle.objects.all()
-    ## This is for random vehicle values
     vlist = list(fetchvehicle)
     
-    for i in range(1, len(fetchvehicle) + 1):
-        if i <= len(vlist):
-            x = random.sample(vlist, i)
+    if fetchvehicle:
+        for i in range(1, len(fetchvehicle) + 1):
+            if i <= len(vlist):
+                x = random.sample(vlist, i)
+    else:
+        x = None
     # x = list(buss_vehicle.objects.all())
     # x = random.sample(x, 9)
-    return render(
-        request, "vehicles.html", {"vehicle": fetchvehicle, "x": x, "udata": udata}
-    )
+    return render(request, "vehicles.html", {"vehicle": fetchvehicle, "x": x, "udata": udata})
 
 
 def contact(request):
@@ -289,7 +288,7 @@ def showdata(request):
                     lname=lname,
                     emailid=email,
                     password=password,
-                    rpassword=rpassword,
+                    # rpassword=rpassword,
                     role=2,
                     status=1,
                 )
@@ -613,55 +612,6 @@ def deleteprofile(request, id):
         {"udata": udatax},
     )
 
-
-def login(request):
-    try:
-        if request.session["log_id"]:
-            print("already loggedIn")
-            return redirect("/")
-    except Exception as e:
-        print("exception you are not loggedIn::???", e)
-        pass
-
-    if request.method == "POST":
-        try:
-            email = request.POST["email"]
-            password = request.POST["upass"]
-            if usertable.objects.filter(emailid=email).exists():
-                user_is = usertable.objects.filter(emailid=email).first()
-                if user_is.is_verified:
-                    try:
-                        user = usertable.objects.get(emailid=email, password=password)
-                        request.session["log_user"] = user.emailid
-                        request.session["log_id"] = user.id
-                        request.session.save()
-                        print("try user:::", user)
-                    except usertable.DoesNotExist:
-                        user = None
-                        print("exception user is None:", user)
-
-                    if user is not None:
-                        # return render(request,'index.html')
-                        print("User is Not None!!!")
-                        return redirect("/")
-                    else:
-                        messages.error(request, "Password does not matched!!!")
-                        print("Password does not matched!!!")
-                else:
-                    print("Please verify your account...")
-                    messages.error(request, "Please verify your account...")
-
-            else:
-                messages.info(request, "account does not exist plz sign in")
-                print("account does not exist plz sign in")
-                # return redirect('/')
-                return render(request, "accounts/login.html")
-        except Exception as e:
-            print("this is main Exception ::", e)
-    print("login bottom!!!!!!!!")
-    return render(request, "accounts/login.html")
-
-
 def register(request):
     try:
         if request.session["log_id"]:
@@ -706,7 +656,7 @@ def register(request):
                     lname=lname,
                     emailid=email,
                     password=password,
-                    rpassword=rpassword,
+                    # rpassword=rpassword,
                     auth_token=auth_token,
                     role=2,
                     status=1,
@@ -715,11 +665,9 @@ def register(request):
                 registerdata.save()
                 print("data saved...")
                 send_mail_after_registration(email, auth_token)
-                print(
-                    "Registartion done go to login page! send_mail_after_registration..."
-                )
-                messages.success(request, "Registartion done go to login page!")
-                return redirect("token_send")
+
+                user_mail_data = email
+                return render(request, "accounts/Verification_Token_Sended.html",{"associated_user": user_mail_data},)
 
         else:
             print("Your Password and Confirm Password does not Matched!!")
@@ -736,22 +684,37 @@ def register(request):
     # return render(request, "index.html")
     return render(request, "accounts/register.html")
 
-# logout
-def logout(request):
-    try:
-        del request.session["log_user"]
-        del request.session["log_id"]
-    except:
-        pass
-    return redirect("/")
+def EmailVerificationTokenSended(request):
+    return render(request, "accounts/Verification_Token_Sended.html")
+
+def Resend_Email_Verification_Token(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            try:
+                associated_user = usertable.objects.get(emailid=email)
+                if associated_user:
+                    if associated_user.is_verified:
+                        messages.success(request, "Your account is already verified.")
+                        return redirect("/")
+                    auth_token = associated_user.auth_token
+                    send_mail_after_registration(email, auth_token)
+                    messages.success(request, "Verification email resent successfully. Check your email.")
+                # return redirect("login")
+                # return redirect('success')  # Replace 'success' with the actual success URL
+            except usertable.DoesNotExist:
+                # Handle the case where the user with the provided email doesn't exist
+                return render(request, 'accounts/verificationerror.html', {'error': 'Invalid email'})
+    # return render(request, "accounts/Verification_Token_Sended.html")
+    return redirect("login")
 
 def send_mail_after_registration(email, auth_token):
     try:
         subject = "Your account needs to be varified."
 
-        message = f"Hi paste the link to varify your account. http://192.168.43.69:8000/accounts/verify/{auth_token}"
+        message = f"Please click on this link to varify your account. http://192.168.43.69:8000/accounts/verify/{auth_token}"
         send_from = settings.EMAIL_HOST_USER
-        print("This is send from maill ::", send_from)
+        print("This is send from mail ::", send_from)
         recipient_list = [
             email,
         ]
@@ -770,7 +733,6 @@ def send_mail_after_registration(email, auth_token):
 
     return True
     # return render("")
-
 
 def verify(request, auth_token):
     try:
@@ -793,6 +755,63 @@ def verify(request, auth_token):
 def verificationerror(request):
     return render(request, "accounts/verificationerror.html")
 
+def login(request):
+    try:
+        if request.session["log_id"]:
+            print("already loggedIn")
+            return redirect("/")
+    except Exception as e:
+        print("exception you are not loggedIn::???", e)
+        pass
+
+    if request.method == "POST":
+        try:
+            email = request.POST["email"]
+            password = request.POST["upass"]
+            if usertable.objects.filter(emailid=email).exists():
+                user_is = usertable.objects.filter(emailid=email).first()
+                if user_is.is_verified:
+                    try:
+                        user = usertable.objects.get(emailid=email, password=password)
+                        request.session["log_user"] = user.emailid
+                        request.session["log_id"] = user.id
+                        user.update_last_login()
+                        request.session.save()
+                        print("try user:::", user)
+                    except usertable.DoesNotExist:
+                        user = None
+                        print("exception user is None:", user)
+
+                    if user is not None:
+                        # return render(request,'index.html')
+                        print("User is Not None!!!")
+                        return redirect("/")
+                    else:
+                        messages.error(request, "Password does not matched!!!")
+                        print("Password does not matched!!!")
+                else:
+                    print("Please verify your account...")
+                    messages.error(request, "Please verify your account...")
+
+            else:
+                messages.info(request, "account does not exist plz sign in")
+                print("account does not exist plz sign in")
+                # return redirect('/')
+                return render(request, "accounts/login.html")
+        except Exception as e:
+            print("this is main Exception ::", e)
+    print("login bottom!!!!!!!!")
+    return render(request, "accounts/login.html")
+
+# logout
+def logout(request):
+    try:
+        del request.session["log_user"]
+        del request.session["log_id"]
+    except:
+        pass
+    return redirect("/")
+
 
 # if user is already loggedIn to the site, he/she forgot or want to change their password to change password  ..
 def change_pass(request):
@@ -810,7 +829,6 @@ def change_pass(request):
                 # print("new_password and conf_password are equal...")
                 # user_pass = usertable.objects.filter(password=old_password, id=id)
                 user_pass.password = new_password
-                user_pass.rpassword = conf_password
                 user_pass.save()
                 # print("pass saved..")
                 return redirect("pass_changed")
@@ -901,7 +919,6 @@ def reset_pass_page(request,reset_pass_token):
                             # print("new_password and conf_password are equal...")
                             # print("associated_user_pass_reset_token :::",associated_user_pass_reset_token)
                             data.password = new_upass
-                            data.rpassword = conf_new_upass
                             data.save()
                             # print("pass saved..")
                             return redirect("pass_has_been_changed")
@@ -934,5 +951,4 @@ def success(request):
     return render(request, "accounts/success.html")
 
 
-def token_send(request):
-    return render(request, "accounts/token_send.html")
+

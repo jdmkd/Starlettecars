@@ -35,19 +35,23 @@ ALLOWED_HOSTS = ["192.168.43.69", "*"]
 # Application definition
 
 INSTALLED_APPS = [
+    # 'admin_interface',
+    # 'colorfield',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
     "rentalapp",
     "rental_business",
-
+    
     # "rentalapp.apps.RentalappConfig",
     # "rental_business.apps.RentalBusinessConfig",
-
 ]
+# X_FRAME_OPTIONS = "SAMEORIGIN"
+# SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -194,4 +198,4 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "starlettecars@gmail.com"
-EMAIL_HOST_PASSWORD = "qjcqnsxlfmlmhfjx"
+EMAIL_HOST_PASSWORD = "xqhl wvta samq godb"

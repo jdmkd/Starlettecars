@@ -54,8 +54,11 @@ urlpatterns = [
     path("accounts/login", views.login, name="login"),
     path("accounts/register", views.register, name="register_attempt"),
     path("accounts/success", views.success, name="success"),
-    path("accounts/verify/email", views.token_send, name="token_send"),
+    path("accounts/verify/email", views.EmailVerificationTokenSended, name="EmailVerificationTokenSended"),
     path("accounts/verify/<slug:auth_token>", views.verify, name="verify"),
+    path("accounts/verify/email/resend", views.Resend_Email_Verification_Token, name="Resend_Email_Verification_Token"),
+    
+    
     path("accounts/verification/error=??", views.verificationerror, name="verificationerror",),
 ]
 if settings.DEBUG:
