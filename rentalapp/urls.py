@@ -22,32 +22,28 @@ urlpatterns = [
     path("booking/history", views.booking_history, name="booking_history"),
     path("cancelbooking/<int:id>", views.cancelbooking, name="cancelbooking"),
     path("termsandconpage", views.termsandconpage),
-    path("myprofile", views.myprofile),
     path("inbox", views.inbox),
     path("helps", views.helps),
     path("settings", views.setting),
-    path("editprofile", views.editprofile, name="editprofile"),
-    path("updprofile", views.updprofile, name="updprofile"),
-    path("deleteprofile/<int:id>", views.deleteprofile, name="deleteprofile"),
+    path("accounts/myprofile", views.myprofile, name="myprofile"),
+    path("accounts/myprofile/editprofile", views.editprofile, name="editprofile"),
+    path("accounts/myprofile/updprofile", views.updprofile, name="updprofile"),
+    path("accounts/myprofile/deleteprofile/<int:id>", views.deleteprofileImg, name="deleteprofileImg"),
     # if user is already loggedIn to the site, he/she forgot or want to change their password to change password  ..
-    path("change_password", views.change_pass, name="change_password"),
-    path("pass_changed", views.pass_changed, name="pass_changed"),
+    path("accounts/myprofile/editprofile/change_password", views.change_pass, name="change_password"),
+    path("accounts/myprofile/editprofile/pass_changed", views.pass_changed, name="pass_changed"),
     # end edit password
     # if user forgot password and does not loggedIn to site for reset password
     path("accounts/reset_password", views.reset_pass_request, name="resetpassword"),
-    path(
-        "accounts/resetpassword/request/mail_sended/<slug:user_mail_data>",
-        views.reset_pass_request_mail_sended,
+    path("accounts/resetpassword/request/mail_sended/<slug:user_mail_data>",views.reset_pass_request_mail_sended,
         name="reset_pass_request_mail_sended",
     ),
     path(
-        "accounts/u/request/reset-password/token=<slug:reset_pass_token>",
-        views.reset_pass_page,
+        "accounts/u/request/reset-password/token=<slug:reset_pass_token>",views.reset_pass_page,
         name="reset_pass_page",
     ),
     path(
-        "accounts/u/request/reset-password/pass-has-been-changed",
-        views.pass_has_been_changed,
+        "accounts/u/request/reset-password/pass-has-been-changed",views.pass_has_been_changed,
         name="pass_has_been_changed",
     ),
     
@@ -57,8 +53,6 @@ urlpatterns = [
     path("accounts/verify/email", views.EmailVerificationTokenSended, name="EmailVerificationTokenSended"),
     path("accounts/verify/<slug:auth_token>", views.verify, name="verify"),
     path("accounts/verify/email/resend", views.Resend_Email_Verification_Token, name="Resend_Email_Verification_Token"),
-    
-    
     path("accounts/verification/error=??", views.verificationerror, name="verificationerror",),
 ]
 if settings.DEBUG:

@@ -26,7 +26,7 @@
             {% comment %} {% if user.is_authenticated %} {% endcomment %}
             {% if request.session.log_user %}
             <div class="headername">
-                <h1><a href="/myprofile">Welcome, {{udata.fname}} </a></li></h1>
+                <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
             </div>
             {% endif %}
         </div>
@@ -54,7 +54,7 @@
                 <h3>My <span>Profile</span></h3>
                 <ul>
                     {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="/myprofile">My
+                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
                             Profile</a></li>
                     <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
                             href="/logout">Logout</a></li>

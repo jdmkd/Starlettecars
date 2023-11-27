@@ -24,7 +24,6 @@
             padding-top: 70px;
             margin:0;
             
-            {% comment %} background-color:blue; {% endcomment %}
         }
         .form-control {
             padding: 20px 12px;
@@ -34,7 +33,6 @@
 
             margin:0;
             left:10vw;
-            {% comment %} padding:0; {% endcomment %}
         }
         @media (min-width: 992px){
             .col-md-4 {
@@ -46,23 +44,38 @@
     <title>reset password</title>
 </head>
 <body>
-    <div class="form-gap"></div>
-    <div class="container" style="padding:3rem 3rem 1rem 0px;" >
-        <div class="row" style="padding:20px 0px 0px 0px; left: -35px; position:relative;">
-            <div class="col-md-4 col-md-offset-4" >
-                <div class="panel panel-default">
-                  <div class="panel-body">
+    <!-- <div class="form-gap"></div> -->
+    <div class="global_container"  style="
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            align-content: center;
+                                            text-align: center;
+                                            margin-top: 8rem;
+                                            position: relative;
+                                            ">
+        <div class="card login_form" style="
+                                            margin: 1rem 1rem;
+                                            padding: 1rem 1rem;
+                                            position: relative;
+                                            border: 1px solid #0003;
+                                            width: 40rem;
+                                            top: 10rem;
+                                            ">    
+            <div class="card_body" style=" margin: .5rem .5rem;
+                                            padding: .5rem .2rem;
+                                            display: grid;">
                     <div class="text-center">
                         {% comment %} <h3><i class="fa fa-lock fa-4x"></i></h3> {% endcomment %}
                         <h2 class="text-center">Your password has been changed</h2>
                         <div class="panel-body" style="margin:2rem 1rem;">
-                            <a href="{% url 'editprofile'%}">Continue your Profile Editing. </a></br>
+                            <a href="{% url 'editprofile'%}">Continue your editing profile. </a></br>
                             <p><a href="/">Go to Home page</a> </p>
 
                         </div>
                     </div>
                   </div>
-                </div>
+                
               </div>
         </div>
     </div>

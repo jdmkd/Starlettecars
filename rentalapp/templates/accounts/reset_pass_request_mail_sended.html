@@ -11,13 +11,31 @@
     
 </head>
 <body>
-    <div class="global_container">
-        <div class="card login_form" style="margin: 10px 5px; padding: 10px 10px; position: relative;border: 1px solid #0003;top: 25vh; width: 30vw;left: 34vw;max-width: 70vw;">
-            <div class="card_body" style=" margin:10px 5px; padding: 10px 15px; display: grid;">
+    <div class="global_container"  style="
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            align-content: center;
+                                            text-align: center;
+                                            margin-top: 8rem;
+                                            position: relative;
+                                            ">
+        <div class="card login_form" style="
+                                            margin: 1rem 1rem;
+                                            padding: .3rem .5rem;
+                                            position: relative;
+                                            border: 1px solid #0003;
+                                            width: 30rem;
+                                            ">    
+            <div class="card_body" style=" margin: .4rem .4rem; padding: 1rem 1rem; display: grid;">
                 <p style="">Password reset email has been sended to your verified email...</p>
                 <p class="card_title test_center">Please check the email address <b>{{ associated_user }}</b> for instructions to reset your password.</p>
                 <a href="/accounts/reset_password" class="btn btn-primary">Resend email</a>
-                <a href="{% url 'login' %}" class="mt-2 mx-1 px-5 ">Back to login</a>
+                {% if request.session.log_user %}
+                    <a href="{% url 'editprofile'%}">Back</a>
+                  {% else %}
+                    <a href="{% url 'login'%}">Back</a>
+                  {% endif %}
             </div>
         </div>
     </div>

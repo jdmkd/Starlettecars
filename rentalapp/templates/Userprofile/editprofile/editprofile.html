@@ -24,7 +24,7 @@
             {% comment %} {% if user.is_authenticated %} {% endcomment %}
             {% if request.session.log_user %}
             <div class="headername">
-                <h1><a href="/myprofile">Welcome, {{userdata.fname}} </a></li></h1>
+                <h1><a href="{% url 'myprofile' %}">Welcome, {{userdata.fname}} </a></li></h1>
             </div>
             {% endif %}
         </div>
@@ -54,7 +54,7 @@
                 <h3>My <span>Profile</span></h3>
                 <ul>
                     {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="/myprofile">My
+                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
                             Profile</a></li>
                     <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
                             href="/logout">Logout</a></li>
@@ -76,56 +76,62 @@
     
     
     <div class="container rounded">
-        <p> {% if messages %}
-            {% for msg in messages %}
-                <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
-                <strong>{{ msg }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-            {% endfor %}
-                
-            {% elif messagess%}
-                <div class="alert alert-{{ messagess.tags }} alert-dismissible fade show" role="alert">
-                <strong>{{ messagess }}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-
-            {% endif %}</p>
-
         <div class="row">
+            
             <form action="updprofile" method="post" enctype="multipart/form-data" >
                 {% csrf_token %}
                 {{ form.as_p }}
-                {% comment %} <input type="file" name="updProfileimg"/> {% endcomment %}
-                {% comment %} <div class="button">
-                    <button class="btn btn-primary profile-button" type="submit">update image</button>
-                </div> {% endcomment %}
-                <div class="">
-                    <div class="img">
-                        {% comment %} updProfile_photo {% endcomment %}
-                        {% comment %} {% static 'image/profileicons/account.png' %} {% endcomment %}
-                        {% if userdata.updProfile_photo %}
-                        <img class="rounded-circle" src="/media/{{ userdata.updProfile_photo }}" alt="" width="80%" >
-                        
-                        <div class="deleteprofile" id="deleteprofile">
-                            <a href="deleteprofile/{{ userdata.id }}"><img src="{% static 'image/trash_icon/trash.svg' %}"></a>
-                        </div>
-                        {% comment %} <img src="{% static 'image/trash_icon/trash.svg' %}"> {% endcomment %}
 
+                    {% if messages %}
+                        <div id="messages" class="messages" style="  
+                        /* color: #ff4141; */
+                        display: flex;
+                        position: relative;
+                        align-content: center;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 1rem 1rem;
+                        padding: 1rem 1rem;
+                        /* background: #00ff111c; */
+                        /* color:#2c753a; */
+                        /* background: #87fffd88; */
+                        /* border:1px solid #70ac6e5e; */
+                        border-radius:5px;
+                        
+                        ">
+
+                                {% for msg in messages %}
+                                    <div class="alert alert-{{msg.tags}} alert-dismissible fade show m-0" data-bs-toggle="collapse" data-bs-target="collapse" aria-expanded="false" aria-controls="collapse" role="alert" style="font-size:14px; font-weight:400;text-transform: none;">
+                                    <strong>{{ msg }}</strong>
+                                    
+                                    </div>
+                                    <button type="button" class="close btn-close" style="background: none;font-size:30px; font-weight:600;">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                {% endfor %}
+                            
+                        </div>
+                    {% endif %}
+                    <div class="message"></div>
+
+                    <div class="img">
+                        <!-- {% comment %} updProfile_photo {% endcomment %}
+                        {% comment %} {% static 'image/profileicons/account.png' %} {% endcomment %} -->
+                        {% if userdata.updProfile_photo %}
+                            <img id="updProfileimg" class="rounded-circle" src="/media/{{ userdata.updProfile_photo }}" alt="" width="50%" >
+                            
+                            <div class="deleteprofile" id="deleteprofile">
+                                <a href="deleteprofile/{{ userdata.id }}"><img src="{% static 'image/trash_icon/trash.svg' %}"></a>
+                            </div>
                         {% else %}
-                        <img class="rounded-circle" width="80%" src="{% static 'image/profileicons/account.png' %}">
+                            <img id="updProfileimg" class="rounded-circle" width="50%" src="{% static 'image/profileicons/account.png' %}">
                         {% endif %}
                         
-                        <input class="updProfileimginput" type="file" name="updProfileimg"/>
+                        <input id="updProfileimginput" class="updProfileimginput" type="file" name="updProfileimg"/>
                         <span class="">{{ userdata.fname }} {{ userdata.lname }}</span>
                         <span class="text-black-50">{{ userdata.emailid }}</span>
                         <span> </span>
                     </div>
-                </div>
                 <div class="profile-section">
                     
                     <div class="profile-detail">
@@ -158,16 +164,6 @@
                                 <div class="col-md-6"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                                 <div class="col-md-6"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div> {% endcomment %}
                             </div>
-                            {% comment %} <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">Password</label>
-                                    <input type="Password" name="updpassword" value=""  class="form-control" placeholder="Enter Password" >
-                                </div>
-                                <div class="input">
-                                    <label class="labels">Confirm Password</label>
-                                    <input type="Password" name="updrpassword" value=""  class="form-control" placeholder="Enter Confirm Password">
-                                </div>
-                            </div> {% endcomment %}
         
                             <div class="profile-input">
                                 <div class="input">
@@ -181,19 +177,15 @@
                             </div>
 
                             <div class="button">
-                                <a href="change_password" class="btn" style="background:#092ceaed; color:white; margin: 2rem 5rem;"> change password</a>
-                                <a href="{% url 'resetpassword' %}" class="btn" style="background:#092ceaed; color:white"> reset password using mail</a>
+                                {% if request.session.log_user %}
+                                    <a href="{% url 'change_password' %}" class="btn"> change password</a>
+                                {% else %}
+                                    <a href="{% url 'login'%}">change password</a>
+                                {% endif %}
                                 <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
                             </div>
                         </div>
                     </div>
-                    {% comment %} <div class="col-md-3">
-                        <div class="p-3 py-5">
-                            <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                            <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                            <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
-                        </div>
-                    </div> {% endcomment %}
                 </div>
             </form>
         </div>
@@ -243,6 +235,46 @@
 
     </section>
 
+    <script>
+        // {% comment %} let msg_closebtn = document.getElementsByClassName("close"); {% endcomment %}
+        let msg_closebtn = document.querySelector(".close");
+
+        msg_closebtn.addEventListener('click', () =>{
+            messages = document.querySelector(".messages");
+            messages.style.cssText = 'display:none;';
+            
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const profileImg = document.getElementById("updProfileimg");
+            const input = document.getElementById("updProfileimginput");
+
+            input.addEventListener("change", () => {
+                console.log("Change event triggered");
+                if (input.files.length > 0) {
+                    // Check if a file is selected
+                    const selectedFile = input.files[0];
+                    if (selectedFile.type.startsWith("image/")) {
+                    console.log("Selected File:", selectedFile);
+
+                    // Update the source of the profile image to display a preview
+                    profileImg.src = URL.createObjectURL(selectedFile);
+                    console.log("Profile Image Source:", profileImg.src);
+                    } 
+                    else {
+                        console.log("Selected file is not an image");
+                        profileImg.src = "/media/{{ userdata.updProfile_photo }}";  // Revert to the original image
+                    }
+                } 
+                else {
+                    console.log("No file selected");
+                }
+            });
+        });
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     {% comment %} <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script> {% endcomment %}

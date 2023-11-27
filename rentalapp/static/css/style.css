@@ -1192,56 +1192,66 @@ a .my-bookings:hover{
 
 /* change password */
 .main-container-change-password{
-    position: relative;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
     align-content: center;
-    align-items: center;
     text-align: center;
     margin-top: 50px;
     overflow: visible;    
-    /* border: 1px solid rgba(36, 62, 69, 0.331); */
-    border-radius: 8px;
-    box-sizing: border-box;
-    /* box-shadow: 3px 3px 3px rgba(0, 0, 0, .1), */
-    /* -2px 2px 3px rgba(0, 0, 0, .1), */
-    /* 0px -2px 3px rgba(0, 0, 0, .1);; */
 }
 .reset-box{
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
-    align-items: center;
+    align-items: center; */
     /* background: yellow; */
+    /* min-width: 30rem; */
+    /* margin: 1rem 1rem; */
+    width: 40rem;
     min-width: 30rem;
-    margin: 4rem 0;
-    padding: 2rem 2.5rem;
+    text-align: center;
+    padding: 2rem .5rem;
     border: 1px solid rgba(36, 62, 69, 0.331);
     border-radius: 8px;
     box-sizing: border-box;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, .1),
     -2px 2px 3px rgba(0, 0, 0, .1),
-    0px -2px 3px rgba(0, 0, 0, .1);;
+    0px -2px 3px rgba(0, 0, 0, .1);
 
     box-sizing: border-box;
+}
+
+.reset-box .resert-pass-using-mail-link{
+    color: #000;
+    margin: 1rem 1rem 0;
+    padding: 1rem 0 0 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    text-decoration: none;
+    text-transform: none;
+}
+.reset-box .resert-pass-using-mail-link:hover{
+    text-decoration:underline;
+    color: #0e76ec;
 }
 .main-container-change-password .reset-box .text-center .panel-body{
     /* background-color: blue; */
 }
 .main-container-change-password .reset-box .text-center .panel-body form .form-group .input-group{
     /* background-color: yellow; */
-    margin: 1rem 1rem;
+    margin: 2.4rem 1rem;
 }
 .main-container-change-password .text-center .panel-body form .form-group .input-group input{
     /* background-color: yellow; */
     margin: 0px 0;
-    padding: 1.5rem;
+    padding: 1.2rem 2rem;
     border: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 6px;
+    border-radius: 4px;
 }
 
 /* booking table ends */
@@ -1491,12 +1501,15 @@ a .my-bookings:hover{
     /* background: red; */
     position: relative;
     width: 40rem;
+    min-width: 30rem;
     margin: 10px 10px;
-    padding: 10px 20px;
-    border: 1px solid rgb(38, 38, 38);
-    border-radius: 10px;
+    padding: 2rem 2rem;
     text-decoration: none;
     text-transform:none;
+    border: 1px solid rgba(36, 62, 69, 0.331);
+    border-radius: 8px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, .1), -2px 2px 3px rgba(0, 0, 0, .1), 0px -2px 3px rgba(0, 0, 0, .1);
+    box-sizing: border-box;
 
 }
 .forget_pass_gmail_container .forget_pass_row .text-center h3, h2 {

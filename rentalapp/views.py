@@ -544,7 +544,7 @@ def updprofile(request):
                         userdata = usertable.objects.filter(id=logid)[0]
                         if updProfileimg:
                             # print("updProfileimg:::",updProfileimg)
-                            valid_extensions = ["jpg", "jpeg", "png", "gif"]
+                            valid_extensions = ["jpg", "jpeg", "png", "gif","webp"]
                             validator = FileExtensionValidator(
                                 allowed_extensions=valid_extensions,
                                 message="Please upload a valid image file.",
@@ -553,19 +553,11 @@ def updprofile(request):
                                 validator(updProfileimg)
 
                             except ValidationError as e:
-                                context = {
-                                    "userdata": userdata,
-                                    "messagess": e.message,
-                                }
-                                return render(
-                                    request,
-                                    "Userprofile/editprofile/editprofile.html",
-                                    context,
-                                )
+                                messages.error(request,"Please upload a valid image file.")
+                                return redirect("editprofile")
 
                             userdata.updProfile_photo = updProfileimg
                             userdata.save()
-                            # print("This is Saved....")
                             # print("This is userdata.updProfile_photo ::",userdata.updProfile_photo)
                             # return render(request,"Userprofile/editprofile/editprofile.html",context)
                             return redirect("editprofile")
@@ -584,9 +576,7 @@ def updprofile(request):
             messages.error(request, "Error....you cann't update your Profile!!")
             return render(request, "Userprofile/editprofile/editprofile.html")
     except:
-        # print("This is MAIN ECEPTION occurred")
         pass
-    # print("!!!! This is after if !!!!")
     logid = request.session["log_id"]
     userdata = usertable.objects.filter(id=logid)[0]
 
@@ -595,7 +585,7 @@ def updprofile(request):
     )
 
 
-def deleteprofile(request, id):
+def deleteprofileImg(request, id):
     try:
         udatax = usertable.objects.filter(id=id)
         userdatax = usertable.objects.get(id=id)
@@ -822,38 +812,34 @@ def change_pass(request):
         try:
             if request.session["log_id"]:
                 id = request.session["log_id"]
-                user_pass = usertable.objects.filter(password=old_password, id=id)[0]
-                # print("this is user_pass", user_pass)
+                uid=usertable.objects.filter(id=id,password=old_password)
+                if uid:
+                    user_pass = usertable.objects.filter(id=id,password=old_password)[0]
+                    
+                    if user_pass:
+                        if new_password == conf_password:
+                            user_pass.password = new_password
+                            user_pass.save()
+                            # messages.error(request, "Your login password has been reset succesfuly.")
+                            return redirect("pass_changed")
 
-            if new_password == conf_password:
-                # print("new_password and conf_password are equal...")
-                # user_pass = usertable.objects.filter(password=old_password, id=id)
-                user_pass.password = new_password
-                user_pass.save()
-                # print("pass saved..")
-                return redirect("pass_changed")
+                        else:
+                            messages.error(request, "new and confirm password does not matched..")
 
-            else:
-                # print("password does not matched..")
-                messages.error(request, " new and confirm password does not matched..")
+                else:
+                    messages.error(request, "password is wrong..")
         except:
             user_pass = None
-            # print("Exception!!!")
-            messages.error(request, "your old password is wrong..")
-
-        # except usertable.DoesNotExist:
-        #     user_pass = None
-        #     print("Exception!!!")
+            messages.info(request, "if you forgot your password you can reset by entring your registered email, we will send you an password reset link for your registered account. thanks!")
+            return redirect('resetpassword')
 
     return render(request, "Userprofile/editprofile/change_pass/change_pass.html")
-    # return redirect("/")
-
 
 def pass_changed(request):
     return render(request, "Userprofile/editprofile/change_pass/pass_changed.html")
 
 
-# using mail or phone otp
+# using email or phone otp
 def reset_pass_request(request):
     if request.method == "POST":
         email = request.POST.get("email")

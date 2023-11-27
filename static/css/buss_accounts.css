@@ -201,8 +201,8 @@ a.google span{
     justify-content: center;
     background-color: #ffffff;
     column-gap: 30px;
-    margin: 1px 10px 20px 10px;
-    padding: 10px 10px 30px 10px;
+    margin: 10px 10px 20px 10px;
+    /* padding: 10px 10px; */
 
 }
 .container_add_new .form_add_new:hover {
@@ -210,17 +210,18 @@ a.google span{
     box-shadow: 3px 2px 5px rgba(149, 149, 149, 0.544),
                  -1px 2px 5px rgba(157, 157, 157, 0.452), 
                  1px 2px 4px rgba(151, 151, 151, 0.401);
-    transition: ease-in all .2s;
+    transition: ease-in all .3s;
 }
 
 .form_add_new{
-    position: absolute;
+    /* position: absolute; */
     max-width: 60rem;
-    width: 95%;
+    /* width: 95%; */
     padding: 20px 20px;
     border-radius: 6px;
     background: #fdfdfdd9;
-    margin: 30px 20px 10px 20px;
+    /* background: #f51616d9; */
+    margin: 1rem 2rem;
     border: 1px solid rgb(209, 209, 209);
     box-shadow: 3px 2px 5px rgba(179, 179, 179, 0.21),
                 3px 3px 5px rgba(221, 221, 221, 0.4),

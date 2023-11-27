@@ -55,26 +55,6 @@ class usertable(models.Model):
         return self.fname
 
 
-# class vehicle_table(models.Model):
-#     vehicle_name = models.CharField(max_length=40)
-#     vehicle_color = models.CharField(max_length=40)
-#     vehicle_number = models.CharField(max_length=40)
-#     vehicle_type = models.CharField(max_length=40)
-#     vehicle_location = models.CharField(default="None", max_length=20)
-#     rent_per_day = models.CharField(max_length=40)
-#     vehicle_photo = models.ImageField(upload_to="photos")
-#     vehicle_description = models.TextField()
-
-#     def vehicle_image(self):
-#         return mark_safe('<img src="{}" width="100" />'.format(self.vehicle_photo.url))
-
-#     vehicle_image.allow_tags = True
-
-#     def __str__(self):
-#         return self.vehicle_name
-
-
-
 class booking_table(models.Model):
     vehicle_id = models.ForeignKey(buss_vehicle, on_delete=models.CASCADE)
     # vehicle_table
