@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+} */
+.popup_message {
+  position:fixed;
+  /* height: 13rem; */
+  /* width: 55rem; */
+  /* width: 60rem; */
+  max-width: 82%;
+  /* max-width:77%; */
+  /* min-width: 30px; */
+
+  /* display: none; */
+  /* opacity: 0; */
+  display:flex;
+  /* align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center; */
+  padding: 0;
+  left: 50%;
+  top: 30%;
+  border-radius: 24px;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(1);
+  /* max-width:50rem; */
+  opacity: 0.97;
+  background: #0396ff;
+}
+.popup_message.active{
+  display: none;
+}
+/* .overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+} */
+/* .popup_message.active .overlay {
+  opacity: 1;
+  pointer-events: auto;
+} */
+
+/* .popup_message .overlay {
+    opacity: 1;
+    pointer-events: auto;
+  } */
+
+.popup_message .modal_box {
+  position: relative;
+  /* left: 50%;
+  top: 35%; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32rem;
+  height: 11rem;
+  /* width: 100%; */
+  max-width: 94%;
+  /* min-width: 50%; */
+  padding: 30px 20px;
+  margin: 10px 10px;
+  /* margin: 10px 10px; */
+  border-radius: 14px;
+  background-color: #f6fdfc;
+  /* background-color: #00ffd9; */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1),
+              -2px -2px 4px rgba(0, 0, 0, 0.1),
+              -3px 2px 3px rgba(0, 0, 0, 0.1);
+  /* opacity: 0; */
+  z-index: 9999999;
+  /* pointer-events: none; */
+  transition: all 0.3s ease;
+  transform: translate(0%, 0%) scale(1.2);
+  opacity: 1;
+  /* object-fit: contain; */
+  pointer-events: auto;
+  /* transform: translate(-50%, -50%) scale(1); */
+}
+
+/* .popup_message.active{
+    background-color: red;
+} */
+
+/* .popup_message.active .modal_box {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+} */
+
+/* .popup_message .modal_box {
+  display: none;
+} */
+
+.modal_box i {
+  font-size: 70px;
+  color: #4070f4;
+}
+.modal_box h2 {
+  margin-top: 20px;
+  font-size: 25px;
+  font-weight: 500;
+  color: #333;
+}
+.modal_box h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+}
+.modal_box .buttons {
+  margin-top: 25px;
+}
+.modal_box button {
+  font-size: 14px;
+  padding: 6px 12px;
+  margin: 0 10px;
+}
