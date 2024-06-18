@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Book you vehicle</title>
+    {% comment %} <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}"> {% endcomment %}
+    
+    
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -14,6 +16,8 @@
     <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
     <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
     <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
+
+    <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
 </head>
 <body>
     <header class="header">
@@ -87,47 +91,776 @@
             {% endfor %}            
         </section>
     {% endif %}
-    
-    
-    <section class="featured" id="featured" style="margin:70px 0 10px 0">
-        <h1 class="heading">
-            Book Your Car
-        </h1>
-        <div class="swiper featured-slider">
-           <div class="swiper-wrapper">
-                <div class="swiper-slide box">
-                    <img src=" /media/{{ vehicle.buss_vehicle_photo }}" alt="">
-                    <div class="content">
-                        <h3>{{ vehicle.buss_vehicle_company_name }}</h3>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        {% comment %} <span class="fas fa-circle"></span>  {% endcomment %}
-                        <p>{{ vehicle.buss_vehicle_description}}</p>
-                        <div class="price">{{ vehicle.buss_rent_per_day }}</div> 
-                        
-                        {% comment %} {% if request.session.log_user %} {% endcomment %}
-                        <div id="checkout_btn" class="checkout_btn">
-                            <button class="checkout_btn btn">checkout</button>
-                        </div>
-                        {% comment %} {% else %} {% endcomment %}
-                        {% comment %} <div id="Please_login" class="Please_login"> {% endcomment %}
-                            {% comment %} <button class="btn Please_login">checkout</button> {% endcomment %}
-                        {% comment %} </div> {% endcomment %}
-                        {% comment %} {% endif %} {% endcomment %}
 
+
+  <section class="p-5 relative top-[10rem] bg-gray-50">
+      <div class="w-auto sm:w-[80rem] mx-auto p-6">
+        {% comment %} w-[120rem] {% endcomment %}
+        <!-- Product Details Container -->
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div class="md:flex p-3 sm:p-5 space-y-6 md:space-y-0 md:space-x-6">
+            <!-- Product Image -->
+            <div class="md:w-1/2">
+              <div class="p-6 flex justify-center items-baseline">
+                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-105 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+              </div>
+              <div class="p-6 flex space-x-6">
+                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class=" w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+              
+              </div>
+            </div>
+
+            
+            <!-- Product Details -->
+            <div class="md:w-1/2 p-6 sm:p-6">
+              <div class="pb-2 text-2xl font-medium text-gray-500">Location : 
+                <span class="px-3 py-1 text-gray-300 bg-slate-700 rounded-md">{{ vehicle.buss_vehicle_location}}</span>
+              </div>
+              <h1 class="mt-2 text-4xl font-bold text-gray-800">{{ vehicle.buss_vehicle_company_name }} - {{ vehicle.buss_vehicle_model}}</h1>
+              <div class="my-[1rem] flex items-center gap-[1rem]">
+                <span class="text-5xl text-gray-900 font-bold"><span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day }}</span>
+                <span class="text-5xl line-through font-medium text-gray-600 ml-4"><span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day | add:"1200"}}</span>
+                
+                <span class="text-3xl font-semibold text-gray-900 ml-4">{{ vehicle.buss_vehicle_status }}</span>
+                {% if vehicle.buss_vehicle_status == "Available" %}
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                  <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                </svg>
+                {% elif vehicle.buss_vehicle_status == "booked" %}
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB/0lEQVR4nO2ZO0gkQRRFjx9EMTAQFMFEMFEjs0U2EETRxB+amYiZgYmxqYrgIm4gJqKCiemaGPkLRTbYzEADAxWEZZ0xUqyl4DWUY3dP987QVa514TJd1dU179R7/aPBy8vr02oCOAXygHLMeeAEGC8GseZAsCqhV+MyoT6Yx8JAzhwITKX0cRiIi+eEKuJcGIj6oH4n2wF5EJ8R7JeT8ucI9lde+YzwdhVu5epQARzErNCojNtIsJrbxhXnMGsQrSZplwrSZ8w5ZQNEawh4LQHkBqgE2oB6cc4GiNa3EkCWZNwiMCnbu1mDzMhvDXDxjyCdMu4S2Jft/qxBnoAO2W4HHlOCnMuYbmk/SWlVSsllBqLbv4A6aU+nBJkzyiroC8prJWsQ7XWjby8hyDPQbJRV0B+UV5cNEH3VGpa+BuAqAcgPY/yy4QVj/p9Zg2g/AK3S/wUYLAISlFCc5m2ABO/OVQXzhYH8Bmrl6WBLysn0rBzbArzYAFEFpREFsin7eiLmuAeqUz6ylB1Er2BvEZCvsu97zP8MpHxkKTuIkntAYwTItZSULsG7mDl25Pj6gvtT2UBc9TvZDsiD+Ixgv5yUP0ewv/Lq02Uk50BQKqX/hIGcOBCYSumjMJBxBwJTKT1ChFYdCE4ltH4ljtWYpMzFT3F5iS0yE15eXv+5/gLhNnvRivS0qwAAAABJRU5ErkJggg==">
+                {% comment %} {% else %} {% endcomment %}
+                {% endif %}
+              </div>
+
+
+              <div class="flex items-center">
+                <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <span class="mx-[1rem] px-[.5rem] py-[.4rem] rounded bg-yellow-300 text-lg font-semibold">5.0</span>
+              </div>
+              
+              <p class="mt-4 text-2xl font-semibold normal-case text-gray-700">{{ vehicle.buss_vehicle_description}}</p>
+              
+              <div class=" py-[2rem]">
+                {% comment %} <div class="checkout-form-container" > {% endcomment %}
+                  <form action="{% url 'vehicle_booking' %}" method="post" >
+                      {% csrf_token %}
+                      <div class="my-5 grid grid-cols-2 gap-3">
+                        <div class="relative">
+                          <label for="sdate" class="block text-[1.5rem] font-semibold select-none mb-2 text-gray-700">From Starting</label>
+                          <input id="sdate" type="date" name="sdate" placeholder="starting date" class="transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] uppercase select-none" title="Enter a Starting date" required>
+                        </div>
+                        <div class="relative">
+                          <label for="edate" class="block text-[1.5rem] font-semibold mb-2 text-gray-700">To Ending</label>
+                          <input id="edate" type="date" name="edate" placeholder="ending date" class="transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] cursor-pointer uppercase select-none" title="Enter a end date" required>
+                        </div>
+                          <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
+                          <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
+                          {# {% if user.is_authenticated %}#}
+                          {# {% endif %}#}
+                        </div>
+                        <input type="submit" value="checkout" class="btn">
+                        
+                    {% comment %} <div date-rangepicker class="flex items-center">
+                      <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                        </div>
+                        <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
+                      </div>
+                      <span class="mx-4 text-gray-500">to</span>
+                      <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                        </div>
+                        <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
                     </div>
-                </div>
+                    </div> {% endcomment %}
+
+
+                  </form>
+                {% comment %} </div> {% endcomment %}
+              </div>
+
+              
+
+              <div class="my-[2rem]">
+                <h2 class="my-[1rem] text-3xl font-semibold text-gray-800">Specification</h2>
+
+                <ul class="mt-2 text-xl text-gray-500 font-semibold">
+                  <li class="my-[1rem] whitespace-pre">location :      {{ vehicle.buss_vehicle_location}}</li>
+                  <li class="my-[1rem] whitespace-pre">type :              {{ vehicle.buss_vehicle_type}}</li>
+                  <li class="my-[1rem] whitespace-pre">color :             {{ vehicle.buss_vehicle_color}}</li>
+                  <li class="my-[1rem] whitespace-pre">number :       {{ vehicle.buss_vehicle_number}}</li>
+                  <li class="my-[1rem] whitespace-pre">feul :</li>
+
+                </ul>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="mx-[2rem] px-[1rem] py-[1rem]">
+            <!-- Product Description -->
+            <div style="border-bottom:1px solid gray; border-top:1px solid gray;" class="b-solid border-b-4 border-b-indigo-500 overflow-hidden p-6">
+              <h2 class="text-3xl font-bold text-gray-800">Vehicle Description</h2>
+              <p class="mt-4 text-[1.3rem] font-medium text-gray-700">{{ vehicle.buss_vehicle_description}}</p>
+            </div>
+          
+            <!-- Product Specifications -->
+            <div class="overflow-hidden  p-6">
+              <h2 class="text-3xl font-bold text-gray-800">Vehicle Specifications</h2>
+              <ul class="mt-2 text-xl text-gray-500 font-semibold">
+                  <li class="my-[1rem] whitespace-pre">location :      {{ vehicle.buss_vehicle_location}}</li>
+                  <li class="my-[1rem] whitespace-pre">type :              {{ vehicle.buss_vehicle_type}}</li>
+                  <li class="my-[1rem] whitespace-pre">color :             {{ vehicle.buss_vehicle_color}}</li>
+                  <li class="my-[1rem] whitespace-pre">number :       {{ vehicle.buss_vehicle_number}}</li>
+                  <li class="my-[1rem] whitespace-pre">feul :</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+        
+        
+
+
+
+
+
+
+
+
+
+    <section class="mt-[8rem] bg-slate-100" id="" style="">
+        <h1 class="flex text-[2.5rem] font-bold justify-center items-center ">Book Your Car</h1>
+        
+
+
+                <div class=" mx-auto mt-10">
+                    <div class="sm:flex shadow-md my-10">
+                      <div class="  w-full  sm:w-3/4 bg-white px-10 py-10">
+                        <div class="flex justify-between border-b pb-8">
+                          <h1 class="font-semibold text-2xl">Shopping Cart</h1>
+                          <h2 class="font-semibold text-2xl">3 Items</h2>
+                        </div>
+                        <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
+                          <div class="md:w-4/12 2xl:w-1/4 w-full">
+                            <img src="https://i.ibb.co/6gzWwSq/Rectangle-20-1.png" alt="Black Leather Purse" class="h-full object-center object-cover md:block hidden" />
+                            <img src="https://i.ibb.co/TTnzMTf/Rectangle-21.png" alt="Black Leather Purse" class="md:hidden w-full h-full object-center object-cover" />
+                          </div>
+                          <div class="md:pl-3 md:w-8/12 2xl:w-3/4 flex flex-col justify-center">
+                            <p class="text-xs leading-3 text-gray-800 md:pt-0 pt-4">RF293</p>
+                            <div class="flex items-center justify-between w-full">
+                              <p class="text-base font-black leading-none text-gray-800">Luxe card holder</p>
+                              <select aria-label="Select quantity" class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
+                                  <option>01</option>
+                                  <option>02</option>
+                                  <option>03</option>
+                                </select>
+                            </div>
+                            <p class="text-xs leading-3 text-gray-600 pt-2">Height: 10 inches</p>
+                            <p class="text-xs leading-3 text-gray-600 py-4">Color: Black</p>
+                            <p class="w-96 text-xs leading-3 text-gray-600">Composition: 100% calf leather</p>
+                            <div class="flex items-center justify-between pt-5">
+                              <div class="flex itemms-center">
+                                <p class="text-xs leading-3 underline text-gray-800 cursor-pointer">Add to favorites</p>
+                                <p class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">Remove</p>
+                              </div>
+                              <p class="text-base font-black leading-none text-gray-800">,000</p>
+                            </div>
+                          </div>
+                        </div>
+                  
+                        <div class="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
+                          <div class="md:w-4/12 2xl:w-1/4 w-full">
+                            <img src="https://i.ibb.co/6gzWwSq/Rectangle-20-1.png" alt="Black Leather Purse" class="h-full object-center object-cover md:block hidden" />
+                            <img src="https://i.ibb.co/TTnzMTf/Rectangle-21.png" alt="Black Leather Purse" class="md:hidden w-full h-full object-center object-cover" />
+                          </div>
+                          <div class="md:pl-3 md:w-8/12 2xl:w-3/4 flex flex-col justify-center">
+                            <p class="text-xs leading-3 text-gray-800 md:pt-0 pt-4">RF293</p>
+                            <div class="flex items-center justify-between w-full">
+                              <p class="text-base font-black leading-none text-gray-800">Luxe card holder</p>
+                              <select aria-label="Select quantity" class="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
+                                  <option>01</option>
+                                  <option>02</option>
+                                  <option>03</option>
+                                </select>
+                            </div>
+                            <p class="text-xs leading-3 text-gray-600 pt-2">Height: 10 inches</p>
+                            <p class="text-xs leading-3 text-gray-600 py-4">Color: Black</p>
+                            <p class="w-96 text-xs leading-3 text-gray-600">Composition: 100% calf leather</p>
+                            <div class="flex items-center justify-between pt-5">
+                              <div class="flex itemms-center">
+                                <p class="text-xs leading-3 underline text-gray-800 cursor-pointer">Add to favorites</p>
+                                <p class="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">Remove</p>
+                              </div>
+                              <p class="text-base font-black leading-none text-gray-800">,000</p>
+                            </div>
+                          </div>
+                        </div>
+                        <a href="#" class="flex font-semibold text-indigo-600 text-sm mt-10">
+                          <svg class="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512">
+                            <path
+                              d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
+                          </svg>
+                          Continue Shopping
+                        </a>
+                      </div>
+                      <div id="summary" class=" w-full   sm:w-1/4   md:w-1/2     px-8 py-10">
+                        <h1 class="font-semibold text-2xl border-b pb-8">Order Summary</h1>
+                        <div class="flex justify-between mt-10 mb-5">
+                          <span class="font-semibold text-sm uppercase">Items 3</span>
+                          <span class="font-semibold text-sm">590$</span>
+                        </div>
+                        <div>
+                          <label class="font-medium inline-block mb-3 text-sm uppercase">
+                                Shipping
+                              </label>
+                          <select class="block p-2 text-gray-600 w-full text-sm">
+                                <option>Standard shipping - $10.00</option>
+                              </select>
+                        </div>
+                        <div class="py-10">
+                          <label
+                                for="promo"
+                                class="font-semibold inline-block mb-3 text-sm uppercase"
+                              >
+                                Promo Code
+                              </label>
+                          <input
+                                type="text"
+                                id="promo"
+                                placeholder="Enter your code"
+                                class="p-2 text-sm w-full"
+                              />
+                        </div>
+                        <button class="bg-red-500 hover:bg-red-600 px-5 py-2 text-sm text-white uppercase">
+                              Apply
+                            </button>
+                        <div class="border-t mt-8">
+                          <div class="flex font-semibold justify-between py-6 text-sm uppercase">
+                            <span>Total cost</span>
+                            <span>$600</span>
+                          </div>
+                          <button class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">
+                                Checkout
+                              </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </section>
 
+
+
+
+
+
     
-    <div class="checkout-form-container" >
+
+
+
+
+
+
+
+    
+
+
+
+
+    
+    
+
+        
+
+
+
+        <div class="bg-gray-100">
+
+            <div>
+              <div x-data="{ open: false }" class="relative overflow-hidden bg-sky-700 pb-32">
+                <nav
+                  class="bg-transparent relative z-10 border-b border-teal-500 border-opacity-25 lg:border-none lg:bg-transparent"
+                  x-state:on="Menu open" x-state:off="Menu closed" :class="{ 'bg-sky-900': open, 'bg-transparent': !(open) }">
+                  <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+                    <div class="relative flex h-16 items-center justify-between lg:border-b lg:border-sky-800">
+                      <div class="flex items-center px-2 lg:px-0">
+                        <div class="flex-shrink-0">
+                          <img class="block h-8 w-auto" src="" alt="House in Umbria">
+                        </div>
+                        <div class="hidden lg:ml-6 lg:block lg:space-x-4">
+                          <div class="flex">
+          
+                            <a href="#" class="bg-black bg-opacity-25 rounded-md py-2 px-3 text-sm font-medium text-white"
+                              x-state:on="Current" x-state:off="Default"
+                              x-state-description="Current: &quot;bg-black bg-opacity-25&quot;, Default: &quot;hover:bg-sky-800&quot;">Dashboard</a>
+          
+                            <a href="#" class="hover:bg-sky-800 rounded-md py-2 px-3 text-sm font-medium text-white"
+                              x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Jobs</a>
+          
+                            <a href="#" class="hover:bg-sky-800 rounded-md py-2 px-3 text-sm font-medium text-white"
+                              x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Applicants</a>
+          
+                            <a href="#" class="hover:bg-sky-800 rounded-md py-2 px-3 text-sm font-medium text-white"
+                              x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Company</a>
+          
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
+                        <div class="w-full max-w-lg lg:max-w-xs">
+                          <label for="search" class="sr-only">Search</label>
+                          <div class="relative text-sky-100 focus-within:text-gray-400">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                              <svg class="h-5 w-5 flex-shrink-0" x-description="Heroicon name: mini/magnifying-glass"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                  d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                  clip-rule="evenodd"></path>
+                              </svg>
+                            </div>
+                            <input id="search" name="search" class="block w-full rounded-md border border-transparent bg-sky-700 bg-opacity-50 py-2 pl-10 pr-3 leading-5 placeholder-sky-100 focus:border-white focus:bg-white focus:text-gray-900 focus:placeholder-gray-500 focus:outline-none focus:ring-white sm:text-sm" placeholder="Search" type="search">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex lg:hidden">
+                        <!-- Mobile menu button -->
+                        <button type="button" class="inline-flex items-center justify-center rounded-md p-2 text-sky-200 hover:bg-sky-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" @click="open = !open" aria-expanded="false" x-bind:aria-expanded="open.toString()">
+                          <span class="sr-only">Open main menu</span>
+                          <svg x-description="Icon when menu is closed.
+          
+          Heroicon name: outline/bars-3" x-state:on="Menu open" x-state:off="Menu closed" class="block h-6 w-6 flex-shrink-0" :class="{ 'hidden': open, 'block': !(open) }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+          </svg>
+                          <svg x-description="Icon when menu is open.
+          
+          Heroicon name: outline/x-mark" x-state:on="Menu open" x-state:off="Menu closed" class="hidden h-6 w-6 flex-shrink-0" :class="{ 'block': open, 'hidden': !(open) }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+                        </button>
+                      </div>
+                      <div class="hidden lg:ml-4 lg:block">
+                        <div class="flex items-center">
+                          <button type="button" class="flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900">
+                            <span class="sr-only">View notifications</span>
+                            <svg class="h-6 w-6" x-description="Heroicon name: outline/bell" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"></path>
+          </svg>
+                          </button>
+          
+                          <!-- Profile dropdown -->
+                          <div x-data="Components.menu({ open: false })" x-init="init()"
+                            @keydown.escape.stop="open = false; focusButton()" @click.away="onClickAway($event)"
+                            class="relative ml-4 flex-shrink-0">
+                            <div>
+                              <button type="button" class="flex rounded-full text-sm text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900" id="user-menu-button" x-ref="button" @click="onButtonClick()" @keyup.space.prevent="onButtonEnter()" @keydown.enter.prevent="onButtonEnter()" aria-expanded="false" aria-haspopup="true" x-bind:aria-expanded="open.toString()" @keydown.arrow-up.prevent="onArrowUp()" @keydown.arrow-down.prevent="onArrowDown()">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=320&amp;h=320&amp;q=80" alt="">
+                              </button>
+                            </div>
+          
+                            <div x-show="open" x-transition:enter="transition ease-out duration-100"
+                              x-transition:enter-start="transform opacity-0 scale-95"
+                              x-transition:enter-end="transform opacity-100 scale-100"
+                              x-transition:leave="transition ease-in duration-75"
+                              x-transition:leave-start="transform opacity-100 scale-100"
+                              x-transition:leave-end="transform opacity-0 scale-95"
+                              class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                              x-ref="menu-items" x-description="Dropdown menu, show/hide based on menu state."
+                              x-bind:aria-activedescendant="activeDescendant" role="menu" aria-orientation="vertical"
+                              aria-labelledby="user-menu-button" tabindex="-1" @keydown.arrow-up.prevent="onArrowUp()"
+                              @keydown.arrow-down.prevent="onArrowDown()" @keydown.tab="open = false"
+                              @keydown.enter.prevent="open = false; focusButton()"
+                              @keyup.space.prevent="open = false; focusButton()">
+          
+                              <a href="#" class="block py-2 px-4 text-sm text-gray-700" x-state:on="Active"
+                                x-state:off="Not Active" :class="{ 'bg-gray-100': activeIndex === 0 }" role="menuitem"
+                                tabindex="-1" id="user-menu-item-0" @mouseenter="onMouseEnter($event)"
+                                @mousemove="onMouseMove($event, 0)" @mouseleave="onMouseLeave($event)"
+                                @click="open = false; focusButton()">Your Profile</a>
+          
+                              <a href="#" class="block py-2 px-4 text-sm text-gray-700"
+                                :class="{ 'bg-gray-100': activeIndex === 1 }" role="menuitem" tabindex="-1" id="user-menu-item-1"
+                                @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 1)"
+                                @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">Settings</a>
+          
+                              <a href="#" class="block py-2 px-4 text-sm text-gray-700"
+                                :class="{ 'bg-gray-100': activeIndex === 2 }" role="menuitem" tabindex="-1" id="user-menu-item-2"
+                                @mouseenter="onMouseEnter($event)" @mousemove="onMouseMove($event, 2)"
+                                @mouseleave="onMouseLeave($event)" @click="open = false; focusButton()">Sign out</a>
+          
+                            </div>
+          
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+          
+                  <div x-description="Mobile menu, show/hide based on menu state." class="bg-sky-900 lg:hidden" id="mobile-menu"
+                    x-show="open">
+                    <div class="space-y-1 px-2 pt-2 pb-3">
+          
+                      <a href="#" class="bg-black bg-opacity-25 block rounded-md py-2 px-3 text-base font-medium text-white"
+                        x-state:on="Current" x-state:off="Default"
+                        x-state-description="Current: &quot;bg-black bg-opacity-25&quot;, Default: &quot;hover:bg-sky-800&quot;">Dashboard</a>
+          
+                      <a href="#" class="hover:bg-sky-800 block rounded-md py-2 px-3 text-base font-medium text-white"
+                        x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Jobs</a>
+          
+                      <a href="#" class="hover:bg-sky-800 block rounded-md py-2 px-3 text-base font-medium text-white"
+                        x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Applicants</a>
+          
+                      <a href="#" class="hover:bg-sky-800 block rounded-md py-2 px-3 text-base font-medium text-white"
+                        x-state-description="undefined: &quot;bg-black bg-opacity-25&quot;, undefined: &quot;hover:bg-sky-800&quot;">Company</a>
+          
+                    </div>
+                    <div class="border-t border-sky-800 pt-4 pb-3">
+                      <div class="flex items-center px-4">
+                        <div class="flex-shrink-0">
+                          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=320&amp;h=320&amp;q=80" alt="">
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-base font-medium text-white">Conchita Gonzales</div>
+                          <div class="text-sm font-medium text-sky-200">conchita@example.net</div>
+                        </div>
+                        <button type="button" class="ml-auto flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900">
+                          <span class="sr-only">View notifications</span>
+                          <svg class="h-6 w-6" x-description="Heroicon name: outline/bell" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"></path>
+          </svg>
+                        </button>
+                      </div>
+                      <div class="mt-3 px-2">
+          
+                        <a href="#"
+                          class="block rounded-md py-2 px-3 text-base font-medium text-sky-200 hover:bg-sky-800 hover:text-white">Your
+                          Profile</a>
+          
+                        <a href="#"
+                          class="block rounded-md py-2 px-3 text-base font-medium text-sky-200 hover:bg-sky-800 hover:text-white">Settings</a>
+          
+                        <a href="#"
+                          class="block rounded-md py-2 px-3 text-base font-medium text-sky-200 hover:bg-sky-800 hover:text-white">Sign
+                          out</a>
+          
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+                <div aria-hidden="true" x-state:on="Menu open" x-state:off="Menu closed"
+                  class="inset-y-0 absolute inset-x-0 left-1/2 w-full -translate-x-1/2 transform overflow-hidden lg:inset-y-0"
+                  :class="{ 'bottom-0': open, 'inset-y-0': !(open) }">
+                  <div class="absolute inset-0 flex">
+                    <div class="h-full w-1/2" style="background-color: #0a527b"></div>
+                    <div class="h-full w-1/2" style="background-color: #065d8c"></div>
+                  </div>
+                  <div class="relative flex justify-center">
+                    <svg class="flex-shrink-0" width="1750" height="308" viewBox="0 0 1750 308"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="M284.161 308H1465.84L875.001 182.413 284.161 308z" fill="#0369a1"></path>
+                      <path d="M1465.84 308L16.816 0H1750v308h-284.16z" fill="#065d8c"></path>
+                      <path d="M1733.19 0L284.161 308H0V0h1733.19z" fill="#0a527b"></path>
+                      <path d="M875.001 182.413L1733.19 0H16.816l858.185 182.413z" fill="#0a4f76"></path>
+                    </svg>
+                  </div>
+                </div>
+                <header class="relative py-10">
+                  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <h1 class="text-3xl font-bold tracking-tight text-white">Settings</h1>
+                  </div>
+                </header>
+              </div>
+          
+              <main class="relative -mt-32">
+                <div class="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+                  <div class="overflow-hidden rounded-lg bg-white shadow">
+                    <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+                      <aside class="py-6 lg:col-span-3">
+                        <nav class="space-y-1">
+          
+                          <a href="#"
+                            class="bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state:on="Current" x-state:off="Default" aria-current="page"
+                            x-state-description="Current: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, Default: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-teal-500 group-hover:text-teal-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state:on="Current" x-state:off="Default"
+                              x-state-description="Current: &quot;text-teal-500 group-hover:text-teal-500&quot;, Default: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/user-circle" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z">
+                              </path>
+                            </svg>
+                            <span class="truncate">Profile</span>
+                          </a>
+          
+                          <a href="#"
+                            class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/cog" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495">
+                              </path>
+                            </svg>
+                            <span class="truncate">Account</span>
+                          </a>
+          
+                          <a href="#"
+                            class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/key" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z">
+                              </path>
+                            </svg>
+                            <span class="truncate">Password</span>
+                          </a>
+          
+                          <a href="#"
+                            class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/bell" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0">
+                              </path>
+                            </svg>
+                            <span class="truncate">Notifications</span>
+                          </a>
+          
+                          <a href="#"
+                            class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/credit-card" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z">
+                              </path>
+                            </svg>
+                            <span class="truncate">Billing</span>
+                          </a>
+          
+                          <a href="#"
+                            class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                            x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                              x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                              x-description="Heroicon name: outline/squares-plus" xmlns="http://www.w3.org/2000/svg" fill="none"
+                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                              <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z">
+                              </path>
+                            </svg>
+                            <span class="truncate">Integrations</span>
+                          </a>
+          
+                        </nav>
+                      </aside>
+          
+                      <form class="divide-y divide-gray-200 lg:col-span-9" action="#" method="POST">
+                        <!-- Profile section -->
+                        <div class="py-6 px-4 sm:p-6 lg:pb-8">
+                          <div>
+                            <h2 class="text-lg font-medium leading-6 text-gray-900">Profile</h2>
+                            <p class="mt-1 text-sm text-gray-500">This information will be displayed publicly so be careful what
+                              you share.</p>
+                          </div>
+          
+                          <div class="mt-6 flex flex-col lg:flex-row">
+                            <div class="flex-grow space-y-6">
+                              <div>
+                                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                  <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">workcation.com/</span>
+                                  <input type="text" name="username" id="username" autocomplete="username" class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm" value="deblewis">
+                                </div>
+                              </div>
+          
+                              <div>
+                                <label for="about" class="block text-sm font-medium text-gray-700">About</label>
+                                <div class="mt-1">
+                                  <textarea id="about" name="about" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm"></textarea>
+                                </div>
+                                <p class="mt-2 text-sm text-gray-500">Brief description for your profile. URLs are hyperlinked.
+                                </p>
+                              </div>
+                            </div>
+          
+                            <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-shrink-0 lg:flex-grow-0">
+                              <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p>
+                              <div class="mt-1 lg:hidden">
+                                <div class="flex items-center">
+                                  <div class="inline-block h-12 w-12 flex-shrink-0 overflow-hidden rounded-full"
+                                    aria-hidden="true">
+                                    <img class="h-full w-full rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=320&amp;h=320&amp;q=80" alt="">
+                                  </div>
+                                  <div class="ml-5 rounded-md shadow-sm">
+                                    <div
+                                      class="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-2 hover:bg-gray-50">
+                                      <label for="mobile-user-photo" class="pointer-events-none relative text-sm font-medium leading-4 text-gray-700">
+                                        <span>Change</span>
+                                        <span class="sr-only"> user photo</span>
+                                      </label>
+                                      <input id="mobile-user-photo" name="user-photo" type="file" class="absolute h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+          
+                              <div class="relative hidden overflow-hidden rounded-full lg:block">
+                                <img class="relative h-40 w-40 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=320&amp;h=320&amp;q=80" alt="">
+                                <label for="desktop-user-photo" class="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100">
+                                  <span>Change</span>
+                                  <span class="sr-only"> user photo</span>
+                                  <input type="file" id="desktop-user-photo" name="user-photo" class="absolute inset-0 h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0">
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+          
+                          <div class="mt-6 grid grid-cols-12 gap-6">
+                            <div class="col-span-12 sm:col-span-6">
+                              <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                              <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm">
+                            </div>
+          
+                            <div class="col-span-12 sm:col-span-6">
+                              <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm">
+                            </div>
+          
+                            <div class="col-span-12">
+                              <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
+                              <input type="text" name="url" id="url" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm">
+                            </div>
+          
+                            <div class="col-span-12 sm:col-span-6">
+                              <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
+                              <input type="text" name="company" id="company" autocomplete="organization" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm">
+                            </div>
+                          </div>
+                        </div>
+          
+                        <!-- Privacy section -->
+                        <div class="divide-y divide-gray-200 pt-6">
+                          <div class="px-4 sm:px-6">
+                            <div>
+                              <h2 class="text-lg font-medium leading-6 text-gray-900">Privacy</h2>
+                              <p class="mt-1 text-sm text-gray-500">Ornare eu a volutpat eget vulputate. Fringilla commodo amet.
+                              </p>
+                            </div>
+                            <ul role="list" class="mt-2 divide-y divide-gray-200">
+                              <li class="flex items-center justify-between py-4" x-data="{ on: true }">
+                                <div class="flex flex-col">
+                                  <p class="text-sm font-medium text-gray-900" id="privacy-option-1-label">Available to hire</p>
+                                  <p class="text-sm text-gray-500" id="privacy-option-1-description">Nulla amet tempus sit
+                                    accumsan. Aliquet turpis sed sit lacinia.</p>
+                                </div>
+                                <button type="button" class="bg-gray-200 relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" role="switch" aria-checked="true" x-ref="switch" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'bg-teal-500': on, 'bg-gray-200': !(on) }" aria-labelledby="privacy-option-1-label" aria-describedby="privacy-option-1-description" :aria-checked="on.toString()" @click="on = !on">
+                                  <span aria-hidden="true" class="translate-x-0 inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'translate-x-5': on, 'translate-x-0': !(on) }"></span>
+                                </button>
+                              </li>
+                              <li class="flex items-center justify-between py-4" x-data="{ on: false }">
+                                <div class="flex flex-col">
+                                  <p class="text-sm font-medium text-gray-900" id="privacy-option-2-label">Make account private
+                                  </p>
+                                  <p class="text-sm text-gray-500" id="privacy-option-2-description">Pharetra morbi dui mi mattis
+                                    tellus sollicitudin cursus pharetra.</p>
+                                </div>
+                                <button type="button" class="bg-gray-200 relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" role="switch" aria-checked="false" x-ref="switch" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'bg-teal-500': on, 'bg-gray-200': !(on) }" aria-labelledby="privacy-option-2-label" aria-describedby="privacy-option-2-description" :aria-checked="on.toString()" @click="on = !on">
+                                  <span aria-hidden="true" class="translate-x-0 inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'translate-x-5': on, 'translate-x-0': !(on) }"></span>
+                                </button>
+                              </li>
+                              <li class="flex items-center justify-between py-4" x-data="{ on: true }">
+                                <div class="flex flex-col">
+                                  <p class="text-sm font-medium text-gray-900" id="privacy-option-3-label">Allow commenting</p>
+                                  <p class="text-sm text-gray-500" id="privacy-option-3-description">Integer amet, nunc hendrerit
+                                    adipiscing nam. Elementum ame</p>
+                                </div>
+                                <button type="button" class="bg-gray-200 relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" role="switch" aria-checked="true" x-ref="switch" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'bg-teal-500': on, 'bg-gray-200': !(on) }" aria-labelledby="privacy-option-3-label" aria-describedby="privacy-option-3-description" :aria-checked="on.toString()" @click="on = !on">
+                                  <span aria-hidden="true" class="translate-x-0 inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'translate-x-5': on, 'translate-x-0': !(on) }"></span>
+                                </button>
+                              </li>
+                              <li class="flex items-center justify-between py-4" x-data="{ on: true }">
+                                <div class="flex flex-col">
+                                  <p class="text-sm font-medium text-gray-900" id="privacy-option-4-label">Allow mentions</p>
+                                  <p class="text-sm text-gray-500" id="privacy-option-4-description">Adipiscing est venenatis enim
+                                    molestie commodo eu gravid</p>
+                                </div>
+                                <button type="button" class="bg-gray-200 relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2" role="switch" aria-checked="true" x-ref="switch" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'bg-teal-500': on, 'bg-gray-200': !(on) }" aria-labelledby="privacy-option-4-label" aria-describedby="privacy-option-4-description" :aria-checked="on.toString()" @click="on = !on">
+                                  <span aria-hidden="true" class="translate-x-0 inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" x-state:on="Enabled" x-state:off="Not Enabled" :class="{ 'translate-x-5': on, 'translate-x-0': !(on) }"></span>
+                                </button>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="mt-4 flex justify-end py-4 px-4 sm:px-6">
+                            <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Cancel</button>
+                            <button type="submit" class="ml-5 inline-flex justify-center rounded-md border border-transparent bg-sky-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Save</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </main>
+            </div>
+          
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    <div class="relative checkout-form-container" >
         <form action="{% url 'vehicle_booking' %}" method="post" >
             {% csrf_token %}
             <h1>{{ vehicle.buss_vehicle_company_name }} - {{ vehicle.buss_vehicle_model }}</h1>
@@ -148,51 +881,10 @@
         </form>
     </div>
 
-    <section class="footer" id="footer">
-        <div class="box-container">
-            <div class="box">
-                <h3>our branches</h3>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> india </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> japan </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
-            </div>
-
-            <div class="box">
-                <h3>quick links</h3>
-                <a href="index"> <i class="fas fa-arrow-right"></i> home </a>
-                <a href="vehicles"> <i class="fas fa-arrow-right"></i> vehicles </a>
-                <a href="services"> <i class="fas fa-arrow-right"></i> services </a>
-                <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
-                <a href="feedback"> <i class="fas fa-arrow-right"></i> reviews </a>
-                <a href="contact"> <i class="fas fa-arrow-right"></i> contact </a>
-            </div>
-
-            <div class="box">
-                <h3>contact info</h3>
-                <a href="tel:+916376094539"><i class="fas fa-phone"></i> +91 6376094539 </a>
-                <a href="tel:+916376094539"> <i class="fas fa-phone"></i> +91 6376094539 </a>
-                <a href="mailto:starlettecars@gmail.com"><i class="fas fa-envelope"></i> starlettecars@gmail.com </a>
-                <a href="http://"><i class="fas fa-map-marker-alt"></i> Ahmedabad, india - 382480 </a>
-            </div>
-
-            <div class="box">
-                <h3>contact info</h3>
-                <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-                <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-                <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-                <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
-                <a href="#"> <i class="fab fa-pinterest"></i> pinterest </a>
-            </div>
-
-        </div>
-
-        <div class="credit"> © 2023 starlettecars, Inc. All Rights Reserved </div>
-    </section>
-
+    {% include 'components/footer.html' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-    <script src=" {% static 'js/checkout_form.js' %} "></script>
+    {% comment %} <script src=" {% static 'js/checkout_form.js' %} "></script/> {% endcomment %}
     <script src=" {% static 'js/script.js' %} "></script>
     <script src=" {% static 'js/uiconscript.js' %} "></script>
     <script src=" {% static 'js/buss_script.js' %} "></script>

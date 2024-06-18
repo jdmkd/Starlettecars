@@ -47,8 +47,7 @@ class business_user(models.Model):
     buss_status = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.buss_emailid
-        return self.buss_fname
+        return f'{self.buss_fname} {self.buss_emailid}'
 
 class buss_vehicle(models.Model):
     buss_vehicle_owner = models.ForeignKey(business_user, on_delete=models.CASCADE, null=True)
@@ -177,7 +176,7 @@ class buss_vehicle(models.Model):
     buss_vehicle_image.allow_tags = True
 
     def __str__(self):
-        return self.buss_vehicle_company_name
+        return f'{self.buss_vehicle_company_name}'
     
 
 class buss_feedback(models.Model):
@@ -187,7 +186,7 @@ class buss_feedback(models.Model):
     buss_comments = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.buss_name
+        return f'{self.buss_name}'
 
 
 class buss_contactus(models.Model):
@@ -198,4 +197,4 @@ class buss_contactus(models.Model):
     buss_contact_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return self.buss_name
+        return f'{self.buss_name}'

@@ -8,6 +8,8 @@
         
         <title>{% block title%}Home{% endblock %}</title>
         {% block linkcss %}
+        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+        {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
         <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         
@@ -17,7 +19,22 @@
         {% endblock %}
     </head>
 
-    <body>
+    <body class=" bg-gray-100">
+        <style>
+            a{
+                text-decoration: none;
+                /* text-transform: none; */
+            }
+            .home a p{ 
+                text-decoration: none;
+                text-transform: none;
+            }
+            .home a:hover { 
+                background:#ffea00;
+                /* #f9d806 */
+                /* #ffee80 */
+            }
+        </style>
         {% block header %}
         <header class="header">
             <div id="menu-btn" class="fas fa-bars"></div>
@@ -34,11 +51,6 @@
                         </div>
                     {% endif %}
             {% endblock  %}
-
-
-            
-
-
 
             <nav class="navbar">
                 {% block navbar %}
@@ -122,49 +134,49 @@
 
 
         {% block homeimage %}
-        <section class="home" id="home" style="font-family: 'Merriweather', serif;">
-            <h3 data-speed="-2" class="home-parallax">Welcome to Rental Business</h3>
-            {% comment %} <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> {% endcomment %}
+        <section class="home border-b-2 bg-white" id="home" style="font-family: 'Merriweather', serif;">
+            <h3 data-speed="-2" class="home-parallax font-bold">Welcome to Rental Business</h3>
+            <!-- {% comment %} <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> {% endcomment %} -->
             {% if request.session.buss_log_user %}
-            <a data-speed="7" href="{% url 'add_new_vehicle' %}" class="btn home-parallax">Add your vehicles here.</a>
+            <a data-speed="2" href="{% url 'add_new_vehicle' %}" class="btn home-parallax py-1 shadow border-[1px] bg-green-500 border-green-500 hover:bg-green-900"><p class="my-2">Add your vehicles here.</p></a>
             {% else %}
-            <a data-speed="7" href="{% url 'login_and_registration' %}" class="btn home-parallax">Please login for business with us</a>
+            <a data-speed="2" href="{% url 'login_and_registration' %}" class="btn home-parallax py-1 shadow border-[1px] border-yellow-300 hover:bg-yellow-800"><p class="my-2">Please login for business with us</p></a>
             {% endif %}
         </section>
         {% endblock %}
 
         {% block branches %}
-        <section class="icons-container">
+        <section class="mt-0 mx-[1rem] sm:mx-[4rem] md:mx-[3rem] lg:mx-[5rem] px-[2rem] sm:px-[.1rem] md:px-[3rem] py-[4rem] md:py-[3rem] lg:pb-[1rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-[2rem] sm:gap-[2rem] md:gap-[4rem] xl:gap-[5rem] bg-gray-100  border-b-2">
 
-            <div class="icons">
-                <i class="fas fa-home"></i>
-                <div class="content">
-                    <h3>50+</h3>
-                    <p>branches</p>
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-home text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">50+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">Starlette Business is designed for your business with business relevant benefits</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-car"></i>
-                <div class="content">
-                    <h3>470+</h3>
-                    <p>cars sold</p>
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-box text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">120+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">Modernize and simplify business purchasing to focus on your customers</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-users"></i>
-                <div class="content">
-                    <h3>420+</h3>
-                    <p>happy clients</p>
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-user text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">250+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">happy clients</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-car"></i>
-                <div class="content">
-                    <h3>700+</h3>
-                    <p>news cars</p>
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-car text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">60+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">wide range of new cars than can inhance the experience.</p>
                 </div>
             </div>
 
@@ -173,9 +185,9 @@
         {% endblock %}
 
 {% block popularvehicles %}
-        {% if request.session.buss_log_user %}
+        {% if request.session.buss_log_user and fetch_buss_vehicle %}
         {% comment %}  {% endcomment %}
-        <section class="vehicles buss_vehicles" id="vehicles">
+        <section class="vehicles buss_vehicles border-b-2" id="vehicles">
             <h1 class="heading">
                 Your Vehicles
                 {% comment %} <span>popular vehicles</span> {% endcomment %}
@@ -210,34 +222,35 @@
 
 
 {% block ourservices %}
-<section class="services" id="services">
-    <h1 class="heading">our services</h1>
-    <div class="box-container" style=" margin:20px; padding:20px; ">
-        <div class="box">
-            <i class="fas fa-car"></i>
-            <h3>SECURED PAYMENT</h3>
-            <p>We have Secure payment system.</p>
+<section class=" mt-0 pt-5 border-b-2 mb-0  bg-slate-100" id="services">
+    
+    <h1 class="flex justify-center text-[4rem] font-semibold">our services</h1>
+    <div class=" px-[1rem] sm:px-[2rem] xl:px-[8rem]  mx-[.2rem] sm:mx-[2rem] md:mx-[3rem] my-[4rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[4rem]">
+        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3 items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
+            <i class="fas fa-car text-[3rem]"></i>
+            <h3 class="text-[2.5rem] normal-case text-black font-semibold">Secured payment</h3>
+            <p class="text-[1.5rem] normal-case text-gray-800">We have Secure payment system.</p>
             <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
         </div>
         
-        <div class="box">
-            <i class="fas fa-car"></i>
-            <h3>HELP CENTER & SUPPORT</h3>
-            <p>We provide help and support to the end of your vehicle.</p>
+        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
+            <i class="fas fa-phone text-[3rem]"></i>
+            <h3 class="text-[2.5rem] normal-case font-semibold">Help center & support</h3>
+            <p class="text-[1.5rem] normal-case">We provide help and support to the end of your vehicle.</p>
             <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
         </div>
 
-        <div class="box">
-            <i class="fas fa-tools"></i>
-            <h3>Services</h3>
-            <p>Best services for rental business.</p>
+        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
+            <i class="fas fa-tools text-[3rem]"></i>
+            <h3 class="text-[2.5rem] normal-case font-semibold">Services</h3>
+            <p class="text-[1.5rem] normal-case">Best services for rental business.</p>
             <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
         </div>
 
-        <div class="box">
-            <i class="fas fa-headset"></i>
-            <h3>24/7 support</h3>
-            <p>Business custumer support are available.</p>
+        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
+            <i class="fas fa-headset text-[3rem]"></i>
+            <h3 class="text-[2.5rem] normal-case font-semibold">24/7 support</h3>
+            <p class="text-[1.5rem] normal-case">Business custumer support are available.</p>
             <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
         </div>
     </div>
@@ -255,17 +268,17 @@
 <!--            {# </section>#}-->
 
         {% block contactus %}
-        <section class="contact" id="contact">
-            <h1 class="heading">contact us
+        <section class="contact mt-0 pt-5 border-b-2  bg-blue-50" id="contact">
+            <h1 class="heading  font-semibold">contact us
                 {% comment %} <span>contact us</span> {% endcomment %}
             </h1>
 
-            <div class="row">
-                <iframe class="map"
+            <div class="row my-[4rem]">
+                <iframe class="map shadow-xl bg-white  "
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883734.5405313424!2d71.10875065591415!3d22.69997852215749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1648971540844!5m2!1sen!2sin"
                     allowfullscreen="" loading="lazy"></iframe>
 
-                <form action="/contactdata" method="post">
+                <form action="/contactdata" class=" shadow hover:shadow-2xl bg-white" method="post">
                     {% csrf_token %}
                     <h3>get in touch</h3>
                     <input type="text" placeholder="your name" class="box" name="fname" required>
@@ -320,7 +333,7 @@
 
             </div>
 
-            <div class="credit"> © 2023 starlettecars, Inc. All Rights Reserved </div>
+            <div class="credit"> © {% now "Y" %} starlettecars, Inc. All Rights Reserved </div>
 
         </section>
         {% endblock %}

@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('rentalapp.urls')),
     path('rental_business/', include('rental_business.urls')),
+    path("__reload__/", include("django_browser_reload.urls")),
 
 
     # re_path('admin-interface/', include('admin_interface.urls')),

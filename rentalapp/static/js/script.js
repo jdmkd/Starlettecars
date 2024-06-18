@@ -83,11 +83,14 @@ document.querySelector('.home').onmouseleave = (e) =>{
   });
 };
 
+
+// vehicle card swiper slider using swiperjs
+
 var swiper = new Swiper(".vehicles-slider", {
-  grabCursor: true,
-  centeredSlides: true,
+  grabCursor: false,
+  // centeredSlides: true,
   spaceBetween: 20,
-  loop:true,
+  // loop:true,
   autoplay: {
     delay: 10000,
     disableOnInteraction: false,
@@ -96,15 +99,22 @@ var swiper = new Swiper(".vehicles-slider", {
     el: ".swiper-pagination",
     clickable:true,
   },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
   breakpoints: {
-    0: {
+    480: {
       slidesPerView: 1,
     },
-    768: {
+    640: {
       slidesPerView: 2,
     },
+    768: {
+      slidesPerView: 1,
+    },
     1024: {
-      slidesPerView: 3,
+      slidesPerView: 1,
     },
   },
 });

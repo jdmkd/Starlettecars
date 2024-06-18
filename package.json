@@ -1,0 +1,25 @@
+{
+  "name": "finalrmsx",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:rentalapp": "npx tailwindcss -i ./static/css/tailwind.css -o ./rentalapp/static/css/tailwind-output.css --watch",
+    "build:rental_business": "npx tailwindcss -i ./static/css/tailwind.css -o ./rental_business/static/css/tailwind-output.css --watch",
+    "dev": "npm run build:rentalapp & npm run build:rental_business",
+    "tailwind-build": "tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind-output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
+    "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "flowbite": "^2.3.0",
+    "swiper": "^11.1.4"
+  }
+}

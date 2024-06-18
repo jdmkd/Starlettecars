@@ -29,7 +29,11 @@ SECRET_KEY = "django-insecure-h5-x_^t44*3@$z(ne57sne9@s9%q410#qe+ngpufmmdhu6)4!4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.43.69", "*"]
+ALLOWED_HOSTS = [
+                    '*',
+                    '192.168.43.175',
+                    
+                ]
 
 
 # Application definition
@@ -46,6 +50,7 @@ INSTALLED_APPS = [
 
     "rentalapp",
     "rental_business",
+    "django_browser_reload",
     
     # "rentalapp.apps.RentalappConfig",
     # "rental_business.apps.RentalBusinessConfig",
@@ -61,6 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 # messages
@@ -82,11 +88,10 @@ TEMPLATES = [
         "APP_DIRS": True,
 
 
-        "DIRS": [
-                os.path.join(BASE_DIR / 'rentalapp/templates'),
-                os.path.join(BASE_DIR / 'rental_business/templates'),
-
-            ],
+        # "DIRS": [
+        #         os.path.join(BASE_DIR / 'rentalapp/templates'),
+        #         os.path.join(BASE_DIR / 'rental_business/templates'),
+        #     ],
         # "DIRS": [BASE_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
@@ -106,21 +111,21 @@ WSGI_APPLICATION = "rentalproject.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
+    # },
     
     
     
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'Starlettecars',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '@7890',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'starlletcarsDB',
+        'USER': 'postgres',
+        'PASSWORD': '870909',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 
 
     # 'default': {

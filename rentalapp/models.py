@@ -51,8 +51,7 @@ class usertable(models.Model):
     status = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.emailid
-        return self.fname
+        return f'{self.fname} {self.emailid}'
 
 
 class booking_table(models.Model):
@@ -69,8 +68,7 @@ class booking_table(models.Model):
     cancelled_at = models.DateTimeField(blank=True, null=True)
 
     def __int__(self):
-        self.vehicle_id
-        self.booking_date
+        return f'{self.vehicle_id} {self.booking_date}'
 
 
 class feedback(models.Model):
@@ -80,7 +78,7 @@ class feedback(models.Model):
     comments = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
 
 class contactus(models.Model):
@@ -91,4 +89,4 @@ class contactus(models.Model):
     contact_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.email}'

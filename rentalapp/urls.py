@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path("", views.index),
     path("index/", views.index, name="index"),
-    path("services/", views.services),
+    path("services", views.services),
     path("vehicles", views.vehicles),
     path("showdata", views.showdata),
     path("checklogin", views.checklogin),
@@ -50,7 +50,7 @@ urlpatterns = [
     path("accounts/login", views.login, name="login"),
     path("accounts/register", views.register, name="register_attempt"),
     path("accounts/success", views.success, name="success"),
-    path("accounts/verify/email", views.EmailVerificationTokenSended, name="EmailVerificationTokenSended"),
+    # path("accounts/verify/email", views.EmailVerificationTokenSended, name="EmailVerificationTokenSended"),
     path("accounts/verify/<slug:auth_token>", views.verify, name="verify"),
     path("accounts/verify/email/resend", views.Resend_Email_Verification_Token, name="Resend_Email_Verification_Token"),
     path("accounts/verification/error=??", views.verificationerror, name="verificationerror",),

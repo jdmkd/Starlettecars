@@ -8,16 +8,23 @@
         {% block title%}
         <title>Home</title>
         {% endblock %}
-        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+        
+        {% comment %} <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css" /> {% endcomment %}
+        <link href="{% static 'css/swiperjs/swiper-bundle.min.css' %}" rel="stylesheet">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
         <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
+        
+        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+        <link rel="stylesheet" href=" {% static 'css/tailx.css' %}">
         
     </head>
 
     <body>
         {% block header %}
-        <header class="header">
+        <header class="header ">
             <div id="menu-btn" class="fas fa-bars"></div>
             <a href="/" class="logo"> <span>Starlette</span>cars </a>
             
@@ -72,6 +79,7 @@
                     </ul>
                 </div>
             </div>
+            
         </header>
 
         {% endblock %}
@@ -80,47 +88,59 @@
 
 
         {% block homeimage %}
-        <section class="home" id="home">
-            <h3 data-speed="3" class="home-parallax">find your car</h3>
-             <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
+        <section class="home  px-[1rem] " id="home">
+          {% comment %} <div class="absolute  border-solid border-red">
+            <img src={% static "image/ooorganize.svg"%} alt="">
+          </div> {% endcomment %}
+
+          <div class="h-[60rem] flex flex-row px-[3rem] py-[3rem] justify-between font-semibold">
+            <div class="mx-[0rem] px-[0rem] py-[1rem] relative text-[2rem] font-mono flex flex-col items-start justify-between">
+              <h4>Lorem ipsum dolor sit amet</h4>
+              <p>debitis ea corrupti a! Excepturi.</p>
+            </div>
+            
+            <h3 data-speed="3" class="home-parallax font-bold !text-gray-900 !content-end">find your car</h3>
+            <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/car_rental_illustration.jpg' %} " alt="" width="10px"> -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> -->
-            <a data-speed="4" href="{{ '/vehicles' }}" class="btn home-parallax">explore cars</a>
+           
+            {% comment %} <a data-speed="4" href="{{ '/vehicles' }}" class="btn home-parallax">explore cars</a> {% endcomment %}
+          </div>
         </section>
         {% endblock %}
 
         {% block branches %}
-        <section class="icons-container">
+        <section class="mt-0 py-[6rem] px-[5rem] xl:px-[5rem] md:px-[4rem] sm:px-[4rem] grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-100  border-b-2">
 
-            <div class="icons">
-                <i class="fas fa-home"></i>
-                <div class="content">
-                    <h3>20+</h3>
-                    <p>branches</p>
+            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4 cursor-pointer hover:bg-gray-800 hover:text-white group">
+                <i class="fas fa-home text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2.5rem] font-bold text-yellow-400">20+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800 group-hover:text-white">branches</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-car"></i>
-                <div class="content">
-                    <h3>50+</h3>
-                    <p>cars sold</p>
+            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4 cursor-pointer hover:bg-gray-800 hover:text-white group">
+                <i class="fas fa-car text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2.5rem] font-bold text-yellow-400">50+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800 group-hover:text-white">cars sold</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-users"></i>
-                <div class="content">
-                    <h3>190+</h3>
-                    <p>happy clients</p>
+            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4 cursor-pointer hover:bg-gray-800 hover:text-white group">
+                <i class="fas fa-user text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2.5rem] font-bold text-yellow-400">190+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800 group-hover:text-white">happy clients</p>
                 </div>
             </div>
 
-            <div class="icons">
-                <i class="fas fa-car"></i>
-                <div class="content">
-                    <h3>60+</h3>
-                    <p>news cars</p>
+            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4 cursor-pointer hover:bg-gray-800 hover:text-white group">
+                <i class="fas fa-car text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2.5rem] font-bold text-yellow-400">60+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800 group-hover:text-white">news cars</p>
                 </div>
             </div>
 
@@ -129,165 +149,93 @@
         {% endblock %}
 
         {% block popularvehicles %}
-        <section class="vehicles" id="vehicles">
+        {% if vehicle %}
+        <section class="" id="">
             <h1 class="heading">
                 popular vehicles
                 {% comment %} <span>popular vehicles</span> {% endcomment %}
             </h1>
-            <div class="swiper vehicles-slider">
-                <div class="swiper-wrapper">
+            <div class="swiper vehicles-slider !h-fit">
+                <div class="swiper-wrapper lg:justify-center">
                     {% for vdata in vehicle %}
                     {% if vdata.buss_vehicle_owner  %}
-                    <div class="swiper-slide box">
-                        <img src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200">
-                        <div class="content">
-                            <h3>{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model }}</h3>
-                            <div class="price"> <span>price : </span>{{ vdata.buss_rent_per_day }}/- </div>
-                            <p>Vehicle type : {{ vdata.buss_vehicle_type }} <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;"> {{vdata.buss_vehicle_status}}</small></p>
-
-                            <p>Vehicle color : <small style="background: #ecffe5;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;"> {{ vdata.buss_vehicle_color }}</small><br></p>
-                            <p>location : <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_location }}</small></p>
-                            <p>vehicle_number : <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_number }}</small></p>
-                            <p>description :<small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_description|slice:"0:20" }}...</small></p>
-                            <button>
-                                {% comment %} <a href="/vehicle/checkout/{{ vdata.id}}" class="book_btn">Book</a> {% endcomment %}
-                                <!-- {{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model }} -->
-                                <a href="/vehicle/checkout/{{ vdata.id}}" class="book_btn">Book</a>
-                            </button>
-                            {% comment %} <a href="/vehicle/checkout/{{ vdata.id}}" class="btn">Book</a> {% endcomment %}
                     
-                        </div>
+                    <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                         
-                    </div>
+                        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
+                          <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
+                          <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
+                        </a>
+                        <div class="mt-4 px-5 pb-5">
+                          <a href="/vehicle/checkout/{{ vdata.id}}">
+                            <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model|slice:":7" }}</h5>
+                          </a>
+                          <div class="mt-2 mb-5 flex items-center justify-between">
+                            <p>
+                              <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
+                              <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>
+                            </p>
+                            <div class="flex items-center">
+                              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                              </svg>
+                              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                              </svg>
+                              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+                            </div>
+                          </div>
+                          
+                          <div class="flex flex-row justify-evenly gap-[1rem]">
+                            <a href="#" class="flex items-center justify-center rounded-md bg-slate-900 px-[.7rem] py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                Add to cart</a
+                              >
+                              <a href="/vehicle/checkout/{{ vdata.id}}" class="flex items-center justify-center rounded-md bg-slate-900 px-[.7rem] py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                </svg>
+                                Booking</a
+                              >
+                          </div>
+                        </div>
+                      </div>
                     {% endif %}
                     {% endfor %}
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-
-
-            <!-- Another Popular Vehicles -->
-            <div class="swiper vehicles-slider">
-                <div class="swiper-wrapper">
-                    {% for vdata in x %}
-                    {% if vdata.buss_vehicle_owner  %}
-                    <div class="swiper-slide box">
-                        <img src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200">
-                        <div class="content">
-                            <h3>{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model }}</h3>
-                            <div class="price"> <span>price : </span>{{ vdata.buss_rent_per_day }}/- </div>
-                            <p>Vehicle type : {{ vdata.buss_vehicle_type }} <small style="background: #ecffe5;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;"> {{vdata.buss_vehicle_status}}</small></p>
-
-                            <p>Vehicle color : <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;"> {{ vdata.buss_vehicle_color }}</small><br></p>
-                            <p>location : <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_location }}</small></p>
-                            <p>vehicle_number : <small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_number }}</small></p>
-                            <p>description :<small style="background: #ecffe5;;
-                                margin: 10px;
-                                padding: .4rem 1rem;
-                                border-radius: 5px;
-                                font-size: 1.5rem;
-                                font-weight: 600;">{{ vdata.buss_vehicle_description|slice:"0:20" }}...</small></p>
-                            <button>
-                                <a href="/vehicle/checkout/{{ vdata.id}}" class="book_btn">Book</a>
-                            </button>
-                            {% comment %} <a href="/vehicle/checkout/{{ vdata.id}}" class="btn">Book</a> {% endcomment %}
                     
-                        </div>
-                        
-                    </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
                 <div class="swiper-pagination"></div>
+
             </div>
         </section>
+        {% endif %}
         {% endblock %}
 
+
+
+
+        
+
         {% block ourservices %}
-        <section class="services" id="services">
-
-            <h1 class="heading"> 
-                our services
-                {% comment %} <span>our services</span> {% endcomment %}
-            </h1>
-
-            <div class="box-container">
-                <div class="box">
-                    <i class="fas fa-car"></i>
-                    <h3>About</h3>
-                    <p>We are going to provide Vehicles on rent as pay_per_day.</p>
-                    <a href="#" class="btn"> read more</a>
-                </div>
-
-                <div class="box">
-                    <i class="fas fa-tools"></i>
-                    <h3>Services</h3>
-                    <p>We are going to provide Vehicles on rent as pay_per_day.</p>
-                    <a href="#" class="btn"> read more</a>
-                </div>
-
-                <div class="box">
-                    <i class="fas fa-headset"></i>
-                    <h3>24/7 support</h3>
-                    <p>Letcarz Service are available all over the Gujarat to provide well maintained vehicles on rent .
-                    </p>
-                    <a href="#" class="btn"> read more</a>
-                </div>
-
-            </div>
-
-        </section>
+          {% include "components/services.html"%}
         {% endblock %}
 
         {% block ourcars %}
+        {% if vehicle%}
         <section class="featured" id="featured">
 
-            <h1 class="heading"> 
+            <h1  class="heading font-bold my-[2rem]"> 
                 our cars
                 {% comment %} <span>our cars</span>  {% endcomment %}
             </h1>
@@ -344,6 +292,7 @@
                 <div class="swiper-pagination"></div>
             </div>
         </section>
+        {% endif %}
         {% endblock %}
 
 <!--        {# <section class="newsletter">#}-->
@@ -356,13 +305,13 @@
 <!--            {# </section>#}-->
 
         {% block contactus %}
-        <section class="contact" id="contact">
-            <h1 class="heading">contact us
+        <section class="contact  mb-[5rem]" id="contact">
+            <h1  class="heading font-bold my-[2rem]">contact us
                 {% comment %} <span>contact us</span> {% endcomment %}
             </h1>
 
-            <div class="row">
-                <iframe class="map"
+            <div class="row !gap-[4rem] sm:mx-[3rem]">
+                <iframe class="map min-h-[40rem]"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883734.5405313424!2d71.10875065591415!3d22.69997852215749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1648971540844!5m2!1sen!2sin"
                     allowfullscreen="" loading="lazy"></iframe>
 
@@ -379,62 +328,42 @@
         </section>
         {% endblock %}
         
+
+
         {% block footer %}
-        <section class="footer" id="footer">
-            <div class="box-container">
-                <div class="box">
-                    <h3>our branches</h3>
-                    
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> india </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> japan </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
-                </div>
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="index"> <i class="fas fa-arrow-right"></i> home </a>
-                    <a href="vehicles"> <i class="fas fa-arrow-right"></i> vehicles </a>
-                    <a href="services"> <i class="fas fa-arrow-right"></i> services </a>
-                    <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
-                    <a href="feedback"> <i class="fas fa-arrow-right"></i> reviews </a>
-                    <a href="contact"> <i class="fas fa-arrow-right"></i> contact </a>
-                </div>
-
-                <div class="box">
-                    <h3>contact info</h3>
-                    
-                    <a href="tel:+916376094539"><i class="fas fa-phone"></i> +91 6376094539 </a>
-                    <a href="tel:+916376094539"> <i class="fas fa-phone"></i> +91 6376094539 </a>
-                    <a href="mailto:starlettecars@gmail.com"><i class="fas fa-envelope"></i> starlettecars@gmail.com </a>
-                    <a href="http://"><i class="fas fa-map-marker-alt"></i> Ahmedabad, india - 382480 </a>
-                </div>
-
-                <div class="box">
-                    <h3>contact info</h3>
-                    <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-                    <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-                    <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-                    <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
-                    <a href="#"> <i class="fab fa-pinterest"></i> pinterest </a>
-                </div>
-
-            </div>
-
-            <div class="credit"> © 2023 starlettecars, Inc. All Rights Reserved </div>
-
-        </section>
+            {% include 'components/footer.html' %}
         {% endblock %}
 
-        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        {% comment %} <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script> {% endcomment %}
+        <script src="{% static 'css/swiperjs/swiper-bundle.min.js' %}"></script>
 
         
         <script src=" {% static 'js/script.js' %} "></script>
         <script src=" {% static 'js/passvalid.js' %} "></script>
         <script src=" {% static 'js/uiconscript.js' %} "></script>
 
-
+        {% comment %} <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              var swiper = new Swiper('.swiper-container', {
+                // Swiper options
+                grabCursor: false,
+                centeredSlides: false,
+                spaceBetween: 0,
+                loop:true,
+                autoplay: {
+                    delay: 10000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                  el: '.swiper-pagination',
+                },
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+              });
+            });
+          </script> {% endcomment %}
 
     </body>
 

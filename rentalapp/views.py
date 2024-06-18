@@ -19,6 +19,9 @@ from rental_business.models import buss_vehicle
 from django.core.mail import send_mail
 
 
+def homemain(request):
+    return render(request, 'index.jsx')
+
 def index(request):
     try:
         if request.session["log_id"]:
@@ -280,7 +283,7 @@ def showdata(request):
                 )
                 return redirect("/")
             elif usertable.objects.filter(emailid=email).exists():
-                messages.info(request, "With this Email user Already Exist")
+                messages.info(request, "email should be unique, this email already registered.")
                 return redirect("/")
             else:
                 logindata = usertable(
@@ -294,7 +297,7 @@ def showdata(request):
                 )
                 logindata.save()
                 messages.success(request, "Registartion done!")
-                return redirect("/")
+                return redirect("accounts/success.html")
 
         else:
             messages.error(
@@ -665,17 +668,16 @@ def register(request):
                 request, "Your Password and Confirm Password does not Matched!!"
             )
             # return redirect("/")
-    else:
-        print("last error occured!")
+    # else:
+    #     print("last error occured!")
         # messages.error(request, "error occured!")
 
-    print("last2 error occured!")
-    print(str(uuid.uuid4()))
+    # print(str(uuid.uuid4()))
     # return render(request, "index.html")
     return render(request, "accounts/register.html")
 
-def EmailVerificationTokenSended(request):
-    return render(request, "accounts/Verification_Token_Sended.html")
+# def EmailVerificationTokenSended(request):
+#     return render(request, "accounts/Verification_Token_Sended.html")
 
 def Resend_Email_Verification_Token(request):
     if request.method == 'POST':
@@ -691,7 +693,7 @@ def Resend_Email_Verification_Token(request):
                     send_mail_after_registration(email, auth_token)
                     messages.success(request, "Verification email resent successfully. Check your email.")
                 # return redirect("login")
-                # return redirect('success')  # Replace 'success' with the actual success URL
+                return redirect('success')  # Replace 'success' with the actual success URL
             except usertable.DoesNotExist:
                 # Handle the case where the user with the provided email doesn't exist
                 return render(request, 'accounts/verificationerror.html', {'error': 'Invalid email'})
