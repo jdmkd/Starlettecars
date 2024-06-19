@@ -94,7 +94,7 @@
 
 
   <section class="p-5 relative top-[10rem] bg-gray-50">
-      <div class="w-auto sm:w-[80rem] mx-auto p-6">
+      <div class="w-auto sm:w-auto xl:w-10/12 2xl:w-11/12  mx-auto p-6 lg:px-[3rem]">
         {% comment %} w-[120rem] {% endcomment %}
         <!-- Product Details Container -->
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
@@ -104,8 +104,8 @@
               <div class="p-6 flex justify-center items-baseline">
                 <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-105 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
               </div>
-              <div class="p-6 flex space-x-6">
-                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class=" w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+              <div class="p-6 flex space-x-6 w-[35%]">
+                <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
                 <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
                 <img src="/media/{{ vehicle.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
               
@@ -114,14 +114,18 @@
 
             
             <!-- Product Details -->
-            <div class="md:w-1/2 p-6 sm:p-6">
-              <div class="pb-2 text-2xl font-medium text-gray-500">Location : 
+            <div class="md:w-1/2 p-6 sm:px-[3rem] md:px-[1rem] lg:px-[2rem]">
+              <div class="pb-2 sm:pb-4 text-2xl font-medium text-gray-500">Location : 
                 <span class="px-3 py-1 text-gray-300 bg-slate-700 rounded-md">{{ vehicle.buss_vehicle_location}}</span>
               </div>
               <h1 class="mt-2 text-4xl font-bold text-gray-800">{{ vehicle.buss_vehicle_company_name }} - {{ vehicle.buss_vehicle_model}}</h1>
-              <div class="my-[1rem] flex items-center gap-[1rem]">
-                <span class="text-5xl text-gray-900 font-bold"><span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day }}</span>
-                <span class="text-5xl line-through font-medium text-gray-600 ml-4"><span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day | add:"1200"}}</span>
+              <div class="my-[1rem] flex items-center gap-[1rem] sm:gap-[2rem]">
+                <span class="text-5xl text-gray-900 font-bold">
+                  <span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day }}
+                </span>
+                <span class="text-5xl line-through font-medium text-gray-600 ml-4">
+                  <span class="font-sans">₹</span>{{ vehicle.buss_rent_per_day | add:"1200"}}
+                </span>
                 
                 <span class="text-3xl font-semibold text-gray-900 ml-4">{{ vehicle.buss_vehicle_status }}</span>
                 {% if vehicle.buss_vehicle_status == "Available" %}
@@ -160,14 +164,14 @@
                 {% comment %} <div class="checkout-form-container" > {% endcomment %}
                   <form action="{% url 'vehicle_booking' %}" method="post" >
                       {% csrf_token %}
-                      <div class="my-5 grid grid-cols-2 gap-3">
+                      <div class="my-5 grid grid-cols-1 sm:grid-cols-2  gap-3">
                         <div class="relative">
                           <label for="sdate" class="block text-[1.5rem] font-semibold select-none mb-2 text-gray-700">From Starting</label>
-                          <input id="sdate" type="date" name="sdate" placeholder="starting date" class="transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] uppercase select-none" title="Enter a Starting date" required>
+                          <input id="sdate" type="date" name="sdate" placeholder="starting date" class="block w-full  transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] uppercase select-none" title="Enter a Starting date" required>
                         </div>
                         <div class="relative">
                           <label for="edate" class="block text-[1.5rem] font-semibold mb-2 text-gray-700">To Ending</label>
-                          <input id="edate" type="date" name="edate" placeholder="ending date" class="transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] cursor-pointer uppercase select-none" title="Enter a end date" required>
+                          <input id="edate" type="date" name="edate" placeholder="ending date" class="block w-full transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] cursor-pointer uppercase select-none" title="Enter a end date" required>
                         </div>
                           <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
                           <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
@@ -219,7 +223,7 @@
             
           </div>
 
-          <div class="mx-[2rem] px-[1rem] py-[1rem]">
+          <div class="p-3 sm:px-[3rem]">
             <!-- Product Description -->
             <div style="border-bottom:1px solid gray; border-top:1px solid gray;" class="b-solid border-b-4 border-b-indigo-500 overflow-hidden p-6">
               <h2 class="text-3xl font-bold text-gray-800">Vehicle Description</h2>

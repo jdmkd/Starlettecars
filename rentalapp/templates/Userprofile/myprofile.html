@@ -114,11 +114,11 @@
 
                             <ul class="nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="" role="tab"
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#" role="tab"
                                         aria-controls="home" aria-selected="true">About</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="" role="tab"
+                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#" role="tab"
                                         aria-controls="profile" aria-selected="false">Timeline</a>
                                 </li>
                             </ul>
@@ -277,9 +277,9 @@
             </form>
         </div>
         <script> 
-            // {% comment %} document.querySelector('#home-tab').onclick = () =>{
-            //     document.querySelector('#home').classList.toggle('active');
-            // } {% endcomment %}
+             {% comment %} document.querySelector('#home-tab').onclick = () =>{
+                 document.querySelector('#home').classList.toggle('active');
+            } {% endcomment %}
             document.querySelector('#profile').style.display = 'none';
 
             document.querySelector('#profile-tab').onclick = () =>{
@@ -295,9 +295,9 @@
               
             document.querySelector('#home-tab').onclick = () =>{
                 document.querySelector('#home-tab').classList.toggle('active');
-                document.querySelector('#profile').classList.remove('active');
-                document.querySelector('#profile-tab').classList.remove('active');
                 document.querySelector('#home').classList.toggle('active');          
+                document.querySelector('#profile-tab').classList.remove('active');
+                document.querySelector('#profile').classList.remove('active');
 
                 document.querySelector('#profile').style.display = 'none';
                 document.querySelector('#home').style.display = '';

@@ -29,7 +29,7 @@ def buss_index(request):
             userdata = request.session["buss_log_user"]
             buss_udata = business_user.objects.get(id=id)
             fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
-            print(fetch_buss_vehicle)
+            # print(fetch_buss_vehicle)
             buss_user_data = {
                     "userdata":userdata,
                     "buss_udata":buss_udata,
