@@ -23,7 +23,7 @@
         {% endblock %}
 </head>
 
-<body class=" bg-gray-100">
+<body class=" bg-gray-50">
     <style>
             a{
                 text-decoration: none;
@@ -46,16 +46,6 @@
             <div id="menu-btn" class="fas fa-bars"></div>
             {% block logo %}
             <a href="/rental_business" class="logo"> <span>Starlette</span>Business </a>
-            {% endblock  %}
-
-
-            {% block Welcome_Name %}
-                    {% comment %} {% if user.is_authenticated %} {% endcomment %}
-                    {% if request.session.log_user %}
-                        <div class="headername">
-                            <h1><a href="http://">Welcome, {{udata.fname}} </a></li></h1>
-                        </div>
-                    {% endif %}
             {% endblock  %}
 
             <nav class="navbar">
@@ -85,7 +75,11 @@
                 </div>
         
                 <div class="umenu">
-                    <h3>My Business Profile</h3>
+                    {% if request.session.buss_log_user %}
+                        <h3>Welcome, {{buss_udata.buss_fname}}!</h3>
+                    {% else %}
+                        <h3>My Profile</h3>
+                    {% endif %}
                     <ul>
                         {% if request.session.buss_log_user %}
                         <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'buss_profile'%}">My
@@ -138,82 +132,32 @@
 
 
 
-        {% block homeimage %}
-        <section class="home  px-[3rem] border-b-2" id="home">
+{% block homeimage %}
+        <section class="home  px-[1rem] md:px-[2rem] border-b-2" id="home">
             {% comment %} <div class="absolute  border-solid border-red">
               <img src={% static "image/ooorganize.svg"%} alt="">
             </div> {% endcomment %}
-  
-            <div class="h-[60rem] flex flex-row px-[3rem] py-[3rem] justify-between font-semibold">
-              <div class="mx-[0rem] px-[0rem] py-[1rem] relative text-[2rem] font-mono flex flex-col items-start justify-between">
-                <h4 class="normal-case text-gray-800">We are here to work with you.</h4>
-                <p class="normal-case text-gray-900">Set your car on Rent.</p>
-              </div>
-              
-              <h3 data-speed="3" class="home-parallax font-bold !text-gray-900 !content-end">Busines with us.</h3>
-              <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
-              <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/car_rental_illustration.jpg' %} " alt="" width="10px"> -->
-              <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> -->
-             
-              {% comment %} <a data-speed="4" href="{{ '/vehicles' }}" class="btn home-parallax">explore cars</a> {% endcomment %}
-            </div>
-          </section>
-        
-
-        {% endblock %}
-
-        {% block branches %}
-        <section class="my-[1rem] md:my-[4rem] mx-[1rem] sm:mx-[4rem] md:mx-[3rem] lg:mx-[5rem] px-[2rem] sm:px-[1rem] md:px-[3rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-[2rem] sm:gap-[2rem] md:gap-[4rem] xl:gap-[6rem] 2xl:gap-[4rem] bg-gray-100  border-b-2">
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-home text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">50+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">Starlette Business is designed for your business with business relevant benefits</p>
+            <div class="h-[55rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-semibold gap-[1rem]">
+                <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
+                    <h4 class="normal-case tracking-wide">Maximize Your Earnings: List your vehicle on our platform</h4>
+                    <p class="normal-case tracking-wide">Turn Your Vehicle Into Income: Join our Rental Network</p>
+                </div>
+    
+                <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
+                  <p class="normal-case tracking-wide">Your vehicle, Your terms: Register and start earning</p>
+                  <h3 data-speed="3" class="home-parallax !text-[3.5rem] sm:!text-[5rem] md:!text-[6rem] font-bold !text-gray-900 !content-end tracking-wide">Partner with us and rent out your vehicle</h3>
                 </div>
             </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-box text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">120+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">Modernize and simplify business purchasing to focus on your customers</p>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-user text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">250+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">happy clients</p>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-car text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">60+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">wide range of new cars than can inhance the experience.</p>
-                </div>
-            </div>
-
         </section>
-
-        {% endblock %}
-
-
-
+{% endblock %}
 
 {% block popularvehicles %}
     {% if request.session.buss_log_user and fetch_buss_vehicle %}
         {% comment %}  {% endcomment %}
         <section class="bg-gray-50" id="">
-            <h1 class="heading">
-                Your Vehicles
-                {% comment %} <span>popular vehicles</span> {% endcomment %}
-            </h1>
+            <h1 class="flex justify-center text-[4rem] font-semibold">Your Vehicles</h1>
             <div class="swiper vehicles-slider !h-fit">
-                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll ltr">
+                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden ltr">
                     {% for vdata in fetch_buss_vehicle %}
                     {% if vdata.buss_vehicle_owner  %}
                         <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
@@ -278,9 +222,54 @@
 {% endblock %}
 
 
+{% block branches %}
+        <section class="px-[2rem] sm:px-[1rem] md:px-[3rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-[2rem] sm:gap-[2rem] md:gap-[4rem] xl:gap-[6rem] 2xl:gap-[4rem] bg-gray-100  border-b-2">
+
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-home text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">50+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">Starlette Business is designed for your business with business relevant benefits</p>
+                </div>
+            </div>
+
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-box text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">120+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">Modernize and simplify business purchasing to focus on your customers</p>
+                </div>
+            </div>
+
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-user text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">250+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">happy clients</p>
+                </div>
+            </div>
+
+            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
+                <i class="fas fa-car text-[3rem]"></i>
+                <div class="content px-5">
+                    <h3 class="text-[2rem] font-bold text-yellow-400">60+</h3>
+                    <p class="text-[1.6rem] font-medium text-slate-800">wide range of new cars than can inhance the experience.</p>
+                </div>
+            </div>
+
+        </section>
+
+{% endblock %}
+
+
+
+
+
+
+
 
 {% block ourservices %}
-<section class="my-[1rem] md:my-[4rem] mx-[1rem] sm:mx-[4rem] md:mx-[3rem] lg:mx-[5rem] px-[2rem] sm:px-[1rem] md:px-[3rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] bg-gray-100  border-b-2" id="">
+<section class="px-[2rem] sm:px-[3rem] md:px-[4rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] bg-gray-100  border-b-2" id="">
     
     <h1 class="flex justify-center text-[4rem] font-semibold">our services</h1>
     <div class="my-[4rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[4rem]">
@@ -326,7 +315,7 @@
 <!--            {# </section>#}-->
 
         {% block contactus %}
-        <section class="contact mt-0 pt-5 border-b-2  bg-blue-50" id="contact">
+        <section class="contact !m-0 pt-5 border-b-2  bg-blue-50" id="contact">
             <h1 class="heading  font-semibold">contact us
                 {% comment %} <span>contact us</span> {% endcomment %}
             </h1>

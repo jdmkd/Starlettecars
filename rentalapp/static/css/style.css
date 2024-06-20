@@ -142,14 +142,22 @@ a .my-bookings:hover{
     align-items: center;
     /* top:-2vh; */
     margin: -7px 0px 0px 0px;
-    padding: 0px;
+    
     font-size: 3.0rem;
-    color:var(--black);
+    /* color:var(--black); */
+    color:#00ff08bf;
     font-weight: bold;
+    transition-property: transparent;
+    border: 1px solid #7b7b7b3a;
+    border-radius: 7px;
+    padding: 2px 5px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+
 }
 
 .header .logo span{
-    color:var(--yellow);
+    /* color:var(--yellow); */
+    color:#141e24;
 }
 .header .username {
     border: 2px solid #35353570;
@@ -1703,7 +1711,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 23px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 8px;
@@ -1859,7 +1866,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 18px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 7px;
@@ -1909,7 +1915,7 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 23px;
-        padding: 0 20px;
+        padding: 0 10px;
     }
     .headername{
         font-size: 8px;
@@ -2144,7 +2150,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 18px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 6px;
@@ -2408,7 +2413,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 18px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 6px;
@@ -2543,7 +2547,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 18px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 6px;
@@ -2740,7 +2743,6 @@ a .my-bookings:hover{
     }
     .header .logo{
         font-size: 18px;
-        padding: 0 20px;
     }
     .headername{
         font-size: 6px;

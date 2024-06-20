@@ -89,13 +89,17 @@
             <img src={% static "image/ooorganize.svg"%} alt="">
           </div> {% endcomment %}
 
-          <div class="h-[60rem] flex flex-row px-[3rem] py-[3rem] justify-between font-semibold">
-            <div class="mx-[0rem] px-[0rem] py-[1rem] relative text-[2rem] font-mono flex flex-col items-start justify-between">
-              <h4>go for a trip with your dream car.</h4>
-              <p>Enjoy your journey with us.</p>
+          <div class="h-[50rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-medium">
+            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
+              <h4 class="normal-case tracking-wide">Convenient, Affordable, Reliable: Your next adventure awaits</h4>
+              <p class="normal-case tracking-wide">Drive Your Dreams: explore our wide range of rental vehicles</p>
+            </div>
+
+            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
+              <p class="normal-case tracking-wide">Rent the perfect vehicle for any Occasion</p>
+              <h3 data-speed="3" class="home-parallax font-bold !text-gray-900 !content-end tracking-wide">find your car</h3>
             </div>
             
-            <h3 data-speed="3" class="home-parallax font-bold !text-gray-900 !content-end">find your car</h3>
             <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/car_rental_illustration.jpg' %} " alt="" width="10px"> -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> -->
@@ -106,9 +110,9 @@
         {% endblock %}
 
         {% block branches %}
-        <section class="mt-0 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-100  border-b-2">
+        <section class="mt-0 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-50  border-b-2">
 
-            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4 cursor-pointer hover:bg-gray-800 hover:text-white group">
+            <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white hover:bg-gray-800 rounded-xl shadow-lg space-x-4 cursor-pointer  hover:text-white group">
                 <i class="fas fa-home text-[3rem]"></i>
                 <div class="content px-5">
                     <h3 class="text-[2.5rem] font-bold text-yellow-400">20+</h3>
@@ -147,12 +151,12 @@
         {% block popularvehicles %}
         {% if vehicle %}
         <section class="bg-gray-50" id="">
-            <h1 class="heading">
+            <h1 class="text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center">
                 popular vehicles
                 {% comment %} <span>popular vehicles</span> {% endcomment %}
             </h1>
             <div class="swiper vehicles-slider !h-fit">
-                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll ltr">
+                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden  ltr">
                     {% for vdata in vehicle %}
                     {% if vdata.buss_vehicle_owner  %}
                     
@@ -230,12 +234,12 @@
         {% block ourcars %}
         {% if vehicle%}
         <section class="" id="">
-          <h1  class="heading font-bold my-[2rem]"> 
+          <h1  class="text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center"> 
             our cars
             {% comment %} <span>our cars</span>  {% endcomment %}
         </h1>
           <div class="swiper vehicles-slider !h-fit">
-            <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll ltr">
+            <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden  ltr">
               {% for data1 in vehicle %}
               {% if data1.buss_vehicle_owner  %}
               
@@ -300,7 +304,7 @@
       </section>
       <section class="" id="">
         <div class="swiper vehicles-slider !h-fit">
-          <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll ltr">
+          <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden  ltr">
             {% for data1 in x %}
             {% if data1.buss_vehicle_owner  %}
             
@@ -378,7 +382,7 @@
 
         {% block contactus %}
         <section class="contact  mb-[5rem]" id="contact">
-            <h1  class="heading font-bold my-[2rem]">contact us
+            <h1  class="pb-6 text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center">contact us
                 {% comment %} <span>contact us</span> {% endcomment %}
             </h1>
 
@@ -389,7 +393,7 @@
 
                 <form action="/contactdata" method="post">
                     {% csrf_token %}
-                    <h3>get in touch</h3>
+                    <h3 class="text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center">get in touch</h3>
                     <input type="text" placeholder="your name" class="box" name="fname" required>
                     <input type="email" placeholder="your email" class="box" name="email" required>
                     <input type="tel" placeholder="your mobile no" class="box" name="phone" required>
