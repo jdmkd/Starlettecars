@@ -47,7 +47,7 @@ class business_user(models.Model):
     buss_status = models.CharField(max_length=30)
 
     def __str__(self):
-        return f'{self.buss_fname} {self.buss_emailid}'
+        return f'{self.buss_emailid}'
 
 class buss_vehicle(models.Model):
     buss_vehicle_owner = models.ForeignKey(business_user, on_delete=models.CASCADE, null=True)
@@ -176,7 +176,7 @@ class buss_vehicle(models.Model):
     buss_vehicle_image.allow_tags = True
 
     def __str__(self):
-        return f'{self.buss_vehicle_company_name}'
+        return f'{self.buss_vehicle_company_name} {self.buss_vehicle_owner}'
     
 
 class buss_feedback(models.Model):

@@ -12,6 +12,7 @@
         <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
         <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
         <link rel="stylesheet" href=" {% static 'css/userprofilecss/userProfileStyle.css' %} ">
+        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
         {% comment %} <link rel="stylesheet" href=" {% static 'css/passvalid.css' %} "> {% endcomment %}
         
         <!-- Bootstrap CSS -->
@@ -24,7 +25,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     </head>
 
-    <body>
+    <body class="bg-gray-50">
         <header class="header">
             <div id="menu-btn" class="fas fa-bars"></div>
             <a href="/" class="logo"> <span>Starlette</span>cars </a>
@@ -83,199 +84,227 @@
         </header>
 
 
-        <div class="containers emp-profilesx">
-            <form method="post">
-                {% csrf_token %}
-                <div class="row">
-                    <div>
-                        <div class="main-profile-img">
-                            {% if userdata.updProfile_photo %}
-                            <img src="/media/{{ userdata.updProfile_photo }}" alt="{% static 'image/profileicons/account.png' %}" />
-                            {% else %}
-                            <img src="{% static 'image/profileicons/account.png' %}" alt="{% static 'image/profileicons/account.png' %}" />
-                            {% endif %}
-                            {% comment %} <div class="file btn btn-lg btn-primary">
-                                Change Photo
-                                <input type="file" name="file" />
-                            </div> {% endcomment %}
-                        </div>
-                    </div>
-                    <div class="">
-                        <div class="profile-head">
-                            <h5>
-                                {{userdata.fname}} {{ userdata.lname}}
-                            </h5>
+
+
+        <div class="mt-[18rem] bg-gray-50">
+            <div>
+                <main class="relative -mt-32">
+                    <div class="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+                        <div class="overflow-hidden rounded-lg bg-white shadow">
+                            <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+                            <aside class="py-6 lg:col-span-3">
+                                <nav class="space-y-1">
+                
+                                <a href="#"
+                                    class="bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state:on="Current" x-state:off="Default" aria-current="page"
+                                    x-state-description="Current: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, Default: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-teal-500 group-hover:text-teal-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state:on="Current" x-state:off="Default"
+                                    x-state-description="Current: &quot;text-teal-500 group-hover:text-teal-500&quot;, Default: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/user-circle" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Profile</span>
+                                </a>
+                
+                                <a href="#"
+                                    class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/cog" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Account</span>
+                                </a>
+                
+                                <a href="#"
+                                    class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/key" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Password</span>
+                                </a>
+                
+                                <a href="#"
+                                    class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/bell" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Notifications</span>
+                                </a>
+                
+                                <a href="#"
+                                    class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/credit-card" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Billing</span>
+                                </a>
+                
+                                <a href="#"
+                                    class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
+                                    x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                    <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                    x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                    x-description="Heroicon name: outline/squares-plus" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z">
+                                    </path>
+                                    </svg>
+                                    <span class="truncate">Integrations</span>
+                                </a>
+                
+                                </nav>
+                                </aside>
+                
+                                <form class="divide-y divide-gray-200 lg:col-span-9" method="POST">
+                                    <!-- Profile section -->
+                                    <div class="py-6 px-4 sm:p-6">
+                                        <div>
+                                            <h2 class="text-lg font-medium leading-6 text-gray-900">Profile</h2>
+                                        </div>
                     
-                            <h6>
-                                Web Developer
-                            </h6>
-
-                            <p class="proile-rating">RANKINGS : <span>8/10</span></p>
-
-                            <ul class="nav-tabs" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#" role="tab"
-                                        aria-controls="home" aria-selected="true">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#" role="tab"
-                                        aria-controls="profile" aria-selected="false">Timeline</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="editprofile" id="editprofile">
-                        <a href="{% url 'editprofile' %}" class=""><img src="{% static 'image/edit_pencil_icon/edit_pencil_icon.svg' %}" alt="{% static 'image/profileicons/account.png' %}" /> edit profile</a>
-                    </div>
-
-                     <!-- {% comment %} <div class="col-md-2" style="visibility:hidden;">
-                        <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile"/>
-                    </div> {% endcomment %} -->
-                    
-                </div>
-                <div class="row">
-                    <div>
-                        <div class="profile-work">
-                            <p>SKILLS</p>
-                            <p href="">Web Developer</p>
-                            <p href="">FullStack Web Developer</p>
-                            <p href="">Python</p>
-                            <p href="">Django</p>
-                            <p href="">JavaScript</p>
-                            <p href="">ReactJS</p>
-                            {% comment %} <a href="">PHP</a><br /> {% endcomment %}
-                            {% comment %} <a href="">Java</a><br /> {% endcomment %}
-                        </div>
-                    </div>
-                    <p class="border"></p>
-                    <div>
-                        <div class="profile-tab" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <div class="row">
-                                   <div class="col-md-6">
-                                       <label>User Id </label>
-                                   </div>
-                                   <div class="col-md-6">
-                                       <p>{{ userdata.id }}</p>
-                                   </div>
-                                   <p class="border-style"></p>
-                               </div>
-                               
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>First Name </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{ userdata.fname }}</p>
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Last Name </label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{ userdata.lname }}</p>
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Email</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{ userdata.emailid }}</p>
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Phone</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{ userdata.phonenum}}</p>
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>licence_no</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{ userdata.licence_no}}</p>
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Address</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>{{userdata.address}}</p>
-                                        
-                                    </div>
-                                    <p class="border-style"></p>
-                                </div>
-                            </div>
+                                        <div class="mt-3 flex flex-col lg:flex-row">
+                                            
+                        
+                                            <div class="mt-2 flex flex-row flex-grow justify-between lg:mt-0 lg:ml-6">
+                                                {% comment %} <div class="flex-grow space-y-6 "> {% endcomment %}
+                                                    {% comment %} <div class="mt-6 grid grid-cols-12 gap-6 bg-green-800"> {% endcomment %}
+                                                        {% comment %} <div class="sm:col-span-6">
+                                                            <p class="block text-[1.4rem] font-semibold text-gray-800/75">{{ userdata.fname }} {{ userdata.lname }}</p>
+                                                        </div> {% endcomment %}
+                                                    {% comment %} </div> {% endcomment %}
                             
+                                                {% comment %} </div> {% endcomment %}
+                                                {% comment %} <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p> {% endcomment %}
+                                                <div class="mt-1 lg:hidden">
+                                                    <div class="flex justify-center items-center">
+                                                        <div class="inline-block h-12 w-12 flex-shrink-0 overflow-hidden rounded-full"
+                                                            aria-hidden="true">
+                                                            {% if userdata.updProfile_photo %}
+                                                                <img class="relative h-40 w-40 rounded-full" src="/media/{{ userdata.updProfile_photo }}" alt="{% static 'image/profileicons/account.png' %}" />
+                                                            {% else %}
+                                                                <img class="relative h-40 w-40 rounded-full" src="{% static 'image/profileicons/account.png' %}" alt="{% static 'image/profileicons/account.png' %}" />
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="ml-5 rounded-md shadow-sm">
+                                                            <div class="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-2 hover:bg-gray-50">
+                                                                <label for="mobile-user-photo" class="pointer-events-none relative text-sm font-medium leading-4 text-gray-700">
+                                                                    <span>Change</span>
+                                                                    <span class="sr-only"> user photo</span>
+                                                                </label>
+                                                                <input id="mobile-user-photo" name="user-photo" type="file" class="absolute h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="relative hidden overflow-hidden rounded-full lg:block">
+                                                    {% if userdata.updProfile_photo %}
+                                                        <img class="relative h-40 w-40 rounded-full" src="/media/{{ userdata.updProfile_photo }}" alt="{% static 'image/profileicons/account.png' %}" />
+                                                    {% else %}
+                                                        <img class="relative h-40 w-50 rounded-full" src="{% static 'image/profileicons/account.png' %}" alt="{% static 'image/profileicons/account.png' %}" />
+                                                    {% endif %}
+                                                    <label for="desktop-user-photo" class="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100">
+                                                        <span>Change</span>
+                                                        <span class="sr-only"> user photo</span>
+                                                        <input type="file" id="desktop-user-photo" name="user-photo" class="absolute inset-0 h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0">
+                                                    </label>
+                                                </div>
+                                                <div class="">
+                                                    <a href="{% url 'editprofile' %}" class="ml-5 inline-flex justify-center items-center rounded-md border border-transparent py-2 px-4 text-[1.3rem] font-medium text-white shadow-sm shadow-gray-400/60 bg-yellow-300/90  hover:bg-yellow-400/90 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">
+                                                        edit profile
+                                                        <img class="ml-4" src="{% static 'image/edit_pencil_icon/edit_pencil_icon.svg' %}" alt="{% static 'image/profileicons/account.png' %}" /> 
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="mt-6 grid grid-cols-12 gap-6">
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="first-name" class="block text-[1.2rem] font-semibold text-gray-700/95">First name</label>
+                                                <input type="text" placeholder={{ userdata.fname }} id="first-name" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                        
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="last-name" class="block text-[1.2rem] font-semibold text-gray-700">Last name</label>
+                                                <input type="text" placeholder={{ userdata.lname }} id="last-name" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="emailid" class="block text-[1.2rem] font-semibold text-gray-700">Your Email</label>
+                                                <input type="text" placeholder={{ userdata.emailid }} id="emailid" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                            
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="mobile-no" class="block text-[1.2rem] font-semibold text-gray-700">mobile no</label>
+                                                <input type="text" placeholder="{{ userdata.phonenum }}" id="mobile-no" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
 
-                            <div class="tab-pane fade profile" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                {% comment %} <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Experience</label>
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="" class="block text-[1.2rem] font-semibold text-gray-700">xxx</label>
+                                                <input type="text" placeholder="" id="" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="" class="block text-[1.2rem] font-semibold text-gray-700">xxx</label>
+                                                <input type="text" placeholder="" id="" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                                            <div class="col-span-12 sm:col-span-6">
+                                                <label for="" class="block text-[1.2rem] font-semibold text-gray-700">xxx</label>
+                                                <input type="text" placeholder="" id="" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" disabled/>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <p>Intermidiat</p>
+              
+                                    
+                                        {% comment %} <div class="mt-4 flex justify-end py-4 px-4 sm:px-6">
+                                            <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Cancel</button>
+                                            <button type="button" class="ml-5 inline-flex justify-center rounded-md border border-transparent bg-sky-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Save</button>
+                                        </div> {% endcomment %}
+                                    
                                     </div>
-                                </div> {% endcomment %}
-                                {% comment %} <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Hourly Rate</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>10$/hr</p>
-                                    </div>
-                                </div> {% endcomment %}
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Total Projects</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>10</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>English Level</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>excellent</p>
-                                    </div>
-                                </div>
-                                {% comment %} <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Availability</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p>6 months</p>
-                                    </div>
-                                </div> {% endcomment %}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>Your Bio</label><br />
-                                        <p>I am a skilled web developer who designs and builds websites. They use coding languages such as HTML, CSS, and JavaScript to create websites that look great and function smoothly.</p>
-                                    </div>
-                                </div>
-
-                                <hr>
-                            </div> 
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    
-                </div>
-            </form>
+                </main>
+            </div>
+              
         </div>
+
+        
+
+
+
+
+
+
         <script> 
              {% comment %} document.querySelector('#home-tab').onclick = () =>{
                  document.querySelector('#home').classList.toggle('active');

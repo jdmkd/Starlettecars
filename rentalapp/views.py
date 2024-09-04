@@ -109,6 +109,36 @@ def feedbackpage(request):
         udata = "Please login!!"
     return render(request, "feedback.html", {"udata": udata})
 
+
+def feedbackshow(request):
+    try:
+        if request.method == "POST":
+            if request.session["log_id"]:
+                uid = request.session["log_id"]
+                print("uid =",uid)
+                name = request.POST.get("name")
+                email = request.POST.get("email")
+                comment = request.POST.get("comments")
+                ratings = request.POST.get("rating1")
+                feedbackdata = feedback(
+                    name=name,email=email, comments=comment, l_id=usertable(id=uid), ratings=ratings
+                )  # l_id=usertable(id=uid)
+                feedbackdata.save()
+                messages.success(request, "feedback has been submitted!")
+                return redirect("/feedback")
+            else:
+                messages.success(request, "please login..")
+                return redirect("login")
+        # else:
+        #     print("request.method is not POST")
+    except Exception as e:
+        print("exception is :",e)
+        messages.error(request, f"all fields are required.")
+
+
+    return redirect("/feedback")
+
+
 # @login_required
 def checkout(request, id):
     try:
@@ -409,30 +439,6 @@ def contactdata(request):
 
 # contact form end --------
 
-
-def feedbackshow(request):
-    try:
-        if request.method == "POST":
-            if request.session["log_id"]:
-                name = request.POST.get("name")
-                comment = request.POST.get("comments")
-                ratings = request.POST.get("rating1")
-                uid = request.session["log_id"]
-                feedbackdata = feedback(
-                    name=name, comments=comment, l_id=usertable(id=uid), ratings=ratings
-                )  # l_id=usertable(id=uid)
-                feedbackdata.save()
-                messages.success(request, "feedback has been submitted!")
-                return redirect("/feedback")
-            else:
-                messages.success(request, "please login for giving feedback")
-        # else:
-        #     print("request.method is not POST")
-    except Exception as e:
-        print("exception is :",e)
-        messages.error(request, "please login for giving feedback!")
-
-    return redirect("/feedback")
 
 
 # myprofile
@@ -937,6 +943,29 @@ def pass_has_been_changed(request):
 
 def success(request):
     return render(request, "accounts/success.html")
+
+
+from django.http import HttpResponse
+from django.http import JsonResponse
+
+from rest_framework import generics
+from .models import usertable
+from .serializers import UsertableSerializer
+
+class apix(generics.ListCreateAPIView):
+    queryset = usertable.objects.all()
+    serializer_class = UsertableSerializer
+
+# def apix(request):
+
+#     data = usertable.objects.all()
+#     print(data)
+#     print(type(data))
+
+#     datax = {"data":data}
+#     print(type(datax))
+
+#     return JsonResponse(datax)
 
 
 

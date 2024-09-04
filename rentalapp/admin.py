@@ -72,7 +72,7 @@ admin.site.register(booking_table, showbookings)
 
 
 class showfeedback(admin.ModelAdmin):
-    list_display = ["id","l_id", "name", "ratings", "comments"]
+    list_display = ["id","email", "name", "ratings", "comments"]
 admin.site.register(feedback, showfeedback)
 
 

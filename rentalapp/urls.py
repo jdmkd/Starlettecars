@@ -54,6 +54,9 @@ urlpatterns = [
     path("accounts/verify/<slug:auth_token>", views.verify, name="verify"),
     path("accounts/verify/email/resend", views.Resend_Email_Verification_Token, name="Resend_Email_Verification_Token"),
     path("accounts/verification/error=??", views.verificationerror, name="verificationerror",),
+
+
+    path("apix", views.apix.as_view(), name="apix"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

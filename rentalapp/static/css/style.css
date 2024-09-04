@@ -254,9 +254,9 @@ a .my-bookings:hover{
     width:40rem;
     border-radius: 10px;
     /* box-shadow: var(--box-shadow); */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .4),
-            0px 2px 5px rgba(0, 0, 0, .4);
-    border: 1px solid rgba(0, 0, 0, 0.821);
+    box-shadow: 2px 2px 5px rgba(118, 118, 118, 0.107),
+            0px 2px 5px rgba(158, 158, 158, 0.205);
+    /* border: 1px solid rgba(61, 61, 61, 0.515); */
     border:var(--border);
     background: #fbfbfb;
 }
