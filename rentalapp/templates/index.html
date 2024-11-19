@@ -17,14 +17,46 @@
         <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
         <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
         
-        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
         <link rel="stylesheet" href=" {% static 'css/tailx.css' %}">
+        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
         
+      
+        <!-- Tailwind CSS animations -->
+        <style>
+          /* Custom animations */
+          @keyframes confettiFall {
+              0% {
+                  transform: translateY(-100%) rotate(0deg);
+              }
+              100% {
+                  transform: translateY(100vh) rotate(360deg);
+              }
+          }
+  
+          @keyframes fadeIn {
+              0% {
+                  opacity: 0;
+                  transform: scale(0.9);
+              }
+              100% {
+                  opacity: 1;
+                  transform: scale(1);
+              }
+          }
+  
+          .confetti {
+              animation: confettiFall linear infinite;
+          }
+  
+          .fade-in {
+              animation: fadeIn 0.8s ease-out forwards;
+          }
+      </style>
     </head>
 
     <body>
         {% block header %}
-        <header class="header ">
+        <header class="header !bg-white/95">
             <div id="menu-btn" class="fas fa-bars"></div>
             <a href="/" class="logo"> <span>Starlette</span>cars </a>
             <nav class="navbar">
@@ -71,6 +103,10 @@
                         <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking
                                 History</a></li>
                         {% endif %}
+                        {% if request.session.log_user %}
+                        <li><img src="{% static 'image/profileicons/edit.png' %}"><a href="{% url 'generate_report' %}">
+                                Generate Report</a></li>
+                        {% endif %}
                         <li><img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a></li>
                     </ul>
                 </div>
@@ -83,33 +119,72 @@
         
 
 
+
+
+
+
+        {% if messages %}
+        
+            {% for message in messages %} 
+              {% if message.message == "Login successful!" %}
+                {% if 'login_success' in message.tags %}
+                  {% include 'components/login_success.html' %}
+                {% endif %}
+              
+              {% elif message.message == "Registration successful!" %}  
+                {% if 'registered_success' in message.tags %}
+                  {% include 'components/registered_success.html' %}
+                {% endif %}
+              {% endif %}
+
+
+              {% comment %} {% if message.tags == "success" %}
+                {% if message.message == "Login successful!" %}
+                  {% include 'components/login_success.html' %}
+                {% elif message.message == "Registration successful!" %}
+                  {% include 'components/registered_success.html' %}
+                {% endif %}
+              {% elif message.tags == "error" %}
+              
+              {% elif message.tags == "info" %}
+
+              {% endif %} {% endcomment %}
+
+
+
+
+            {% endfor %}
+        {% endif %}
+
+
+
         {% block homeimage %}
-        <section class="home  px-[1rem] " id="home">
+        <section class="home bg-gray-50 relative text-center overflow-hidden  px-[1rem] " id="home">
           {% comment %} <div class="absolute  border-solid border-red">
             <img src={% static "image/ooorganize.svg"%} alt="">
           </div> {% endcomment %}
+          <!--underline decoration-indigo-500-->
 
-          <div class="h-[50rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-medium">
+          <div class="h-[45rem] md:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-medium">
             <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
-              <h4 class="normal-case tracking-wide">Convenient, Affordable, Reliable: Your next adventure awaits</h4>
-              <p class="normal-case tracking-wide">Drive Your Dreams: explore our wide range of rental vehicles</p>
+              <h4 class="mb-5 normal-case tracking-wide">Convenient, Affordable, Reliable: <span class="underline underline-offset-4 decoration-2 decoration-indigo-500">Your next adventure awaits</span></h4>
+              <p class="normal-case tracking-wide">Drive Your Dreams: <span class="underline underline-offset-4 decoration-2 decoration-yellow-500">explore our wide range of rental vehicles</span></p>
+            </div>
+            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
+              <p class="normal-case tracking-wide underline underline-offset-4 decoration-2 decoration-pink-500">Rent the perfect vehicle for any Occasion</p>
+              <h3 data-speed="3" class="home-parallax text-[5rem] font-bold !text-gray-900 !content-end tracking-wide">find your car</h3>
             </div>
 
-            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
-              <p class="normal-case tracking-wide">Rent the perfect vehicle for any Occasion</p>
-              <h3 data-speed="3" class="home-parallax font-bold !text-gray-900 !content-end tracking-wide">find your car</h3>
-            </div>
-            
             <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/car_rental_illustration.jpg' %} " alt="" width="10px"> -->
             <!-- <img data-speed="5" class="home-parallax" src=" {% static 'image/home-img.png' %} " alt=""> -->
-           
+
             {% comment %} <a data-speed="4" href="{{ '/vehicles' }}" class="btn home-parallax">explore cars</a> {% endcomment %}
           </div>
         </section>
-        {% endblock %}
+      {% endblock %}
 
-        {% block branches %}
+      {% block branches %}
         <section class="mt-0 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-50  border-b-2">
 
             <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white hover:bg-gray-800 rounded-xl shadow-lg space-x-4 cursor-pointer  hover:text-white group">
@@ -146,8 +221,14 @@
 
         </section>
 
-        {% endblock %}
+      {% endblock %}
 
+        
+        
+        
+        
+
+        
         {% block popularvehicles %}
         {% if vehicle %}
         <section class="bg-gray-50" id="">

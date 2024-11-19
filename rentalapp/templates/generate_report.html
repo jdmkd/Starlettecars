@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate User Report</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <!-- font awesome cdn link  -->
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> {% endcomment %}
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
+    <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
+    <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
+
+    <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <a href="/" class="logo"> <span>Starlette</span>cars </a>
+        <nav class="navbar">
+            <a href="/">home</a>
+            <a href="/vehicles">vehicles</a>
+            <a href="/services">services</a>
+            <!-- <a href="  ">featured</a> -->
+            <a href=" /feedback ">feedback</a>
+            <a href="/contact">contact</a>
+            
+        </nav>
+
+        <div class="action">
+            <div class="profile" onclick="menuToggle();">
+                {% if udata.updProfile_photo %}
+                <img src="/media/{{ udata.updProfile_photo }}" alt=""/>
+                {% else %}
+                <img src="{% static 'image/profileicons/profile-user.png' %}" alt="{% static 'image/profileicons/profile-user.png' %}"/>
+                {% endif %}                 
+            </div>
+            
+            <div class="umenu">
+                <h3>My <span>Profile</span></h3>
+                <ul>
+                    {% if request.session.log_user %}
+                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
+                            Profile</a></li>
+                    <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
+                        href="/logout">Logout</a></li>
+                    {% else %}
+                    <li id="login-btn" class="login-btn">
+                        <img src="{% static 'image/profileicons/edit.png' %}"><a href="#">Login & Reg</a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a>
+                    </li>
+                    {% if request.session.log_user %}
+                    <li>
+                        <img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking History</a>
+                    </li>
+                    {% endif %}
+                    {% if request.session.log_user %}
+                        <li><img src="{% static 'image/profileicons/edit.png' %}"><a href="{% url 'generate_report' %}">
+                                Generate Report</a></li>
+                    {% endif %}
+                    <li>
+                        <img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="relative bg-gray-300/70 top-[7rem] mt-[4rem] mb-[60rem] border">
+
+        <div class="flex flex-col justify-center items-center px-4 py-4 my-[2rem] border-b border-b-black/50">
+            <h1 class="text-[3rem] font-semibold text-gray-800/90">Generate User Report</h1>
+            <div class="flex justify-center items-center px-4 py-4">
+
+                <div class="mx-[3rem] border rounded-md bg-blue-500/80 hover:bg-blue-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/generate/user/report" class='text-[1.8rem]'>Generate User Report</a>
+                    
+                </div>
+                <div class="mx-[3rem] border rounded-md bg-red-500/80 hover:bg-red-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/export/user/report/in/pdf/" class='text-[1.8rem]'>Generate User Report PDF</a>
+                    
+                </div>
+                <div class="mx-[3rem] border rounded-md bg-green-500/80 hover:bg-green-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/export/user/report/in/csv/" class='text-[1.8rem]'>Generate User Report CSV</a>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="flex flex-col justify-center items-center px-4 py-4 my-[2rem] border-b border-b-black/50">
+
+            <h1 class="text-[3rem] font-semibold text-gray-800/90">Generate Vehicle Report</h1>
+            <div class="flex justify-center items-center px-4 py-4">
+                <div class="mx-[3rem] border rounded-md bg-blue-500/80 hover:bg-blue-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/generate/vehicle/report" class='text-[1.8rem]'>Generate Vehicle Report</a>
+
+                </div>
+                <div class="mx-[3rem] border rounded-md bg-red-500/80 hover:bg-red-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/export/vehicle/report/in/pdf/" class='text-[1.8rem]'>Generate User Report PDF</a>
+                    
+                </div>
+                <div class="mx-[3rem] border rounded-md bg-green-500/80 hover:bg-green-500 cursor-pointer px-7 py-4 text-white">
+                    <a href="/export/vehicle/report/in/csv/" class='text-[1.8rem]'>Generate User Report CSV</a>
+                    
+                </div>
+            </div>
+            
+        </div>
+
+        
+
+    </section>
+
+
+
+        {% block footer %}
+            {% include 'components/footer.html' %}
+        {% endblock %}
+
+        {% comment %} <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script> {% endcomment %}
+        {% comment %} <script src="{% static 'css/swiperjs/swiper-bundle.min.js' %}"></script> {% endcomment %}
+
+        
+        <script src=" {% static 'js/script.js' %} "></script>
+        <script src=" {% static 'js/passvalid.js' %} "></script>
+        <script src=" {% static 'js/uiconscript.js' %} "></script>
+
+</body>
+</html>

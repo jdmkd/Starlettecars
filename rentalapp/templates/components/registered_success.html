@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Successful Thank you</title>
+    <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+
+    
+    <style>
+        /* Custom animations */
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100%) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .confetti {
+            animation: confettiFall linear infinite;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+    </style>
+  </head>
+</head>
+<body>
+    <!-- Success Container -->
+          {% comment %} <div id="success-container" class="relative text-center z-10">
+            <!-- Animated Success Icon -->
+            <div class="w-40 h-40 bg-green-500 rounded-full flex items-center justify-center mx-auto fade-in shadow-lg">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="2.5"
+                    stroke="white"
+                    class="w-20 h-20"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m0 6a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <!-- Success Message -->
+            <h1 class="mt-6 text-2xl font-bold text-gray-800 fade-in">Login Successful</h1>
+        </div> {% endcomment %}
+
+        <!-- Confetti Animation Container -->
+        <div id="confetti-container" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+        <script>
+            // Confetti generator
+            const confettiContainer = document.getElementById('confetti-container');
+
+            function createConfettiPiece() {
+                const confetti = document.createElement('div');
+                const size = Math.random() * 8 + 4; // Random size between 4px and 12px
+                const left = Math.random() * 100; // Random horizontal position
+                const duration = Math.random() * 2 + 2; // Random duration between 2s and 4s
+
+                // Style each confetti piece
+                confetti.style.position = 'absolute';
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = randomColor();
+                confetti.style.left = `${left}%`;
+                confetti.style.animation = `confettiFall ${duration}s linear infinite`;
+                confetti.style.borderRadius = '50%'; // Optional: make the confetti pieces circular
+
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after animation ends
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+
+            function randomColor() {
+                const colors = ['#FF5733', '#FFC300', '#28A745', '#007BFF', '#E91E63'];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            // Generate multiple confetti pieces
+            for (let i = 0; i < 150; i++) {
+                createConfettiPiece();
+            }
+        </script>
+  
+      
+
+        
+        
+        {% comment %} {% if request.session.log_user %} {% endcomment %}
+        <div class="fixed z-[999] top-0 left-0 bottom-0 right-0 flex items-center justify-center">
+        
+          <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module">
+
+
+          </script>
+          
+          <dotlottie-player id="animation-thankyou" class="" src="https://lottie.host/e3d1047d-ea42-43f3-9a5d-0ba40bbfa557/Ruhvam5aRG.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 550px; height: 550px" 
+            direction="1" 
+            playMode="normal" 
+            autoplay
+            >
+            
+          </dotlottie-player>
+          
+          <script>
+            const animationThankyou = document.getElementById('animation-thankyou');
+            setTimeout(() => {
+              animationThankyou.style.display = 'none';
+            }, 4000);
+        </script>
+        </div>
+</body>
+</html>

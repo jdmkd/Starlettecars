@@ -133,21 +133,22 @@
 
 
 {% block homeimage %}
-        <section class="home  px-[1rem] md:px-[2rem] border-b-2" id="home">
-            {% comment %} <div class="absolute  border-solid border-red">
-              <img src={% static "image/ooorganize.svg"%} alt="">
-            </div> {% endcomment %}
-            <div class="h-[55rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-semibold gap-[1rem]">
-                <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
-                    <h4 class="normal-case tracking-wide">Maximize Your Earnings: List your vehicle on our platform</h4>
-                    <p class="normal-case tracking-wide">Turn Your Vehicle Into Income: Join our Rental Network</p>
-                </div>
-    
-                <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
-                  <p class="normal-case tracking-wide">Your vehicle, Your terms: Register and start earning</p>
-                  <h3 data-speed="3" class="home-parallax !text-[3.5rem] sm:!text-[5rem] md:!text-[6rem] font-bold !text-gray-900 !content-end tracking-wide">Partner with us and rent out your vehicle</h3>
-                </div>
-            </div>
+<section class="home relative  text-center overflow-hidden px-[1rem] md:px-[2rem] border-b-2" id="home">
+    {% comment %} <div class="absolute  border-solid border-red">
+      <img src={% static "image/ooorganize.svg"%} alt="">
+    </div> {% endcomment %}
+    <div class="h-[55rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-semibold gap-[1rem]">
+        <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
+            <h4 class="normal-case tracking-wide">Maximize Your Earnings: <span class="underline underline-offset-4 decoration-2 decoration-indigo-500">List your vehicle on our platform.</span></h4>
+            <p class="normal-case tracking-wide">Turn Your Vehicle Into Income: <span class="underline underline-offset-4 decoration-2 decoration-yellow-500">Join our Rental Network.</span></p>
+        </div>
+
+        <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
+          <p class="normal-case tracking-wide">Your vehicle, Your terms: <span class="underline underline-offset-4 decoration-2 decoration-pink-500">Register and start earning.</span></p>
+          <h3 data-speed="3" class="home-parallax !text-[3.5rem] sm:!text-[5rem] md:!text-[6rem] font-bold !text-gray-900 !content-end tracking-wide">Partner with us and rent out your vehicle.</h3>
+        </div>
+    </div>
+</section>
         </section>
 {% endblock %}
 

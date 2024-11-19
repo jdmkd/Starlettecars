@@ -1,3 +1,4 @@
+from datetime import date
 from django.utils.safestring import mark_safe
 from django.utils import timezone
 import uuid
@@ -11,18 +12,76 @@ class usertable(models.Model):
     lname = models.CharField(max_length=20)
     emailid = models.CharField(max_length=40)
     password = models.CharField(max_length=30)
-    phonenum = models.CharField(max_length=13, blank=True)
+    phonenum = models.CharField(max_length=13, blank=True,  null=True)
     created_at = models.DateTimeField(default=timezone.now)
     last_login = models.DateTimeField(default=timezone.now)
-
+    
     def update_last_login(self):
         self.last_login = timezone.now()
         self.save()
 
-    auth_token = models.CharField(max_length=100, null=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     
-    password_reset_token = models.CharField(max_length=100, null=True)
-    password_reset_token_expiration_time = models.DateTimeField(null=True)
+    # Identification Details
+    aadhaar_number = models.CharField(max_length=12, unique=True, null=True, blank=True)
+    driver_license_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    driver_license_expiry = models.DateField(default=None, null=True, blank=True)
+    def validate_aadhaar(self):
+        """
+        Validates the Aadhaar number (India-specific example).
+        - Checks if the Aadhaar is 12 digits long.
+        - Ensures it contains only numeric characters.
+        """
+        if not self.aadhaar_number:
+            return False, "Aadhaar number is missing."
+        
+        if len(self.aadhaar_number) != 12:
+            return False, "Aadhaar number must be 12 digits long."
+        
+        if not self.aadhaar_number.isdigit():
+            return False, "Aadhaar number must contain only numeric characters."
+        
+        return True, "Aadhaar number is valid."
+
+    def validate_license(self):
+        """
+        Validates if the user's driver's license is valid.
+        - Ensures the license number is present.
+        - Checks if the license expiry date is in the future.
+        """
+        if not self.driver_license_number:
+            return False, "Driver's license number is missing."
+        
+        if not self.driver_license_expiry:
+            return False, "Driver's license expiry date is missing."
+        
+        if self.driver_license_expiry < date.today():
+            return False, "Driver's license has expired."
+        
+        return True, "Driver's license is valid."
+    
+    def is_license_valid(self):
+        """
+        Check if the user's driver's license is still valid.
+        """
+        from datetime import date
+        return self.driver_license_expiry >= date.today()
+    
+    # Address Details
+    address_line1 = models.CharField(max_length=255, null=True, blank=True)
+    address_line2 = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=50, null=True, blank=True)
+    state = models.CharField(max_length=50, null=True, blank=True)
+    zip_code = models.CharField(max_length=10, null=True, blank=True)
+    country = models.CharField(max_length=50,null=True, blank=True , default="India")
+
+
+    
+
+    auth_token = models.CharField(max_length=100, blank=True, null=True)
+    
+    password_reset_token = models.CharField(max_length=100, blank=True, null=True)
+    password_reset_token_expiration_time = models.DateTimeField(null=True, blank=True)
     def is_password_reset_token_expired(self):
         return timezone.now() > self.password_reset_token_expiration_time
     

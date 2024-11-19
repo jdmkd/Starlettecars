@@ -3,80 +3,76 @@
     padding: 0;
 }
 body {
-    /* top: 20vh; */
+    top: 10rem;
     margin: 0;
     padding: 0;
-    /* height: 90vh; */
-    /* background: rgba(226, 0, 0, 0.831); */
+    position: relative;
+    background: #f4f4f496;
 }
 .container{
-    display: block;
-    position:relative;
+    margin:2rem 2rem 5rem 2rem;
+    padding: 1rem 1rem;
+    width: auto;
+    border-radius: 8px;
+    position: relative;
     justify-content: center;
+    display: flex;
+    flex-direction: row;
+    /* background: #09ffffc8; */
+    /* background: #fcffffc8;
+    box-shadow: 5px 6px 6px #bababac1, 
+                0px 0px 6px #bababac1, 
+                0px 0px 6px #bababac1; */
+
+}
+
+.container form{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
     align-items: center;
-    top: 90px;
-    left: 100px;
+    margin: 1rem 1rem;
+    padding: 1rem 10rem;
+    border-radius: 6px;
+}
+.container div form{
+    /* background-color: rgb(96, 96, 96); */
     background: #fcffffc8;
-    height: 573px;
-    width: 1200px;
-    margin: 10px 0px 111px 40px;
-    padding:5px 20px;
-    border-radius: 15px;
-    /* background-color: rgb(0, 255, 255); */
-    
-    box-shadow: 5px 6px 6px rgba(186, 186, 186, 0.9),
-            0px 0px 6px rgba(191, 191, 191, 0.9),
-            0px 0px 6px rgba(190, 190, 190, 0.9);
+    box-shadow: 5px 6px 6px #bababac1, 
+                0px 0px 6px #bababac1, 
+                0px 0px 6px #bababac1;
 }
-.container:hover{
-    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3),
-            0px 0px 8px rgba(0, 0, 0, 0.3),
-            0px 0px 8px rgba(0, 0, 0, 0.3);
-    /* border: 1px solid rgb(0, 0, 0); */
-
-}
-
-.container .row{
-    /* background: blue; */
-    margin: 0;
-    padding: 0px 0px;
-    height: 550px;
-}
-
-
 .container div div span{
     font-size: 18px;
     /* cursor:unset; */
 }
-.container div div img{
-    display: block;
+
+.container div form .img{
+    /* display: block; */
     position: relative;
-    margin: 10px 10px;
-    padding: 10px 10px;
-    top: 0px;
-    left: -15px;
-    /* width: 200px; */
-    cursor: pointer;
-    /* background-color: red; */
+    width: 30rem;
+    margin: 2rem 2rem;
+    padding: 2rem 2rem;
+    /* background-color: yellow; */
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
 }
-.container div div .img{
-    display: block;
-    position: relative;
-    margin: 10px 10px;
-    padding: 10px 10px;
-    top: 72px;
-    left: 5px;
-    width: 210px;
-    /* cursor: pointer; */
-    /* background-color:yellow; */
-}
-.container div div .img .deleteprofile{
+.container div form .img .deleteprofile{
     /* background-color:yellow; */
     width: 26px;
     margin: -10px 0px 0px 55px;
     padding: 0;
 }
-.container div div .img input{
+.container div form .img input{
     /* background-color: red; */
     /* color: violet; */
     left: -15px;
@@ -88,7 +84,7 @@ body {
     width: 220px;
     /* height: 0px; */
 }
-.container div div .img input:hover{
+.container div form .img input:hover{
     /* background-color: red; */
     background: rgba(251, 255, 255, 0.963);
     /* color: violet; */
@@ -99,17 +95,26 @@ body {
 .container div .profile-section{
     display:block;
     position:relative;
-    top: -314px;
+    /* top: -314px; */
     width: 640px;
-    height: 500px;
-    left: 250px;
+    /* height: 500px; */
+    /* left: 250px; */
     /* background-color: yellow; */
     /* d-flex justify-content-between align-items-center mb-3 */
 }
 .container div .profile-section .profile-detail{
-
+    position: relative;
+    /* background: yellow; */
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
     /* background-color: rgba(255, 255, 0, 0.536); */
 }
+
 
 .container div .profile-section .profile-detail .profile-heading{
     margin: 20px 20px;
@@ -125,6 +130,8 @@ body {
 .container div .profile-section .profile-detail .profile-input{
     display:flex;
     position: relative;
+    padding: 1rem 1rem;
+    margin: 0 2rem;
     /* background-color: tomato; */
     
     /* width: 200px; */
@@ -134,8 +141,8 @@ body {
 }
 .container div .profile-section .profile-detail .profile-input .input{
     display:flex;
-    
-    /* width: 200px; */
+    margin: .3rem 1rem;
+    padding: .3rem 1rem;
     flex-wrap: wrap;
 }
 .container div .profile-section .profile-detail .profile-input .input label{
@@ -154,28 +161,46 @@ body {
 .container div .profile-section .profile-detail .profile-input .input input{
     /* display:flex;
     position:relative; */
-    width: 300px;
-    height: 45px;
+    /* width: 300px;
+    height: 45px; */
     border: 1px solid #969696;
     border-radius: 5px;
-}
-
-.rounded-circle{
-
-}
-
-
-
-
-
-.container input{
     margin: 10px;
     padding: 12px;
     font-size: 15px;
-    /* background-color: red; */
-    /* cursor: pointer; */
 }
 
+.rounded-circle{
+    border-radius: 50%;
+    width: 15rem;
+    height: 15rem;
+    /* width: 150px;
+    height: 150px; */
+    object-fit: cover;
+    background: #dfdfdf;
+}
+.container div .profile-section .profile-detail .button{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 1rem;
+    background: aliceblue;
+    padding: 2rem 5rem;
+    
+}
+.container div .profile-section .profile-detail .button a{
+    background: #0040ffc7;
+    color: white;
+    margin: auto;
+}
+.profile-button {
+    /* display: block;
+    position: relative;
+    left: 240px; */
+    background: #ffff00;
+    box-shadow: none;
+    border: none
+}
 .container input:hover{
     border: 1px solid rgb(96, 96, 96);
     box-shadow: 2px 3px 8px rgba(53, 53, 53, 0.1),
@@ -202,16 +227,6 @@ body {
     box-shadow: none;
     border-color: #454545
 }
-
-.profile-button {
-    display: block;
-    position: relative;
-    left: 240px;
-    background: #ffff00;
-    box-shadow: none;
-    border: none
-}
-
 .profile-button:hover {
     color: black;
     background: #f6ff00c9
@@ -255,107 +270,150 @@ body {
 
 }
 
-/* @media (max-width:1195px){ */
-@media (max-width:428px){
+/* @media (max-width:1195px){} */
+
+@media (max-width:770px){
     .container{
         display: block;
-        position:relative;
-        justify-content: center;
-        align-items: center;
-        top: 90px;
-        left: 0;
-        background: #fcffffc8;
-        height: 145vh;
-        width: 95vw;
-        margin: 10px 0px 111px 10px;
-        padding:5px 20px;
-        border-radius: 7px;
-        /* background-color: rgb(0, 255, 255); */
-        
-        box-shadow: 5px 6px 6px rgba(186, 186, 186, 0.9),
-                0px 0px 6px rgba(191, 191, 191, 0.9),
-                0px 0px 6px rgba(190, 190, 190, 0.9);
+        width: auto;
+        margin:.4rem .4rem 4rem .4rem;
+        overflow: hidden;
     }
-    .container .row {
-        /* background: blue; */
+    .container div .profile-section{
+        width:auto;
+
+    }
+    .container div .profile-section .profile-detail .profile-input{
+        display:flex;
+        flex-direction: column;
+        position: relative;
+        
         margin: 0;
-        padding: 10px 10px;
-        height: 50vh;
-        width: 83vw;
-        top:72vh;
-        position: absolute;
+        padding: 0 2rem;
+        /* width: 200px; */
+        flex-wrap: wrap;
+        width: min-content;
+        
+    
+    }
+    .container div .profile-section .profile-detail .profile-input .input input {
+        display: flex;
+        position: relative;
+        width: auto;
+        height: auto;
+        border: 1px solid #969696;
+        margin: 1rem 1rem 2rem 1rem;
+        padding: 1.2rem 3rem;
+        /* padding: 12px; */
+        font-size: 15px;
+    }
+
+
+}
+
+@media (max-width:428px){
+
+    .container{
+        top: 0;
+        border: none;
+        box-shadow: none;
+        padding: .4rem .4rem;
+        overflow: hidden;
+    }
+    .container form {
+
+        margin: 1rem .4rem;
+        padding: 0;
         
     }
     .container div .profile-section {
-        display: block;
-        position: absolute;
-        top: -71vh;
-        width: 90vw;
-        height: 81vh;
-        left: -12px;
+        
         /* background-color: yellow; */
     }
 
     .container div .profile-section .profile-detail .profile-input {
-        /* display: flex; */
-        /* position: relative; */
-        /* background-color: tomato; */
-        width: 87vw;
-        flex-wrap: wrap;
-        /* max-width: 380px; */
         margin: 0px 5px;
     }
-    .container div div .img {
-        display: block;
-        position: relative;
+    .container div form .img {
         margin: 10px 10px;
-        padding: 10px 10px;
-        top: 72px;
-        left: -3vw;
-        height: 50vh;
-        width: 79vw;
-        /* cursor: pointer; */
-        border: 1px solid rgba(224, 224, 224, 0.871);
+        padding: 3rem 3rem;
+        /* border: 1px solid rgba(224, 224, 224, 0.871); */
         border-radius: 7px;
+        width: auto;
         /* background-color: rgb(0, 255, 17); */
     }
-    .container div div img {
-        display: block;
-        position: relative;
-        margin: 10px 10px;
-        padding: 10px 10px;
-        top: 0px;
-        left: 15px;
-        /* width: 200px; */
-        /* cursor: pointer; */
-        /* background-color: red; */
-        border-radius: 20%;
+    .container div form .img img {
+        /* width: 10rem; */
+        cursor: pointer;
     }
-    .container div div .img .deleteprofile {
+    .container div form .img .deleteprofile {
         /* background-color: yellow; */
-        width: 26px;
-        margin: -6vh 0px 0px 28vh;
-        padding: 0;
+        /* width: 26px; */
+        /* margin: -6vh 0px 0px 28vh; */
+        /* padding: 0; */
     }
-    .container div div .img .deleteprofile a{
+    .container div form .img .deleteprofile a{
         /* background-color:violet; */
     }
-    .container div div .img .deleteprofile a img{
+    .container div form .img .deleteprofile a img{
         /* background-color: red; */
     
     }
-    .container div div .img input {
-        left: 20px;
-    }
-    .profile-button {
-        display: block;
+    /* .container div form .img input{
         position: relative;
-        left: 95px;
-        top: 54vh;
-        background: rgb(255, 234, 0);
-        box-shadow: none;
+        display: flex;
+        justify-content: center;
+        left: 0;
+    } */
+}
+
+@media (max-width: 408px){
+    .container{
+        top: 0;
         border: none;
+        box-shadow: none;
+        padding: .4rem .4rem;
     }
+    .container form {
 
+        margin: 1rem .4rem;
+        padding: .3rem .3rem;
+        
+    }
+    .container div .profile-section .profile-detail .profile-input .input input{
+        padding: 1rem .1rem 1rem 2rem;
+    }
+}
+@media (max-width: 385px){
+    
+}
+@media (max-width: 395px){
+    .container{
+        top: 0;
+        border: none;
+        box-shadow: none;
+        margin: .3rem .3rem;
+        padding: .3rem .3rem;
+        /* background-color: red; */
+    }
+    .container form {
 
+        /* margin: 1rem 1rem;
+        padding: 0;
+        background-color: #0026ff; */
+    }
+}
+@media (max-width:376px){
+    /* body{
+        background-color: red;
+    } */
+}
+@media (max-width:365px){
+    /* body{
+        background-color: red;
+    } */
+
+}
+@media (max-width:360px){
+    
 }

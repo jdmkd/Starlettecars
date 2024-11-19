@@ -176,7 +176,7 @@ class buss_vehicle(models.Model):
     buss_vehicle_image.allow_tags = True
 
     def __str__(self):
-        return f'{self.buss_vehicle_company_name} {self.buss_vehicle_owner}'
+        return f'{self.buss_vehicle_id} {self.buss_vehicle_owner}'
     
 
 class buss_feedback(models.Model):

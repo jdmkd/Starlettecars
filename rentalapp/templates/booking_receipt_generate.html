@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Receipt</title>
+    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+    {% comment %} <link href="https://cdn.tailwindcss.com" rel="stylesheet"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" type="text/css" href=" {% static 'css/tailx.css' %}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href=" {% static 'css/tailwind-output.css' %}">
+    {% comment %} <style>
+        @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+    </style> {% endcomment %}
+    {% comment %} <link rel="stylesheet" type="text/css" href="{{ tailwind_css_url }}"> {% endcomment %}
+
+
+
+</head>
+<body class="bg-gray-100 font-mono">
+    <section class="">
+        <div class="absolute left-[80%]">
+            <form action="/vehicle/booking/download_generate_rental_receipt_as_pdf" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="bookedid" value={{ booking_data.booking_id }}>
+                <button type="submit" value="Download Receipt" class="bg-blue-500 text-white px-4 py-2 rounded">Download Receipt</button>
+            </form> 
+        </div>
+    
+        <div class="max-w-sm mx-auto mt-10 bg-white p-6 rounded-lg shadow-md border border-gray-200">
+            
+            <!-- Header Section -->
+            <div class="text-center border-b pb-4">
+                <h1 class="text-[1.4rem] font-bold text-gray-800 mb-4">Rental Receipt</h1>
+                <p class="text-[1rem] text-gray-500">439 Rental Street, Ahmedabad, Gujarat, India</p>
+                <p class="text-[1rem] text-gray-500">Phone: +916376094539</p>
+                <p class="text-[1rem] text-gray-500">starlettecars@gmail.com</p>
+                <p class="text-[1rem] text-blue-500 hover:underline"><a href="http://127.0.0.1:8000" target="_blank" rel="noopener noreferrer">starlettecars.com</a></p>
+            </div>
+
+            <!-- User Details -->
+            <div class="mt-4 border-b pb-4">
+                <h2 class="text-[1.1rem] font-semibold text-gray-700">User Details</h2>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p class="text-[1rem]"><strong>ID:</strong> {{ user_data.id }}</p>
+                    <p class="text-[1rem]"><strong>First Name:</strong> {{ user_data.fname }}</p>
+                    <p class="text-[1rem]"><strong>Last Name:</strong> {{ user_data.lname }}</p>
+                    <p class="text-[1rem]"><strong>Email:</strong> {{ user_data.email }}</p>
+                    <p class="text-[1rem]"><strong>Address Line 1:</strong> {{ user_data.address_line1 }}</p>
+                    {% if user_data.address_line2%}
+                        <p class="text-[1rem]"><strong>Address Line 2:</strong> {{ user_data.address_line2 }}</p>
+                    {% endif %}
+                    <p class="text-[1rem]"><strong>City:</strong> {{ user_data.city }}</p>
+                    <p class="text-[1rem]"><strong>State:</strong> {{ user_data.state }}</p>
+                    <p class="text-[1rem]"><strong>Zip_code:</strong> {{ user_data.zip_code }}</p>
+                    <p class="text-[1rem]"><strong>Country:</strong> {{ user_data.country }}</p>
+                    
+                </div>
+            </div>
+
+            <!-- Vehicle Details -->
+            <div class="mt-4 border-b pb-4">
+                <h2 class="text-[1.1rem] font-semibold text-gray-700">Vehicle Details</h2>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p class="text-[1rem]" class="text-[1rem]"><strong>Vehicle Name:</strong> {{ vehicle_data.vehicle_name }}</p>
+                    <p class="text-[1rem]" class="text-[1rem]"><strong>Type:</strong> {{ vehicle_data.vehicle_type }}</p>
+                    {% comment %} <p class="text-[1rem]" class="text-[1rem]"><strong>Registration:</strong> ABC-1234x</p> {% endcomment %}
+                    <p class="text-[1rem]" class="text-[1rem]"><strong>Color:</strong> {{ vehicle_data.vehicle_color }}</p>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="mt-4 border-b pb-4">
+                <h2 class="text-[1.1rem] font-semibold text-gray-700">Booking Details</h2>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p class="text-[1rem]"><strong>Booking ID:</strong> {{ booking_data.booking_id }}</p>
+                    <p class="text-[1rem]"><strong>Pickup Location:</strong> {{ booking_data.booking_date }}</p>
+                    <p class="text-[1rem]"><strong>From Date:</strong> {{ booking_data.from_duration}}</p>
+                    <p class="text-[1rem]"><strong>To Date:</strong> {{ booking_data.to_duration}}</p>
+                    <p class="text-[1rem]"><strong>Duration:</strong> {{ booking_data.duration}} days</p>
+                </div>
+            </div>
+
+            <!-- Pricing Details -->
+            <div class="mt-4 border-b pb-4">
+                <h2 class="text-[1.1rem] font-semibold text-gray-700">Pricing Details</h2>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p class="text-[1rem]"><strong>Rental Amount:</strong> ₹{{ booking_data.rental_amount}}</p>
+                    <p class="text-[1rem]"><strong>Additional Charges:</strong> ₹{{ booking_data.service_charges}}</p>
+                    
+                    <p class="text-[1rem]"><strong>Taxes:</strong> {{ booking_data.tax}} by {{ booking_data.tax_per }}% </p>
+                    {% comment %} <p><strong>Discount:</strong> ₹0</p> {% endcomment %}
+                    
+                    <p class="flex text-[1.2rem] font-semibold text-gray-700 justify-end mt-4 border-t pt-4">Total Amount: <strong class="text-gray-800 mx-3">₹{{ booking_data.total_rental_amount }}</strong> </p>
+                </div>
+            </div>
+
+            {% comment %} <!-- Payment Details -->
+            <div class="mt-4 border-b pb-4">
+                <h2 class="text-sm font-semibold text-gray-700">Payment Details</h2>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p><strong>Payment Method:</strong> Credit Card</p>
+                    <p><strong>Transaction ID:</strong> TXN123456789</p>
+                </div>
+            </div> {% endcomment %}
+
+            <!-- Footer -->
+            <div class="mt-4 text-center text-sm text-gray-500/60">
+                <p>Thank you for choosing our service!</p>
+                <p>Contact us at starlettecars@gmail.com or +916376094539</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

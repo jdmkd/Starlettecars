@@ -58,7 +58,7 @@ body {
     width: 100%;
 }
 
-.container .form-container form .row span {
+/* .container .form-container form .row span {
     display: flex;
     position: relative;
     justify-content: center;
@@ -72,7 +72,7 @@ body {
     border-radius: 4px;
     border: 1px solid rgba(183, 183, 183, 0.621);
     background-color: rgb(255, 255, 255);
-}
+} */
 
 
 

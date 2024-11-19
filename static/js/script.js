@@ -77,86 +77,45 @@ document.querySelector('.home').onmousemove = (e) =>{
 };
 
 
-document.querySelector('.home').onmouseleave = (e) =>{
-  document.querySelectorAll('.home-parallax').forEach(e =>{
-    e.style.transform = `translateX(0px) translateY(0px)`;
-  });
-};
+// document.querySelector('.home').onmouseleave = (e) =>{
+//   document.querySelectorAll('.home-parallax').forEach(e =>{
+//     e.style.transform = `translateX(0px) translateY(0px)`;
+//   });
+// };
 
-var swiper = new Swiper(".vehicles-slider", {
-  grabCursor: true,
-  centeredSlides: true,
-  spaceBetween: 20,
-  loop:true,
-  autoplay: {
-    delay: 10000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable:true,
-  },
-  breakpoints: {
-    0: {
-      slidesPerView: 1,
-    },
-    768: {
-      slidesPerView: 2,
-    },
-    1024: {
-      slidesPerView: 3,
-    },
-  },
-});
 
-var swiper = new Swiper(".featured-slider", {
-  grabCursor: true,
-  centeredSlides: true,
-  spaceBetween: 20,
-  loop:true,
-  autoplay: {
-    delay: 10000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable:true,
-  },
-  breakpoints: {
-    0: {
-      slidesPerView: 1,
-    },
-    768: {
-      slidesPerView: 2,
-    },
-    1024: {
-      slidesPerView: 3,
-    },
-  },
-});
+// vehicle card swiper slider using swiperjs
 
-var swiper = new Swiper(".review-slider", {
-  grabCursor: true,
-  centeredSlides: true,
-  spaceBetween: 20,
-  loop:true,
-  autoplay: {
-    delay: 10000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable:true,
-  },
-  breakpoints: {
-    0: {
-      slidesPerView: 1,
-    },
-    768: {
-      slidesPerView: 2,
-    },
-    1024: {
-      slidesPerView: 3,
-    },
-  },
-});
+// var swiper = new Swiper(".vehicles-slider", {
+//   grabCursor: false,
+//   // centeredSlides: true,
+//   spaceBetween: 20,
+//   // loop:true,
+//   autoplay: {
+//     delay: 10000,
+//     disableOnInteraction: false,
+//   },
+//   pagination: {
+//     el: ".swiper-pagination",
+//     clickable:true,
+//   },
+//   navigation: {
+//     nextEl: '.swiper-button-next',
+//     prevEl: '.swiper-button-prev',
+//   },
+//   breakpoints: {
+//     480: {
+//       slidesPerView: 1,
+//     },
+//     640: {
+//       slidesPerView: 2,
+//     },
+//     768: {
+//       slidesPerView: 1,
+//     },
+//     1024: {
+//       slidesPerView: 1,
+//     },
+//   },
+// });
+

@@ -19,7 +19,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -39,8 +38,9 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    # 'admin_interface',
-    # 'colorfield',
+    'adminlte3',
+    'adminlte3_theme',
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -77,7 +77,7 @@ MESSAGE_TAGS = {
     messages.SUCCESS: "success",
     messages.ERROR: "danger",
 }
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 
 ROOT_URLCONF = "rentalproject.urls"
@@ -88,10 +88,11 @@ TEMPLATES = [
         "APP_DIRS": True,
 
 
-        # "DIRS": [
-        #         os.path.join(BASE_DIR / 'rentalapp/templates'),
-        #         os.path.join(BASE_DIR / 'rental_business/templates'),
-        #     ],
+        "DIRS": [
+                os.path.join(BASE_DIR / 'templates'),
+                os.path.join(BASE_DIR / 'rentalapp/templates'),
+                os.path.join(BASE_DIR / 'rental_business/templates'),
+            ],
         # "DIRS": [BASE_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
@@ -203,4 +204,9 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "starlettecars@gmail.com"
-EMAIL_HOST_PASSWORD = "xqhl wvta samq godb"
+EMAIL_HOST_PASSWORD = "vvff pfdl xnln bgsd"
+
+
+PDFKIT_CONFIG = {
+    'wkhtmltopdf': r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'  # Adjust for your system
+}

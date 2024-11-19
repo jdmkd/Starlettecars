@@ -20,6 +20,8 @@ urlpatterns = [
     path("vehicle/checkout/<int:id>", views.checkout, name="vehicle_checkout"),
     path("vehicle/booking", views.vehicle_booking, name="vehicle_booking"),
     path("booking/history", views.booking_history, name="booking_history"),
+    path('vehicle/booking/generate-receipt', views.generate_rental_receipt, name='rental_receipt'),
+    path('vehicle/booking/download_generate_rental_receipt_as_pdf', views.download_generate_rental_receipt_as_pdf, name='download_generate_rental_receipt_as_pdf'),
     path("cancelbooking/<int:id>", views.cancelbooking, name="cancelbooking"),
     path("termsandconpage", views.termsandconpage),
     path("inbox", views.inbox),
@@ -49,11 +51,29 @@ urlpatterns = [
     
     path("accounts/login", views.login, name="login"),
     path("accounts/register", views.register, name="register_attempt"),
-    path("accounts/success", views.success, name="success"),
+    # path("accounts/success", views.success, name="success"),
     # path("accounts/verify/email", views.EmailVerificationTokenSended, name="EmailVerificationTokenSended"),
     path("accounts/verify/<slug:auth_token>", views.verify, name="verify"),
     path("accounts/verify/email/resend", views.Resend_Email_Verification_Token, name="Resend_Email_Verification_Token"),
-    path("accounts/verification/error=??", views.verificationerror, name="verificationerror",),
+    path("accounts/verification/error=??", views.verificationerror, name="verificationerror",), 
+
+
+    # Report
+    path("generate/report", views.generate_report, name="generate_report",),
+
+    path("generate/user/report", views.generate_user_report, name="generate_user_report",),
+    # http://127.0.0.1:8000/api/get/user-report/?start_date=2024-10-11&end_date=2024-10-14
+    path('export/user/report/in/pdf/', views.export_user_report_in_pdf, name='export_user_report_in_pdf'),
+    # http://127.0.0.1:8000/api/export/user-report/in/pdf/?start_date=2024-10-11&end_date=2024-10-14
+    path('export/user/report/in/csv/', views.export_user_report_in_csv, name='export_user_report_in_csv'),
+    # http://127.0.0.1:8000/api/export/user-report/in/csv/?start_date=2024-10-11&end_date=2024-10-14
+
+
+
+    path("generate/vehicle/report", views.generate_vehicle_report, name="generate_vehicle_report",),
+    # export_vehicle_report_in_pdf
+    path('export/vehicle/report/in/pdf/', views.export_vehicle_report_in_pdf, name='export_vehicle_report_in_pdf'),
+    path('export/vehicle/report/in/csv/', views.export_vehicle_report_in_excel, name='export_vehicle_report_in_excel'),
 
 
     path("apix", views.apix.as_view(), name="apix"),

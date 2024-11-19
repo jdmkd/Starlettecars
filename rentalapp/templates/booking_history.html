@@ -1,13 +1,14 @@
+{% load static %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Document</title>
+    <title>Booking History</title>
     <!-- Bootstrap CSS -->
     {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> {% endcomment %}
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
@@ -18,6 +19,8 @@
     <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
     <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
 
+    <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+    
 </head>
 <body>
     <header class="header">
@@ -95,47 +98,117 @@
     </section>
     {% endif %}
 
-    <section class="vehicle_booking_hist" id="vehicle_booking_hist">
-        <h1 class="vehicle_booking_hist_heading">
-            Your Booking History
-            {% comment %} <span>popular vehicles</span> {% endcomment %}
-        </h1>
-        <div class="swiper vehicle_booking_hist-slider">
-            <div class="swiper-wrapper">
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {% for vdata in vdata %}
-                    {% if vdata.vehicle_id.buss_vehicle_status == "Booked" and vdata.is_cancelled == False %}
-                    <div class="swiper-slide box">
-                        <img src="/media/{{ vdata.vehicle_id.buss_vehicle_photo }}" alt="" width="300" height="200">
-                        <div class="content">
-                            {% comment %} <p>EMAIL : {{ vdata.login_id }}<br></p> {% endcomment %}
-                            <p>Vehicle Name : {{ vdata.vehicle_id }}</p>
-                            <p>From : {{ vdata.from_duration }} To :{{ vdata.from_to}}</p>
-                            <p>Amount :{{ vdata.amount }} INR</p>
-                            <p>Date & TIME : {{ vdata.booking_date }}</p>
-                            <p>Payment-Status: {{ vdata.paystatus}}</p>
-                            <p>Vehicle type : {{ vdata.vehicle_id.buss_vehicle_type }}<br></p>
-                            <p>Vehicle color : {{ vdata.vehicle_id.buss_vehicle_color }}<br></p>
-                            <p>location : {{ vdata.vehicle_id.buss_vehicle_location }}</p>
-                            <p>vehicle number : {{ vdata.vehicle_id.buss_vehicle_number }}</p>
-                            <p>vehicle status : {{ vdata.vehicle_id.buss_vehicle_status}}</p>
-                            {% comment %} <p>description :{{ vdata.vehicle_id.buss_vehicle_description|slice:"0:35" }}...</p> {% endcomment %}
-                            {% comment %} <p>STATUS : {{ vdata.paystatus}}</p> {% endcomment %}
-                            {% if vdata.paystatus %}
-                                <p>Status : <small class="badge badge-success"> Completed</small></p>
-                            {% else %}
-                                <p>Status : <small class="badge badge-warning"> Pending</small></p>
-                            {% endif %}
-                            <a class="cancel-bookings" href="/cancelbooking/{{ vdata.id }}">Cancel Booking</a>
-                            {% comment %} <a href="/checkout/{{ vdata.id }}" class="btn">Book</a> {% endcomment %}
-                        </div>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                </form>
+    <section class="vehicle_booking_hist  relative flex flex-row top-[10rem] bg-white" id="vehicle_booking_hist">
+        
+        <div class="text-[1.5rem]  h-[50rem] w-[50rem] p-[10px] mt-[10px] bg-gray-800/90">
+            <h1>Apply Filters</h1>
+            <div>
+                <p>category</p>
             </div>
-            <div class="swiper-pagination"></div>
+        </div>
+        
+        <div class=" flex flex-col">
+            <div class="flex justify-center items-center w-[100%] p-[10px]">
+                <!-- Search Bar Container -->
+                <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden shadow-sm bg-white w-full">
+                    <!-- Search Input -->
+                    <input type="text" id="search" placeholder="Search..." class="px-4 py-4 w-full rounded-l-lg outline-none text-[1.5rem] text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" />
+        
+                    <!-- Search Button -->
+                    <button class="bg-blue-600 text-white text-[1.5rem] lg:text-[1.7rem] px-4 py-4 hover:bg-blue-700 outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out rounded-r-lg">
+                        Search
+                    </button>
+                </div>
+            </div>
+    
+            <div class="swiper vehicle_booking_hist-slider w-[100%] p-[10px] m-0 bg-white">
+                <div class="swiper-wrapper  relative w-[100%] h-[100%] z-1 block transition-transform box-content">
+                    <form action="/vehicle/booking/generate-receipt" method="post">
+                        {% csrf_token %}
+                        {% for vdata in vdata %}
+                        {% comment %} {% if vdata.vehicle_id.buss_vehicle_status == "Booked" %} {% endcomment %}
+                        <div class="swiper-slide box  text-center flex mt-[10px] mx-auto border border-1 border-solid border-gray-400/80 box-border hover:border-gray-500/90 bg-white shadow-sm hover:shadow-lg transition-all">
+                            <img src="/media/{{ vdata.vehicle_id.buss_vehicle_photo }}" alt="" width="300" height="200"
+                            class="m-[5px] h-auto w-[20rem] relative object-cover rounded transition"
+                            >
+                            <div class="content  flex flex-wrap justify-center m-[10px] pt-[3px] pb-[20px] px-[5px] rounded-sm">
+                                {% comment %} <p>EMAIL : {{ vdata.login_id }}<br></p> {% endcomment %}
+                                {% comment %} <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                    id : {{ vdata.vehicle_id }}</p> {% endcomment %}
+                                    <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-bold transform-none no-underline w-[22rem]">
+                                    {{ vdata.vehicle_id.buss_vehicle_company_name }}  {{ vdata.vehicle_id.buss_vehicle_model }} ({{ vdata.vehicle_id.buss_vehicle_color }}, {{ vdata.vehicle_id.buss_vehicle_type }})</p>
+                                <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                    On {{ vdata.booking_date }}</p>
+                                    {% with vdata.amount|multiply:tax_percentage|divide:100 as tax_amount %}
+                                    {% comment %} <p>x1:{{ tax_amount }}</p> {% endcomment %}
+                                    {% with vdata.amount|add:service_charges|add:tax_amount as total_rental_amount %}
+                                    
+                                        <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.7rem] font-semibold transform-none no-underline w-[22rem]">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 44 44" fill="none">
+                                                <text x="28" y="30" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle" class="font-sans">₹</text>
+                                                </svg>
+                                            {{ total_rental_amount }} <span class="text-[1rem] font-normal"> (18% GST included)</span> 
+                                        </p>
+                                        {% endwith %}
+                                    {% endwith %}
+                                </p>
+
+                                <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                    From : {{ vdata.from_duration }} To :{{ vdata.from_to}}</p>
+                            
+                                <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20" fill="green">
+                                        <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                                    </svg>
+                                    {{vdata.vehicle_id.buss_vehicle_location }}</p>
+                                <p class="relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                    vehicle number : {{ vdata.vehicle_id.buss_vehicle_number }}</p>
+                                {% comment %} <p>description :{{ vdata.vehicle_id.buss_vehicle_description|slice:"0:35" }}...</p> {% endcomment %}
+                                {% comment %} <p>STATUS : {{ vdata.paystatus}}</p> {% endcomment %}
+                                {% if vdata.is_cancelled %}
+                                    <p class=" relative flex justify-center items-center m-[10px] p-[10px] text-[1.4rem] font-semibold transform-none no-underline w-[22rem]">
+                                        <span class="relative w-7 h-5 rounded-[100%] bg-red-600"></span>
+                                        Cancelled on {{vdata.cancelled_at}}
+                                        {% comment %} <small class="badge badge-success  inline-block px[.5rem] py-[.55rem] my-[2px] mx-[4px] text-[1.3rem] font-semibold leading-none text-center  whitespace-nowrap align-baseline rounded-sm bg-green-400/90 text-white"
+                                        > {{vdata.is_cancelled}}</small></p> {% endcomment %}
+                                {% else %}
+                                    {% comment %} <p>Status : <small class="badge badge-warning"> Pending</small></p> {% endcomment %}
+                                {% endif %}
+                                
+                                {% if not vdata.is_cancelled %}
+                                <div class="flex text-center mt-[1rem] justify-between">
+                                    <div class="h-[5rem] mx-[1rem] px-[5rem] py-[1rem] bg-red-600/80 hover:bg-red-600 text-white cursor-pointer text-[1.7rem] font-semibold rounded-lg">
+                                        <a class="cancel-bookings  justify-center items-center "  
+                                            href="/cancelbooking/{{ vdata.id }}">
+                                            Cancel Booking
+                                        </a>
+                                    </div>
+                                    {% comment %} <div class="h-[5rem] mx-[1rem] px-[5rem] py-[1rem] bg-green-600/80 hover:bg-green-600 text-white cursor-pointer text-[1.7rem] font-semibold rounded-lg">
+                                        <a class="cancel-bookings  justify-center items-center "  
+                                            href="/vehicle/booking/generate-receipt">
+                                            View Reciept
+                                        </a> 
+                                    </div> {% endcomment %}
+                                     
+                                    {% comment %} <input type="submit" value="View Reciept" class="h-[5rem] mx-[1rem] px-[5rem] py-[1rem] bg-green-600/80 hover:bg-green-600 text-white cursor-pointer text-[1.7rem] font-semibold rounded-lg" /> {% endcomment %}
+                                    {% comment %} <div class="h-[5rem]  px-[5rem] py-[1rem] bg-red-600/80 hover:bg-red-600 text-white cursor-pointer text-[1.7rem] font-semibold rounded-lg"> {% endcomment %}
+                                    <input type="text" name="bookedid" value={{ vdata.id }} hidden />
+                                    {% comment %} <a class="cancel-bookings  justify-center items-center "  
+                                            href="/vehicle/booking/generate-receipt">generate_receipt</a> {% endcomment %}
+                                        
+                                    <input type="submit" value="View Receipt" class=" h-[5rem] mx-[1rem] px-[5rem] bg-blue-600/80 hover:bg-blue-600 text-white cursor-pointer text-[1.7rem] font-semibold rounded-lg ">
+                                    {% comment %} </div> {% endcomment %}
+                                </div>
+                                
+                                {% endif %}
+                                    {% comment %} <a href="/checkout/{{ vdata.id }}" class="btn">Book</a> {% endcomment %}
+                            </div>
+                        </div>
+                        {% comment %} {% endif %} {% endcomment %}
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
 

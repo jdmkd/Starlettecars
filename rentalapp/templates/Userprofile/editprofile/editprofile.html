@@ -151,30 +151,73 @@
                             <div class="profile-input">
                                 <div class="input">
                                     <label class="labels">Mobile Number</label>
-                                    <input type="tel" name="updphonenum" value="{{ userdata.phonenum}}"  class="form-control" pattern="^\d{10}$" placeholder="Enter phone number" >
+                                    <input type="text" name="updphonenum" value="{% if userdata.phonenum %}{{ userdata.phonenum }}{% endif %}"  class="form-control" pattern="^\d{10}$" placeholder="Enter phone number" required>
                                 </div>
                                 <div class="input">
-                                    <label class="labels">Profession</label>
-                                    <input type="text" name="updProfession" value=""  class="form-control" placeholder="Enter Your Profession" >
+                                    <label class="labels">Aadhaar Number</label>
+                                    <input type="text" name="aadhaar_number" value="{% if userdata.aadhaar_number %}{{ userdata.aadhaar_number }}{% endif %}"  class="form-control" pattern="^\d{12}$" placeholder="Enter aadhaar number" required>
                                 </div>
-                                {% comment %} <div class="col-md-6"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                                <div class="col-md-6"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                <div class="col-md-6"><label class="labels">Postcode</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                <div class="col-md-6"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                <div class="col-md-6"><label class="labels">Area</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                                <div class="col-md-6"><label class="labels">Education</label><input type="text" class="form-control" placeholder="education" value=""></div> {% endcomment %}
+                                
                             </div>
-        
                             <div class="profile-input">
                                 <div class="input">
-                                    <label class="labels">Country</label>
-                                    <input type="text" name="updcountry" value=""  class="form-control" placeholder="country">
-                                </div>
-                                <div class="input">
-                                    <label class="labels">State/Region</label>
-                                    <input type="text" name="updstate" value=""  class="form-control"  placeholder="state">
+                                    <label class="labels">date of birth</label>
+                                    <input type="date" name="date_of_birth"  class="form-control" value="{% if userdata.date_of_birth %}{{ userdata.date_of_birth|date:'Y-m-d' }}{% endif %}" 
+                                            {% comment %} onfocus="(this.type='date')" {% endcomment %}
+                                            {% comment %} onblur="if(this.value===''){this.type='text'; this.placeholder='Enter date of birth';}"  {% endcomment %}
+                                            required>
                                 </div>
                             </div>
+                            <div class="profile-heading">
+                                <h4 class="text-right">Driving License:</h4>
+                            </div>
+                            <div class="profile-input">
+                                <div class="input">
+                                    <label class="labels">Licence Number</label>
+                                    <input type="text" name="driver_license_number" value="{% if userdata.driver_license_number %}{{ userdata.driver_license_number }}{% endif %}"  class="form-control" pattern="^[A-Za-z]{2}\d{2}[A-Za-z0-9]{6}\d{4}\d{2}$" placeholder="Enter driver license number" required>
+                                </div>
+                                <div class="input">
+                                    <label class="labels">Driver license expiry</label>
+                                    <input type="date" name="driver_license_expiry" value="{% if userdata.driver_license_expiry %}{{ userdata.driver_license_expiry|date:'Y-m-d' }}{% endif %}"  class="form-control" placeholder="Enter driver license expiry" required/>
+                                </div>
+                            </div>
+                            <div class="profile-heading">
+                                <h4 class="text-right">Address Details</h4>
+                            </div>
+                            <div class="profile-input">
+                                <div class="input">
+                                    <label class="labels">Address line1</label>
+                                    <input type="text" name="address_line1" value="{% if userdata.address_line1 %}{{ userdata.address_line1 }}{% endif %}"  class="form-control"  placeholder="Enter address 1" required>
+                                </div>
+                                <div class="input">
+                                    <label class="labels">Address line2</label>
+                                    <input type="text" name="address_line2" value="{% if userdata.address_line2 %}{{ userdata.address_line2 }}{% endif %}"  class="form-control" placeholder="Enter address 2" >
+                                </div>
+                                
+                            </div>
+                            <div class="profile-input">
+                                <div class="input">
+                                    <label class="labels">City</label>
+                                    <input type="text" name="city" value="{% if userdata.city %}{{ userdata.city }}{% endif %}"  class="form-control" placeholder="Enter city name" required>
+                                </div>
+                                <div class="input">
+                                    <label class="labels">State</label>
+                                    <input type="text" name="state" value="{% if userdata.state %}{{ userdata.state }}{% endif %}"  class="form-control" placeholder="Enter state name" required>
+                                </div>
+                            </div>
+                            <div class="profile-input">
+                                <div class="input">
+                                    <label class="labels">Zip code</label>
+                                    <input type="text" name="zip_code" value="{% if userdata.zip_code %}{{ userdata.zip_code }}{% endif %}"  class="form-control" placeholder="Enter zip code" required>
+                                </div>
+                                <div class="input">
+                                    <label class="labels">Country</label>
+                                    <input type="text" name="country" value="{% if userdata.country %}{{ userdata.country }}{% endif %}"  class="form-control" placeholder="Enter country name" >
+                                </div>
+                            </div>
+                    
+        
+                            
 
                             <div class="button">
                                 {% if request.session.log_user %}
