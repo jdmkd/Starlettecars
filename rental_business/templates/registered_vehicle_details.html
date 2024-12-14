@@ -1,0 +1,207 @@
+{% extends 'buss_master.html' %}
+
+{% block title %}
+    View Your vehicles info
+{% endblock%}
+
+
+{% block homeimage %}
+{% endblock %}
+
+{% block popularvehicles %}
+    {% if request.session.buss_log_user %}
+    {% if vehicle_details_list %}
+        <section class="p-5 relative top-[10rem] bg-gray-50">
+            <div class="w-auto sm:w-auto xl:w-10/12 2xl:w-11/12  mx-auto p-6 lg:px-[3rem]">
+              {% comment %} w-[120rem] {% endcomment %}
+              <!-- Product Details Container -->
+              <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <div class="md:flex p-3 sm:p-5 space-y-6 md:space-y-0 md:space-x-6">
+                  <!-- Product Image -->
+                  <div class="md:w-1/2">
+                    <div class="p-6 flex justify-center items-baseline">
+                      <img src="/media/{{ vehicle_details_list.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-105 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                    </div>
+                    <div class="p-6 flex space-x-6 w-[35%]">
+                      <img src="/media/{{ vehicle_details_list.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                      <img src="/media/{{ vehicle_details_list.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                      <img src="/media/{{ vehicle_details_list.buss_vehicle_photo }}" class="w-full object-fill rounded-xl hover:scale-110 hover:cursor-grab border-2 border-solid border-gray-200 hover:border-yellow-400 shadow-sm hover:shadow-lg" alt="Product Image">
+                    
+                    </div>
+                  </div>
+      
+                  
+                  <!-- Product Details -->
+                  <div class="md:w-1/2 p-6 sm:px-[3rem] md:px-[1rem] lg:px-[2rem]">
+                      <div class="flex justify-between">
+                            <div class=" pb-2 sm:pb-4 text-2xl font-medium text-gray-500">Location : 
+                              <span class="px-3 py-1 text-white bg-slate-700 rounded-md">{{ vehicle_details_list.buss_vehicle_location}}</span>
+                            </div>
+
+                            <form action="{% url 'registered_vehicle_details_update' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="vehicle_id" value={{ vehicle_details_list.id }} hidden/>                            
+                                <input type="submit" value="Edit Vehicle Details" class="flex px-4 py-4 text-2xl font-medium  text-white bg-blue-700 hover:bg-blue-700/90 rounded-md shadow-md cursor-pointer" />
+                            </form>
+                        </div>
+                    
+                    <span class="px-3 py-1 text-white bg-slate-700 rounded-md">{{ vehicle_details_list}}</span>
+                    
+                    
+                    <h1 class="mt-2 text-4xl font-bold text-gray-800">{{ vehicle_details_list.buss_vehicle_company_name }} - {{ vehicle_details_list.buss_vehicle_model}}</h1>
+                    <div class="my-[1rem] flex items-center gap-[1rem] sm:gap-[2rem]">
+                      <div class="flex flex-row justify-center items-center gap-2 text-5xl text-gray-900 font-bold ">
+                        <span class="font-sans">₹</span>
+                        <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                               value="{{ vehicle_details_list.buss_rent_per_day }}" class="font-sans" disabled>
+                      </div>
+                      <span class="text-5xl line-through font-medium text-gray-600 ml-4">
+                        <span class="font-sans">₹</span>{{ vehicle_details_list.buss_rent_per_day | add:"1200"}}
+                      </span>
+                      
+                      <span class="text-3xl font-semibold text-gray-900 ml-4">{{ vehicle_details_list.buss_vehicle_status }}</span>
+                      {% if vehicle_details_list.buss_vehicle_status == "Available" %}
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                          <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                        </svg>
+                      {% elif vehicle_details_list.buss_vehicle_status == "Booked" %}
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                          <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                          <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                        </svg>
+                      {% endif %}
+                    </div>
+      
+      
+                    <div class="flex items-center">
+                      <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                      <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                      <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                      <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                      <svg aria-hidden="true" class="h-[3rem] w-[3rem] text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                      </svg>
+                      <span class="mx-[1rem] px-[.5rem] py-[.4rem] rounded bg-yellow-300 text-lg font-semibold">5.0</span>
+                    </div>
+                    
+                    <textarea name="" id="" class="my-5 block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                                disabled>{{ vehicle_details_list.buss_vehicle_description }}</textarea>
+                    
+                    <div class="my-[2rem]">
+                      <h2 class="my-[1rem] text-3xl font-semibold text-gray-800">Specification</h2>
+      
+                      <ul class="my-2 text-xl text-gray-500 font-semibold">
+                        <li class="my-[2rem] flex flex-col gap-2">     
+                          <label for="">location :</label>
+                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                                  value={{ vehicle_details_list.buss_vehicle_location }} disabled/>
+                        </li>
+                        
+                        <li class="my-[2rem] flex flex-col gap-2">
+                          <label for="">type :</label>             
+                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                                 value={{ vehicle_details_list.buss_vehicle_type }} disabled/>
+                        </li>
+                        <li class="my-[2rem] flex flex-col gap-2">      
+                          <label for="">color :</label>      
+                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                                 value={{ vehicle_details_list.buss_vehicle_color }} disabled/>
+                        </li>
+                        <li class="my-[2rem] flex flex-col gap-2">
+                          <label for="">number :</label>       
+                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6" 
+                                  value={{ vehicle_details_list.buss_vehicle_number }} disabled/>
+                        </li>
+                        <li class="my-[2rem]">feul :</li>
+      
+                      </ul>
+                    </div>
+                  </div>
+                  
+                </div>
+      
+                <div class="p-3 sm:px-[3rem]">
+                  <!-- Product Description -->
+                  <div style="border-bottom:1px solid gray; border-top:1px solid gray;" class="b-solid border-b-4 border-b-indigo-500 overflow-hidden p-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Vehicle Description</h2>
+                    <p class="mt-4 text-[1.3rem] font-medium text-gray-700">{{ vehicle_details_list.buss_vehicle_description}}</p>
+                  </div>
+                
+                  <!-- Product Specifications -->
+                  <div class="overflow-hidden  p-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Vehicle Specifications</h2>
+                    <ul class="mt-2 text-xl text-gray-500 font-semibold">
+                        <li class="my-[1rem] whitespace-pre">location :      {{ vehicle_details_list.buss_vehicle_location}}</li>
+                        <li class="my-[1rem] whitespace-pre">type :              {{ vehicle_details_list.buss_vehicle_type}}</li>
+                        <li class="my-[1rem] whitespace-pre">color :             {{ vehicle_details_list.buss_vehicle_color}}</li>
+                        <li class="my-[1rem] whitespace-pre">number :       {{ vehicle_details_list.buss_vehicle_number}}</li>
+                        <li class="my-[1rem] whitespace-pre">feul :</li>
+                    </ul>
+                  </div>
+      
+                  
+                </div>
+              </div>
+            </div>
+      
+        </section>
+          
+    {% else %}
+        <section class="bg-gray-50 relative top-[10rem]" id="">
+            <div class="flex flex-col items-center justify-center text-center space-y-6 py-[5rem] px-[5rem] bg-white border rounded-lg shadow-sm">
+                
+            
+                <!-- Message Header -->
+                <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
+                    No Vehicles Found
+                </h2>
+            
+                <!-- Message Description -->
+                <p class="text-gray-600 max-w-3xl text-3xl py-5">
+                    You haven’t registered any vehicles yet. List your first vehicle now to make it available for rentals.
+                </p>
+            
+                <!-- Action Button -->
+                <a href="{% url 'add_new_vehicle' %}" 
+                    class="px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
+                    Register Your First Vehicle
+                </a>
+            </div>
+        </section>     
+    {% endif %}
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+{% block branches %}
+{% endblock %}
+
+
+
+{% block ourservices %}
+{% endblock %}
+
+
+
+
+{% block contactus %}
+{% endblock %}
+
+
+
+
+{% block footer %}
+{% endblock %}

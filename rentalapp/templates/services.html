@@ -1,6 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "master.html" %}
 {% load static %}
+
+
+{% block homeimage %}{% endblock homeimage %}
+
+
+{% block branches %}{% endblock branches %}
+
+
+{% block popularvehicles %}{% endblock popularvehicles %}
+
+
+
+{% block ourservices %}
+
+{% endblock ourservices %}
+
+
+
+
+
+{% block ourcars %}
+    {% include "components/services.html"%}
+{% endblock ourcars %}
+
+    
+
+{% block contactus %}{% endblock contactus %}
+
+
+{% block footer %}
+    {% comment %} {% include 'components/footer.html' %} {% endcomment %}
+{% endblock footer %}
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,7 +61,7 @@
         <a href="/" class="logo"> <span>Starlette</span>cars </a>
         
         <div>
-            {% comment %} {% if user.is_authenticated %} {% endcomment %}
+            
             {% if request.session.log_user %}
             <div class="headername">
                 <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
@@ -36,7 +72,6 @@
             <a href="/">home</a>
             <a href="/vehicles">vehicles</a>
             <a href="/services">services</a>
-            <!-- <a href=" {% static '#featured' %} ">featured</a> -->
             <a href=" /feedback ">feedback</a>
             <a href="/contact">contact</a><br/>
         
@@ -78,9 +113,8 @@
     
 
     {% block ourservices %}
-          {% include "components/services.html"%}
+        {% include "components/services.html"%}
     {% endblock %}
-    {% comment %} {% include 'components/profile.html' %} {% endcomment %}
 
 
 
@@ -96,4 +130,4 @@
     <script src=" {% static 'js/passvalid.js' %} "></script>
     <script src=" {% static 'js/uiconscript.js' %} "></script>
 </body>
-</html>
+</html> {% endcomment %}

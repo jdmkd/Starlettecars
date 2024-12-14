@@ -1,0 +1,46 @@
+<main class="container mx-auto py-8 px-6">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="p-6 border-b flex justify-between items-center">
+        <h2 class="text-2xl font-semibold text-gray-700">Bookings Awaiting Approval</h2>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View All Bookings</button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white">
+          <thead>
+            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th class="py-3 px-6 text-left">#</th>
+              <th class="py-3 px-6 text-left">Vehicle</th>
+              <th class="py-3 px-6 text-left">User</th>
+              <th class="py-3 px-6 text-center">Booking Dates</th>
+              <th class="py-3 px-6 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 text-sm">
+            <!-- Example Row 1 -->
+            <tr class="border-b border-gray-200 hover:bg-gray-50">
+              <td class="py-3 px-6 text-left">1</td>
+              <td class="py-3 px-6 text-left">Suzuki Swift</td>
+              <td class="py-3 px-6 text-left">John Doe</td>
+              <td class="py-3 px-6 text-center">12/15/2024 - 12/20/2024</td>
+              <td class="py-3 px-6 text-center">
+                <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Approve</button>
+                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Reject</button>
+              </td>
+            </tr>
+            <!-- Example Row 2 -->
+            <tr class="border-b border-gray-200 hover:bg-gray-50">
+              <td class="py-3 px-6 text-left">2</td>
+              <td class="py-3 px-6 text-left">Toyota Corolla</td>
+              <td class="py-3 px-6 text-left">Jane Smith</td>
+              <td class="py-3 px-6 text-center">12/18/2024 - 12/25/2024</td>
+              <td class="py-3 px-6 text-center">
+                <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Approve</button>
+                <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Reject</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>

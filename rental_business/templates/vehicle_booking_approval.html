@@ -1,0 +1,203 @@
+{% extends "buss_master.html" %}
+{% load static %}
+
+{% block title %}
+    Pending Booking Approval Requests
+{% endblock%}
+
+
+{% block popularvehicles %}
+<section class="bg-gray-50 relative top-[2rem] !p-0" id="">
+    {% comment %} <h1 class="flex justify-center text-[4rem] text-black/80 font-semibold">Vehicle Booking Requests</h1> {% endcomment %}
+
+    <main class="container mx-auto py-3 px-6">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div class="p-6 border-b flex justify-between items-center">
+            <h2 class="text-4xl font-semibold text-gray-700">Bookings Awaiting Approval</h2>
+            <button class="bg-blue-500 text-2xl text-white px-4 py-2 rounded hover:bg-blue-600">View All Bookings</button>
+          </div>
+    
+          <div class="overflow-x-auto">
+            {% if fetch_booked_vdata %}
+            <table class="min-w-full bg-white">
+              <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-2xl leading-normal">
+                  <th class="py-3 px-6 text-left">#</th>
+                  <th class="py-3 px-6 text-left">Photo</th>
+                  <th class="py-3 px-6 text-left">Vehicle</th>
+                  <th class="py-3 px-6 text-left">User</th>
+                  <th class="py-3 px-6 text-center">Duration</th>
+                  <th class="py-3 px-6 text-center">Rental Amount</th>
+                  <th class="py-3 px-6 text-center">Booking Dates</th>
+                  <th class="py-3 px-6 text-center">Payment</th>
+                  <th class="py-3 px-6 text-center">Is cancelled</th>
+                  {% comment %} <th class="py-3 px-6 text-center">Cancele Dates</th> {% endcomment %}
+                  <th class="py-3 px-6 text-center">status</th>
+                  {% comment %} <th class="py-3 px-6 text-center">Approval Date</th> {% endcomment %}
+                  <th class="py-3 px-6 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="text-gray-700 text-2xl">
+                <!-- Example Row 1 -->
+                 {% for booked_vdata in fetch_booked_vdata %}
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                  <td class="py-3 px-6 text-left">{{booked_vdata.id}}</td>
+                  <td class="py-3 px-6 text-left">
+                    <img src="/media/{{ booked_vdata.vehicle_id.buss_vehicle_photo }}" alt="" width="300" height="200"
+                            class="m-[5px] h-auto w-[20rem] relative object-cover rounded transition"
+                            >
+                  </td>
+                  {% comment %} <td class="py-3 px-6 text-left">{{booked_vdata.vehicle_id.buss_vehicle_id}}</td> {% endcomment %}
+                  <td class="py-3 px-6 text-left">{{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}</td>
+                  <td class="py-3 px-6 text-left">{{booked_vdata.login_id}}</td>
+                  <td class="py-3 px-6 text-center">{{booked_vdata.from_duration}} - {{booked_vdata.from_to}} </td>
+                  <td class="py-3 px-6 text-left flex justify-start items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 44 44" fill="none">
+                      <text x="28" y="30" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle" class="font-sans">₹</text>
+                    </svg>
+                    {{booked_vdata.amount}}</td>
+                  
+                  <td class="py-3 px-6 text-left">{{booked_vdata.booking_date}}</td>
+                  
+
+
+                  <td class="py-3 px-6 text-left font-semibold flex items-center">
+                    {% if booked_vdata.paystatus %}
+                      {% if booked_vdata.is_cancelled %}
+                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                        <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                      </svg>refunded
+                      {% else %}
+                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                        <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                      </svg>Done
+                      {% endif %}
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                      <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                      <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                    </svg>
+                    {% endif %}
+                  </td>
+                  {% if booked_vdata.is_cancelled %}
+                  <td class=" py-3 px-6 text-left !text-red-600 font-semibold">Cancelled</td>
+                  {% else %}
+                  <td class="py-3 px-6 text-left text-green-600 font-semibold">Not Cancelled</td>
+
+                  {% endif %}
+                  {% comment %} <td class="py-3 px-6 text-left">{{booked_vdata.cancelled_at}}</td> {% endcomment %}
+                  
+                  {% if booked_vdata.status == 'pending' %}
+                  <td class="py-3 px-6  font-semibold text-left">{{booked_vdata.status}}</td>
+                  {% elif booked_vdata.status == 'approved' %}
+                  <td class="py-3 px-6 flex items-center text-lime-600 font-semibold text-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                      <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                    </svg>
+                    {{booked_vdata.status}}</td>
+                  {% else %}
+                  <td class="py-3 px-6 flex items-center text-red-800 font-semibold text-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                      <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                      <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                    </svg>
+                    {{booked_vdata.status}}</td>
+                  {% endif %}
+
+                  {% comment %} <td class="py-3 px-6 text-left">{{booked_vdata.approval_date}}</td> {% endcomment %}
+                  <td class="py-3 px-6 text-center">
+                    {% if not booked_vdata.is_cancelled %}
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="booked_vehicle_id" value="{{ booked_vdata.id }}">
+
+                      <!-- If the status is pending -->
+                      {% if booked_vdata.status == 'pending' %}
+                          <button type="submit" name="action" value="approve" 
+                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                              Approve
+                          </button>
+                          <button type="submit" name="action" value="reject" 
+                                  class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600">
+                              Reject
+                          </button>
+
+                      <!-- If the status is approved -->
+                      {% elif booked_vdata.status == 'approved' %}
+                          <button type="submit" name="action" value="reject" 
+                                  class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                              Reject
+                          </button>
+
+                      <!-- If the status is rejected -->
+                      {% elif booked_vdata.status == 'rejected' %}
+                          <button type="submit" name="action" value="approve" 
+                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                              Approve
+                          </button>
+                      {% endif %}
+                  </form>
+              {% endif %}
+          </td>
+                </tr>
+                {% endfor %}
+                <!-- Example Row 2 -->
+                {% comment %} <tr class="border-b border-gray-200 hover:bg-gray-50">
+                  <td class="py-3 px-6 text-left">2</td>
+                  <td class="py-3 px-6 text-left">Toyota Corolla</td>
+                  <td class="py-3 px-6 text-left">Jane Smith</td>
+                  <td class="py-3 px-6 text-center">12/18/2024 - 12/25/2024</td>
+                  <td class="py-3 px-6 text-center">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Approve</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2">Reject</button>
+                  </td>
+                </tr> {% endcomment %}
+              </tbody>
+            </table>
+            {% else %}
+            
+            {% endif %}
+          </div>
+        </div>
+      </main>
+    
+
+</section>
+
+
+
+{% endblock %}
+
+
+
+
+{% block homeimage %}
+
+{% endblock homeimage %}
+
+
+{% block branches %} {% endblock branches %}
+
+
+
+{% block ourservices %}
+{% endblock %}
+
+{% block contactus %}
+{% endblock %}
+
+{% block footer %}
+
+{% endblock footer %}
+
+{% comment %} {% block scripts %}
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script src=" {% static 'js/script.js' %} "></script>
+<script src=" {% static 'js/passvalid.js' %} "></script>
+<script src=" {% static 'js/uiconscript.js' %} "></script>
+<script src=" {% static 'js/buss_script.js' %} "></script>
+{% endblock %} {% endcomment %}
+
+  {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
+{% comment %} <body class="bg-gray-100 min-h-screen"> {% endcomment %}
+  

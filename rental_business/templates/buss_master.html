@@ -10,7 +10,6 @@
         {% block linkcss %}
         <link href="{% static 'css/swiperjs/swiper-bundle.min.css' %}" rel="stylesheet">
         
-        {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
         {% comment %} <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" /> {% endcomment %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
         
@@ -18,6 +17,7 @@
         <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
         <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
         
+        {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
         <link href="{% static 'css/tailwind-output.css' %}"  rel="stylesheet" >
         {% comment %} <link href=" {% static 'css/tailx.css' %}"  rel="stylesheet" > {% endcomment %}
         {% endblock %}
@@ -54,7 +54,7 @@
                         <a href="/">Starlette</a>
                     {% endblock %}
                     <a href="/rental_business">home</a>
-                    <a href="http://">vehicles</a>
+                    {% comment %} <a href="{% url 'registered_vehicles' %}">Registered vehicles</a> {% endcomment %}
                     <a href="http://">services</a>
                     <!-- <a href=" {% static '#featured' %} ">featured</a> -->
                     <a href=" http:// ">feedback</a>
@@ -85,15 +85,27 @@
                         <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'buss_profile'%}">My
                                 Profile</a></li>
                                 
+                        <li class="group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="car-icon mx-3 transition-transform duration-300 ease-in-out group-hover:rotate-6 group-hover:fill-gray-800" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="22" height="22" viewBox="0 0 256 256" xml:space="preserve">
+                                <defs>
+                                </defs>
+                                <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: #696969; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                    <path d="M 84.99 37.498 l -16.835 -2.571 c -0.428 -0.065 -0.824 -0.277 -1.115 -0.597 l -8.952 -9.805 c -1.115 -1.222 -2.703 -1.922 -4.357 -1.922 H 25.005 c -1.991 0 -3.833 0.993 -4.928 2.656 l -5.862 8.905 c -0.234 0.356 -0.586 0.625 -0.992 0.759 l -9.169 3.022 C 1.629 38.744 0 40.996 0 43.548 v 9.404 c 0 3.254 2.647 5.9 5.9 5.9 h 3.451 c 0.969 4.866 5.269 8.545 10.416 8.545 s 9.447 -3.679 10.416 -8.545 h 30.139 c 0.969 4.866 5.27 8.545 10.416 8.545 s 9.446 -3.679 10.415 -8.545 H 84.1 c 3.254 0 5.9 -2.646 5.9 -5.9 v -9.622 C 90 40.394 87.893 37.941 84.99 37.498 z M 19.767 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 s 6.623 2.971 6.623 6.623 C 26.39 60.427 23.419 63.397 19.767 63.397 z M 70.738 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 c 3.651 0 6.622 2.971 6.622 6.623 C 77.36 60.427 74.39 63.397 70.738 63.397 z M 86 52.952 c 0 1.048 -0.853 1.9 -1.9 1.9 h -2.922 c -0.908 -4.941 -5.239 -8.7 -10.439 -8.7 s -9.531 3.759 -10.44 8.7 H 30.207 c -0.909 -4.941 -5.24 -8.7 -10.44 -8.7 s -9.531 3.759 -10.439 8.7 H 5.9 c -1.048 0 -1.9 -0.853 -1.9 -1.9 v -9.404 c 0 -0.822 0.524 -1.547 1.306 -1.805 l 9.168 -3.021 c 1.26 -0.415 2.354 -1.253 3.083 -2.36 l 5.861 -8.905 c 0.353 -0.536 0.946 -0.855 1.587 -0.855 H 53.73 c 0.532 0 1.044 0.226 1.403 0.62 l 8.952 9.805 c 0.907 0.993 2.139 1.652 3.467 1.854 l 16.834 2.571 C 85.321 41.595 86 42.385 86 43.331 V 52.952 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                </g>
+                            </svg>
+                            <a href="{% url 'registered_vehicles' %}">
+                                Registered Vehicles
+                            </a>
+                        </li>
                         <li><img src="{% static 'image/profileicons/log-out.png' %}"><a
                                 href="{% url 'add_new_vehicle' %}">Add your vehicle</a></li>
+                        <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="{% url 'vehicle_booking_approval' %}">Booking Approval</a></li>
                         <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
                                 href="{% url 'buss_logout' %}">Logout</a></li>
                         {% else %}
                         <li id="login-btn" class="login-btn"><img
                                 src="{% static 'image/profileicons/edit.png' %}"><a href="{% url 'login_and_registration' %}">Login or Reg</a></li>
                         {% endif %}
-                        <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="http://">Inbox</a></li>
                         {% if request.session.buss_log_user %}
                         <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="http://">settings</a></li>
                         {% endif %}
@@ -105,12 +117,49 @@
     </header>
 {% endblock %}
         
+<section class="">
+    {% if messages %}
+    
+        {% for message in messages %} 
+          {% if message.message == "Buss Account Login successful!" %}
+            {% if 'login_success' in message.tags %}
+              {% include 'components/login_success.html' %}
+            {% endif %}
+          
+          {% elif message.message == "Buss Account Registration successful!" %}  
+            {% if 'registration_success' in message.tags %}
+              {% include 'components/registration_success.html' %}
+            {% endif %}
+          {% endif %}
 
-{% block Popup_Message %}
+
+          {% comment %} {% if message.tags == "success" %}
+            {% if message.message == "Login successful!" %}
+              {% include 'components/login_success.html' %}
+            {% elif message.message == "Registration successful!" %}
+              {% include 'components/registration_success.html' %}
+            {% endif %}
+          {% elif message.tags == "error" %}
+          
+          {% elif message.tags == "info" %}
+
+          {% endif %} {% endcomment %}
+
+
+
+
+        {% endfor %}
+    {% endif %}
+    
+    {% comment %} {% include 'components/login_success.html' %} {% endcomment %}
+    {% comment %} {% include 'components/registration_success.html' %} {% endcomment %}
+</section>
+
+
+
+{% comment %} {% block Popup_Message %}
             {% if messages %}
             <section class="popup_message">
-                 {% comment %} <button class="show-modal">Show Modal</button>
-                <span class="overlay"></span> {% endcomment %}
                  {% for message in messages %}
                  
                     <div class="modal_box">
@@ -118,17 +167,15 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <i class="fa-regular fa-circle-check"></i>
-                        {% comment %} <h2>Completed</h2> {% endcomment %}
                         <h3>{{ message }}</h3>
                         <div class="buttons">
                             <button class="close_btn">Ok, Close</button>
-                            {% comment %} <button>Open File</button> {% endcomment %}
                         </div>
                     </div>
                 {% endfor %}            
           </section>
           {% endif %}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 
 
@@ -158,10 +205,10 @@
         <section class="bg-gray-50" id="">
             <h1 class="flex justify-center text-[4rem] font-semibold">Your Vehicles</h1>
             <div class="swiper vehicles-slider !h-fit">
-                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden ltr">
+                <div class="flex flex-col swiper-wrapper scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden ltr">
                     {% for vdata in fetch_buss_vehicle %}
                     {% if vdata.buss_vehicle_owner  %}
-                        <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
+                        <div class="swiper-slide box relative flex flex-row m-10 w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
                             <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
                                 <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
                                 <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
@@ -170,7 +217,7 @@
                                 <a href="/vehicle/checkout/{{ vdata.id}}">
                                     <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model|slice:":7" }}</h5>
                                 </a>
-                                <div class="mt-2 mb-5 flex items-center justify-between">
+                                <div class="mt-2 mb-5 items-center justify-between">
                                     <p>
                                         <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
                                         <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>

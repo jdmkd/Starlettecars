@@ -22,7 +22,7 @@
         <div class="absolute left-[80%]">
             <form action="/vehicle/booking/download_generate_rental_receipt_as_pdf" method="post">
                 {% csrf_token %}
-                <input type="hidden" name="bookedid" value={{ booking_data.booking_id }}>
+                {% comment %} <input type="hidden" name="bookedid" value={{ booking_data.booking_id }}> {% endcomment %}
                 <button type="submit" value="Download Receipt" class="bg-blue-500 text-white px-4 py-2 rounded">Download Receipt</button>
             </form> 
         </div>
@@ -85,13 +85,14 @@
             <div class="mt-4 border-b pb-4">
                 <h2 class="text-[1.1rem] font-semibold text-gray-700">Pricing Details</h2>
                 <div class="mt-2 text-sm text-gray-600">
-                    <p class="text-[1rem]"><strong>Rental Amount:</strong> ₹{{ booking_data.rental_amount}}</p>
-                    <p class="text-[1rem]"><strong>Additional Charges:</strong> ₹{{ booking_data.service_charges}}</p>
-                    
                     <p class="text-[1rem]"><strong>Taxes:</strong> {{ booking_data.tax}} by {{ booking_data.tax_per }}% </p>
+                    <p class="text-[1rem]"><strong>Additional Charges:</strong> ₹{{ booking_data.service_charges}}</p>
+                    {% comment %} <p class="text-[1rem]"><strong>Rental Amount:</strong> ₹{{ booking_data.rental_amount}}</p> {% endcomment %}
+                    
                     {% comment %} <p><strong>Discount:</strong> ₹0</p> {% endcomment %}
                     
-                    <p class="flex text-[1.2rem] font-semibold text-gray-700 justify-end mt-4 border-t pt-4">Total Amount: <strong class="text-gray-800 mx-3">₹{{ booking_data.total_rental_amount }}</strong> </p>
+                    <p class="flex text-[1.2rem] font-semibold text-gray-700 justify-end mt-4 border-t pt-4">
+                        Total Amount: <strong class="text-gray-800 mx-3">₹{{ booking_data.rental_amount }}</strong> </p>
                 </div>
             </div>
 

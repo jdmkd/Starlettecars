@@ -6,6 +6,12 @@ from . import views
 urlpatterns = [
     path("", views.buss_index, name="buss_index"),
     path("buss_index", views.buss_index, name="buss_index"),
+    path("registered/vehicles", views.registered_vehicles, name="registered_vehicles"),
+    path("registered/vehicle/details", views.registered_vehicle_details, name="registered_vehicle_details"),
+    path("registered/vehicle/details/update", views.registered_vehicle_details_update, name="registered_vehicle_details_update"),
+
+
+
     path("login_and_registration", views.login_and_registration, name="login_and_registration"),
     
     path("buss_logout", views.buss_logout, name="buss_logout"),
@@ -16,6 +22,8 @@ urlpatterns = [
     path("verificationerror", views.verificationerror, name="verificationerror"),
 
     path("add_new_vehicle",views.add_new_vehicle,name="add_new_vehicle"),
+
+    path("vehicle/booking/approval",views.vehicle_booking_approval,name="vehicle_booking_approval"),
 
     path("business/accounts/myprofile",views.buss_profile, name="buss_profile"),
     

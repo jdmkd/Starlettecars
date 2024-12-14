@@ -22,6 +22,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from django.template.loader import render_to_string
 import pdfkit
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 
 def homemain(request):
@@ -162,7 +163,7 @@ def checkoutform(request):
     return render(request, "checkoutform.html")
 
 def vehicle_booking(request):
-    print("inside the vehicle booking")
+    # print("inside the vehicle booking")
     if request.method == "POST":
         try:
             if request.session["log_id"]:
@@ -172,81 +173,90 @@ def vehicle_booking(request):
                 vid = request.POST.get("vid")
                 rupee = request.POST.get("rupee")
                 
-    
+                service_charges = 250.0
+                tax_percentage = 18
+                
+
+
                 date_format = "%Y-%m-%d"
                 from_date = datetime.strptime(str(from_duration), date_format)
                 to_date = datetime.strptime(str(to_duration), date_format)
                 today = datetime.today().date()
                 current_date =datetime.strptime(str(today), date_format)
+                
                 if usertable.objects.get(id=uid):
                     user=usertable.objects.get(id=uid)
                     if user.aadhaar_number and user.validate_aadhaar() and user.date_of_birth and user.driver_license_number and user.driver_license_expiry and user.is_license_valid() and user.validate_license():
                         print("==>>>>>>>>>>")
+                        if from_date < current_date:
+                            messages.error(request, "From date cannot be in the past!")
+                            return redirect("checkout/{}".format(vid))
+                        if to_date < current_date:
+                            messages.error(request, "To date cannot be in the past.")
+                            return redirect("checkout/{}".format(vid))
+                        if from_date > to_date:
+                            messages.error(request, "Please Enter a Valid Date Format!")
+                            return redirect("checkout/{}".format(vid))
+                        # if today(a) and today(to_date):
+                        #     print("today.................")
+                        
+
+                        if to_date > from_date:
+                            delta = to_date - from_date
+                            dayss = int(delta.days)
+                            
+                            amount = dayss * int(rupee)
+                            base_rental = float(amount)  # Assuming `amount` is a field in the model
+                            tax_amount = base_rental * tax_percentage / 100
+                            total_rental_amount = base_rental + service_charges + tax_amount
+                            
+                            vehicle_status = buss_vehicle.objects.get(id=vid)
+                            # print("vehicle_status.id" ,id)
+                            # print("vehicle_status.vid" ,vid)
+                            
+                            if vehicle_status.buss_vehicle_status == "Booked":
+                                messages.success(request, "This Vehicle is Already Booked!")
+                                # print("redirected same vehicle page....")
+                                # return redirect("/booking/history")
+                            if vehicle_status.buss_vehicle_status == "Under Maintenance":
+                                messages.success(request, "This Vehicle is in Under Maintenance!")
+                                # print("redirected same vehicle page....")
+                            if vehicle_status.buss_vehicle_status == "Out of Service":
+                                messages.success(request, "This Vehicle is Out of Service!")
+                                # print("redirected same vehicle page....")
+
+
+                            if vehicle_status.buss_vehicle_status == "Available":
+                                vehicle_status.buss_vehicle_status = "Booked"
+                                vehicle_status.save()
+
+                                bookingdata = booking_table(
+                                    amount=total_rental_amount,
+                                    from_to=to_duration,
+                                    from_duration=from_duration,
+                                    login_id=usertable(id=uid),
+                                    vehicle_id=buss_vehicle(id=vid), #, buss_vehicle_status=vehicle_status
+                                    paystatus=1,
+                                )
+                                bookingdata.save()
+                                messages.success(request, "Booking Done!")
+                                # print("redirected to booking history page....")
+                                return redirect("/booking/history")
+                        else:
+                            # fetch = buss_vehicle.objects.get(vid=vid)
+                            messages.error(request, "Please Enter a Valid Date Formate!!!")
                     else:
                         messages.error(request, "please update you profile to validate you authenticity!!")
                         return redirect("editprofile")
-
-                if from_date < current_date:
-                    messages.error(request, "From date cannot be in the past!")
-                    return redirect("checkout/{}".format(vid))
-                if to_date < current_date:
-                    messages.error(request, "To date cannot be in the past.")
-                    return redirect("checkout/{}".format(vid))
-                if from_date > to_date:
-                    messages.error(request, "Please Enter a Valid Date Format!")
-                    return redirect("checkout/{}".format(vid))
-                # if today(a) and today(to_date):
-                #     print("today.................")
-                
-
-                if to_date > from_date:
-                    delta = to_date - from_date
-                    dayss = int(delta.days)
-                    amount = dayss * int(rupee)
-                    vehicle_status = buss_vehicle.objects.get(id=vid)
-                    print("vehicle_status.id" ,id)
-                    print("vehicle_status.vid" ,vid)
-                    
-                    if vehicle_status.buss_vehicle_status == "Booked":
-                        messages.success(request, "This Vehicle is Already Booked by an another user!")
-                        print("redirected same vehicle page....")
-                        # return redirect("/booking/history")
-                    if vehicle_status.buss_vehicle_status == "Under Maintenance":
-                        messages.success(request, "This Vehicle is in Under Maintenance!")
-                        print("redirected same vehicle page....")
-                    if vehicle_status.buss_vehicle_status == "Out of Service":
-                        messages.success(request, "This Vehicle is Out of Service!")
-                        print("redirected same vehicle page....")
-
-
-                    if vehicle_status.buss_vehicle_status == "Available":
-                        vehicle_status.buss_vehicle_status = "Booked"
-                        vehicle_status.save()
-
-                        bookingdata = booking_table(
-                            amount=amount,
-                            from_to=to_duration,
-                            from_duration=from_duration,
-                            login_id=usertable(id=uid),
-                            vehicle_id=buss_vehicle(id=vid), #, buss_vehicle_status=vehicle_status
-                            paystatus=1,
-                        )
-                        bookingdata.save()
-                        messages.success(request, "Booking Done!")
-                        print("redirected to booking history page....")
-                        return redirect("/booking/history")
-                else:
-                    # fetch = buss_vehicle.objects.get(vid=vid)
-                    messages.error(request, "Please Enter a Valid Date Formate!!!")
-            else:
-                print("session log_id are not available!!")
+            # else:
+                # print("session log_id are not available!!")
         except KeyError:
-            print("please login to continue.....")
+            # print("please login to continue.....")
             messages.error(request,"please login...")
             pass
     else:
-        # messages.error(request, "error occured!")
-        print("error occured!")
+        messages.error(request, "error occured!")
+        # print("error occured!")
 
     vid = request.POST.get("vid")
     return redirect("checkout/{}".format(vid))
@@ -258,14 +268,21 @@ def booking_history(request):
         if request.session["log_id"]:
             uid = request.session["log_id"]
 
-
             vdata = booking_table.objects.filter(login_id=uid).order_by('-booking_date')
             
-            # date_format = "%Y-%m-%d"
-            # from_date = datetime.strptime(str(booked_vehicle_data.from_duration), date_format)
-            # to_date = datetime.strptime(str(booked_vehicle_data.from_to), date_format)
-            # delta = to_date - from_date
-            # dayss = int(delta.days)
+            if request.method=="POST":
+                print("POST hitted")
+                search_booked_vehicle = request.POST.get("search_booked_vehicle","").strip()
+                print("search_booked_vehicle ::",search_booked_vehicle)
+                if search_booked_vehicle:
+                    vdata = vdata.filter(
+                        Q(vehicle_id__buss_vehicle_company_name__icontains=search_booked_vehicle) |
+                        Q(vehicle_id__buss_vehicle_model__icontains=search_booked_vehicle) |
+                        Q(vehicle_id__buss_vehicle_color__icontains=search_booked_vehicle) |
+                        Q(booking_date__icontains=search_booked_vehicle)
+                    )
+
+            
             vehicles = []
             service_charges = 250.0
             tax_percentage = 18
@@ -282,12 +299,6 @@ def booking_history(request):
                     'tax_amount': tax_amount,
                     'total_rental_amount': total_rental_amount,
                 })
-            # base_rental = vdata.amount
-            # service_charges = 250.0
-            # tax_percentage = 18
-            # tax_amount = base_rental * tax_percentage / 100
-            # total_rental_amount = base_rental + service_charges + tax_amount
-            # print("vdata is :",vdata)
             udata = usertable.objects.filter(id=uid)[0]
             context = {
                 'vehicles': vehicles,
@@ -314,16 +325,17 @@ def generate_rental_receipt(request):
             uid = request.session["log_id"]
             log_user = request.session["log_user"]
             # vd = request.POST.get("booked_id")
-            
-            booked_vehicle_id = request.POST["bookedid"]
-            print("booked_vehicle_id :::",booked_vehicle_id)
+            if request.method=="POST":
+                # print("POST hit")
+                booked_vid = request.POST["bookedid"]
+                # print("booked_vid :::",booked_vid)
 
-            print("log_user :",log_user)
+            # print("log_user :",log_user)
                 
                 # print("booked_vehicle_data :::",booked_vehicle_data)
             user=usertable.objects.get(id=uid)
 
-            print("user ::",user)
+            # print("user ::",user)
             user_data = {
 
                 "id":user.id,
@@ -341,7 +353,7 @@ def generate_rental_receipt(request):
 
 
 
-            booked_vehicle_data=booking_table.objects.get(id=booked_vehicle_id)
+            booked_vehicle_data=booking_table.objects.get(id=booked_vid)
             vehicle_data = {
                 "vehicle_name": f'{booked_vehicle_data.vehicle_id.buss_vehicle_company_name} - {booked_vehicle_data.vehicle_id.buss_vehicle_model}',
                 "vehicle_type": booked_vehicle_data.vehicle_id.buss_vehicle_type,
@@ -1034,7 +1046,7 @@ def send_mail_after_registration(email, auth_token):
     try:
         subject = "Your account needs to be varified."
 
-        message = f"Please click on this link to varify your account. http://192.168.43.69:8000/accounts/verify/{auth_token}"
+        message = f"Please click on this link to varify your account. http://127.0.0.1:8000/accounts/verify/{auth_token}"
         send_from = settings.EMAIL_HOST_USER
         print("This is send from mail ::", send_from)
         recipient_list = [
@@ -1205,7 +1217,7 @@ def reset_pass_request(request):
             print("This is reset_pass_token ::",reset_pass_token)
             subject = "Change password for Starlettecars"
             plaintext = "change your password."
-            htmltemp = f"<strong>Reset password</strong></br><p>A password change has been requested for your account. If this was you, please use the link below to reset your password. it will expires after 1 hour.</p></br> <p>http://192.168.43.69:8000/accounts/u/request/reset-password/token={reset_pass_token}<p>"
+            htmltemp = f"<strong>Reset password</strong></br><p>A password change has been requested for your account. If this was you, please use the link below to reset your password. it will expires after 1 hour.</p></br> <p>http://127.0.0.1:8000/accounts/u/request/reset-password/token={reset_pass_token}<p>"
             try:
                 msg = EmailMultiAlternatives(
                     subject,
@@ -1808,3 +1820,47 @@ def export_vehicle_report_in_excel(request):
 
     except Exception as e:
         return HttpResponse(f"An error occurred: {str(e)}", status=500)
+    
+def generate_booked_vehicle_report(request):
+    try:
+        # Retrieve query parameters for filtering
+        start_date = request.GET.get('start_date')  # Use GET for query params
+        end_date = request.GET.get('end_date')
+
+        # Filter vehicles based on provided dates
+        get_vehicle_data = booking_table.objects.all()
+
+        # if start_date:
+        #     parsed_start_date = parse_datetime(start_date)
+        #     if not parsed_start_date:
+        #         raise ValidationError("Invalid start date format.")
+        #     get_vehicle_data = get_vehicle_data.filter(buss_vehicle_registered_at__gte=parsed_start_date)
+
+        # if end_date:
+        #     parsed_end_date = parse_datetime(end_date)
+        #     if not parsed_end_date:
+        #         raise ValidationError("Invalid end date format.")
+        #     get_vehicle_data = get_vehicle_data.filter(buss_vehicle_registered_at__lte=parsed_end_date)
+
+        # Prepare context for rendering
+        context = {
+            'vehicles': get_vehicle_data,
+            'start_date': start_date,
+            'end_date': end_date,
+        }
+
+        # Render the template with filtered vehicle data
+        return render(request, "generate_booked_vehicle_report.html", context)
+    
+    except ValidationError as e:
+        # Handle validation errors and pass the error message to the template
+        return render(request, 'generate_booked_vehicle_report.html', {
+            'error': str(e),
+        })
+
+    except Exception as e:
+        # Handle any other exceptions and pass a generic error message to the template
+        return render(request, 'generate_booked_vehicle_report.html', {
+            'error': 'An error occurred.',
+        })
+    

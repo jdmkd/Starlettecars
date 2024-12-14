@@ -80,21 +80,35 @@
 
         
         {% if vehicle %}
-        <section class="relative bg-gray-50 !p-0 !pt-[9rem] border-b" id="">
-            <h1 class="text-[3rem] flex font-bold text-zinc-700 justify-center">
-                popular vehicles
-                {% comment %} <span>popular vehicles</span> {% endcomment %}
-            </h1>
-            <div class="swiper vehicles-slider !h-fit">
-                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden ltr">
+        <section class="bg-gray-50 relative top-[7rem]" id="">
+          <h1 class="text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center">
+              popular vehicles
+              {% comment %} <span>popular vehicles</span> {% endcomment %}
+          </h1>
+          <div class="swiper vehicles-slider !h-fit">
+              <div class="swiper-wrapper scroll-smooth focus:scroll-auto snap-x overflow-x-scroll">
                     {% for vdata in vehicle %}
                     {% if vdata.buss_vehicle_owner  %}
                     
                     <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
-                        
+                      <div class="relative flex items-center w-[96%] justify-between top-3 px-2 mx-0">
+                        <span class=" rounded-lg bg-black px-3 text-center items-center text-xl font-medium text-white">19% OFF</span>  
+                        {% if vdata.buss_vehicle_status == "Available" %}
+                          <span class="items-center px-3  bg-lime-500/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                            <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                          </svg>
+
+                        {% elif vdata.buss_vehicle_status == "Booked" %}
+                          <span class="items-center  px-3  bg-red-600/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                            <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                          </svg>
+                        {% endif %}
+                      </div>
                         <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
                           <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
-                          <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
                         </a>
                         <div class="mt-4 px-5 pb-5">
                           <a href="/vehicle/checkout/{{ vdata.id}}">
@@ -150,20 +164,35 @@
             </div>
         </section>
 
-        <section class="relative bg-gray-50 !p-0 border-b" id="">
-            {% comment %} <h1 class="text-[3rem] flex font-bold text-zinc-700 justify-center">
-                popular vehicles
-            </h1> {% endcomment %}
-            <div class="swiper vehicles-slider !h-fit">
-                <div class="swiper-wrapper lg:justify-center scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden  ltr">
+        <section class="bg-gray-50" id="">
+          <h1 class="text-[3rem] md:text-[4rem] flex font-bold text-gray-800 justify-center">
+              More vehicles
+              {% comment %} <span>popular vehicles</span> {% endcomment %}
+          </h1>
+          <div class="swiper vehicles-slider !h-fit">
+              <div class="swiper-wrapper scroll-smooth focus:scroll-auto snap-x overflow-x-scroll">
                     {% for vdata in x %}
                     {% if vdata.buss_vehicle_owner  %}
                     
                     <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
-                        
+                      <div class="relative flex items-center w-[96%] justify-between top-3 px-2 mx-0">
+                        <span class=" rounded-lg bg-black px-3 text-center items-center text-xl font-medium text-white">19% OFF</span>  
+                        {% if vdata.buss_vehicle_status == "Available" %}
+                          <span class="items-center px-3  bg-lime-500/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                            <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                          </svg>
+
+                        {% elif vdata.buss_vehicle_status == "Booked" %}
+                          <span class="items-center  px-3  bg-red-600/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                            <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                            <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                          </svg>
+                        {% endif %}
+                      </div>
                         <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
                           <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
-                          <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
                         </a>
                         <div class="mt-4 px-5 pb-5">
                           <a href="/vehicle/checkout/{{ vdata.id}}">

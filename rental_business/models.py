@@ -54,15 +54,18 @@ class buss_vehicle(models.Model):
     buss_vehicle_id = models.CharField(max_length=10, default='BUS1000')
     VEHICLE_COMPANY_CHOICES = (
         ('Toyota', 'Toyota'),
+        ('Mahindra','Mahindra'),
         ('Honda', 'Honda'),
         ('Ford', 'Ford'),
         ('Chevrolet', 'Chevrolet'),
+        ('Tata Motors', 'Tata Motors'),
         ('Nissan', 'Nissan'),
         ('Volkswagen', 'Volkswagen'),
         ('BMW', 'BMW'),
         ('Mercedes-Benz', 'Mercedes-Benz'),
         ('Audi', 'Audi'),
         ('Hyundai', 'Hyundai'),
+        ('Suzuki', "Suzuki"),
         ('Kia', 'Kia'),
         ('Subaru', 'Subaru'),
         ('Mazda', 'Mazda'),
@@ -73,6 +76,7 @@ class buss_vehicle(models.Model):
         ('Porsche', 'Porsche'),
         ('Land Rover', 'Land Rover'),
         ('Tesla', 'Tesla'),
+        ('MG Motors','MG Motors'),
         # Add more options as needed
     )
     buss_vehicle_company_name = models.CharField(max_length=40, choices=VEHICLE_COMPANY_CHOICES)
@@ -143,6 +147,9 @@ class buss_vehicle(models.Model):
         ('Out of Service', 'Out of Service'),
     )
     buss_vehicle_status = models.CharField(max_length=20, choices=VEHICLE_STATUS_CHOICES)
+
+    
+
     # buss_vehicle_auth_token = models.CharField(max_length=100, null=True)
     # vin = models.CharField(max_length=17) #VIN (Vehicle Identification Number
     # fuel_type = models.CharField(max_length=20)

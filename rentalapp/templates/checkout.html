@@ -80,12 +80,12 @@
             {% comment %} <button class="show-modal">Show Modal</button>
             <span class="overlay"></span> {% endcomment %}
             {% for message in messages %} 
-                <div class="modal_box">
+                <div class="modal_box text-center">
                     </button>
                     <i class="fa-regular fa-circle-check"></i>
                     <h3>{{ message }}</h3>
-                    <div class="buttons">
-                        <button class="close_btn">Ok, Close</button>
+                    <div class="">
+                        <button class="relative flex justify-center bg-blue-500/80 hover:bg-blue-500/95 rounded-lg shadow-md">Ok, Close</button>
                     </div>
                 </div>
             {% endfor %}            
@@ -116,7 +116,7 @@
             <!-- Product Details -->
             <div class="md:w-1/2 p-6 sm:px-[3rem] md:px-[1rem] lg:px-[2rem]">
               <div class="pb-2 sm:pb-4 text-2xl font-medium text-gray-500">Location : 
-                <span class="px-3 py-1 text-gray-300 bg-slate-700 rounded-md">{{ vehicle.buss_vehicle_location}}</span>
+                <span class="px-3 py-1 text-white bg-slate-700 rounded-md">{{ vehicle.buss_vehicle_location}}</span>
               </div>
               <h1 class="mt-2 text-4xl font-bold text-gray-800">{{ vehicle.buss_vehicle_company_name }} - {{ vehicle.buss_vehicle_model}}</h1>
               <div class="my-[1rem] flex items-center gap-[1rem] sm:gap-[2rem]">
@@ -129,12 +129,14 @@
                 
                 <span class="text-3xl font-semibold text-gray-900 ml-4">{{ vehicle.buss_vehicle_status }}</span>
                 {% if vehicle.buss_vehicle_status == "Available" %}
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
-                  <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                </svg>
-                {% elif vehicle.buss_vehicle_status == "booked" %}
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB/0lEQVR4nO2ZO0gkQRRFjx9EMTAQFMFEMFEjs0U2EETRxB+amYiZgYmxqYrgIm4gJqKCiemaGPkLRTbYzEADAxWEZZ0xUqyl4DWUY3dP987QVa514TJd1dU179R7/aPBy8vr02oCOAXygHLMeeAEGC8GseZAsCqhV+MyoT6Yx8JAzhwITKX0cRiIi+eEKuJcGIj6oH4n2wF5EJ8R7JeT8ucI9lde+YzwdhVu5epQARzErNCojNtIsJrbxhXnMGsQrSZplwrSZ8w5ZQNEawh4LQHkBqgE2oB6cc4GiNa3EkCWZNwiMCnbu1mDzMhvDXDxjyCdMu4S2Jft/qxBnoAO2W4HHlOCnMuYbmk/SWlVSsllBqLbv4A6aU+nBJkzyiroC8prJWsQ7XWjby8hyDPQbJRV0B+UV5cNEH3VGpa+BuAqAcgPY/yy4QVj/p9Zg2g/AK3S/wUYLAISlFCc5m2ABO/OVQXzhYH8Bmrl6WBLysn0rBzbArzYAFEFpREFsin7eiLmuAeqUz6ylB1Er2BvEZCvsu97zP8MpHxkKTuIkntAYwTItZSULsG7mDl25Pj6gvtT2UBc9TvZDsiD+Ixgv5yUP0ewv/Lq02Uk50BQKqX/hIGcOBCYSumjMJBxBwJTKT1ChFYdCE4ltH4ljtWYpMzFT3F5iS0yE15eXv+5/gLhNnvRivS0qwAAAABJRU5ErkJggg==">
-                {% comment %} {% else %} {% endcomment %}
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                  </svg>
+                {% elif vehicle.buss_vehicle_status == "Booked" %}
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                    <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                    <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                  </svg>
                 {% endif %}
               </div>
 
@@ -261,8 +263,7 @@
 
     
     <hr/>
-      {% include 'components/footer.html' %}
-    <hr/>
+      
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>

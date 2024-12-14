@@ -123,11 +123,22 @@ class booking_table(models.Model):
     booking_date = models.DateTimeField(auto_now_add=True)
     paystatus = models.BooleanField(default=False)
     
+    status = models.CharField(max_length=10,
+                choices=[
+                    ('pending', 'Pending'),
+                    ('approved', 'Approved'),
+                    ('rejected', 'Rejected')
+                ],
+                default='pending'
+    )
+    approval_date = models.DateTimeField(null=True, blank=True)
+
     is_cancelled = models.BooleanField(default=False)
     cancelled_at = models.DateTimeField(blank=True, null=True)
 
     def __int__(self):
-        return f'{self.vehicle_id} {self.booking_date}'
+        # return f'{self.vehicle_id} {self.booking_date}'
+        return f"Booking {self.vehicle_id} for {self.vehicle_id.buss_vehicle_model} by {self.login_id}"
 
 
 class feedback(models.Model):

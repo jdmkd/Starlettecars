@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
@@ -19,9 +20,14 @@ from django import template
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.core.mail import send_mail
+
+from rentalapp.models import booking_table
 # from .models import usertable, booking_table, vehicle_table, contactus, feedback
 from .models import business_user, buss_vehicle, buss_contactus, buss_feedback
 # from rentalapp.models import vehicle_table
+
+
+
 def buss_index(request):
     try:
         if request.session["buss_log_id"]:
@@ -49,16 +55,116 @@ def buss_index(request):
     return render(request, "buss_index.html",buss_user_data)
     # return HttpResponse('Hello, welcome to the index page.')
 
+def registered_vehicles(request):
+    try:
+        if request.session["buss_log_id"]:
+            id = request.session["buss_log_id"]
+            userdata = request.session["buss_log_user"]
+            buss_udata = business_user.objects.get(id=id)
+            fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
+            # print(fetch_buss_vehicle)
+            buss_user_data = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "fetch_buss_vehicle":fetch_buss_vehicle,
+                }
+    except KeyError as e:
+        userdata = "Please login!!"
+        buss_udata = "Please login!!"
+        fetch_buss_vehicle = "Please login to fetch your vehicle details!!"
+        buss_user_data = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "fetch_buss_vehicle":fetch_buss_vehicle,
+                }
+        # print("this is exception: ",e)
+        
+    return render(request, "registered_vehicles.html",buss_user_data)
+    # return HttpResponse('Hello, welcome to the index page.')
+
+
+def registered_vehicle_details(request):
+    try:
+        if request.session["buss_log_id"] or request.method == "POST":
+            print("OK!!")
+            vehicle_id=request.POST["vehicle_id"]
+
+            id = request.session["buss_log_id"]
+            userdata = request.session["buss_log_user"]
+
+            buss_udata = business_user.objects.get(id=id)
+            
+            fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
+            vehicle_details_queryset = buss_vehicle.objects.get(id=vehicle_id)
+
+            buss_vehicle_details = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "vehicle_details_list":vehicle_details_queryset,
+                }
+    except KeyError as e:
+        print("Exception",e)
+        userdata = "Please login!!"
+        buss_udata = "Please login!!"
+        vehicle_details_list = "Please login to fetch your vehicle details!!"
+        buss_vehicle_details = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "vehicle_details_list":vehicle_details_list,
+                }
+        # print("this is exception: ",e)
+        
+    return render(request, "registered_vehicle_details.html",buss_vehicle_details)
+
+
+
+# registered_vehicle_details_update.html
+def registered_vehicle_details_update(request):
+    try:
+        if request.session["buss_log_id"]:
+            id = request.session["buss_log_id"]
+            userdata = request.session["buss_log_user"]
+            # print("OK!!!!!!!!!!!!!")
+            if request.method == "POST":
+                vehicle_id=request.POST["vehicle_id"]
+                # print("vehicle_id ::",vehicle_id)
+
+
+            buss_udata = business_user.objects.get(id=id)
+            
+            fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
+            vehicle_details_queryset = buss_vehicle.objects.get(id=vehicle_id)
+
+            buss_vehicle_details = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "vehicle_details_list":vehicle_details_queryset,
+                }
+
+    except KeyError as e:
+        # print("Exception=>>>>>>>>>",e)
+        userdata = "Please login!!"
+        buss_udata = "Please login!!"
+        vehicle_details_list = "Please login to fetch your vehicle details!!"
+        buss_vehicle_details = {
+                    "userdata":userdata,
+                    "buss_udata":buss_udata,
+                    "vehicle_details_list":vehicle_details_list,
+                }
+        # print("this is exception: ",e)
+        
+    return render(request, "registered_vehicle_details_update.html",buss_vehicle_details)
+
+
 
 def login_and_registration(request):
     try:
         if request.session["buss_log_id"]:
-            print("already loggedIn")
-            print("already loggedIn")
+            # print("already loggedIn")
 
             return redirect("/rental_business")
     except Exception as e:
-        print("exception you are not loggedIn::???", e)
+        # print("exception you are not loggedIn::???", e)
         pass
     return render(request, "buss_accounts/login_and_registration.html")
 
@@ -107,6 +213,7 @@ def buss_login(request):
                     if buss_user is not None:
                         # return render(request,'index.html')
                         print("User is Not None!!!")
+                        messages.success(request, "Buss Account Login successful!", extra_tags="login_success")
                         return redirect("/rental_business")
                     else:
                         messages.error(request, "Password does not matched!!!")
@@ -174,8 +281,10 @@ def buss_registeration(request):
                 print("buss user data saved...")
                 buss_send_mail_after_registration(buss_emailid, buss_auth_token)
                 print("Buss Account Registartion done go to gmail and verify ...")
-                messages.success(request, "Buss Account Registartion done go to login page!")
-                return redirect("mail_token_send")
+                messages.success(request, "Buss Account Registration successful!", extra_tags="registration_success")
+                return redirect("login_and_registration")
+                
+                # return render(request,"buss_accounts/login_and_registration.html")
 
         else:
             print("Your Password and Confirm Password does not Matched!!")
@@ -265,54 +374,125 @@ def generate_random_vehicle_id():
     return new_vehicle_id
     
 def add_new_vehicle(request):
-    vehicle_company = buss_vehicle.VEHICLE_COMPANY_CHOICES
-    vehicle_color = buss_vehicle.VEHICLE_COLOR_CHOICES
-    vehicle_type = buss_vehicle.CAR_TYPE_CHOICES
-    vehicle_status = buss_vehicle.VEHICLE_STATUS_CHOICES
-    v_choice_data = {
-        "vehicle_company":vehicle_company,
-        "vehicle_color":vehicle_color,
-        "vehicle_type":vehicle_type,
-        "vehicle_status":vehicle_status,
-        }
-    if request.method == "POST" and request.FILES.get("buss_vehicle_photo"):
-        buss_vehicle_photo = request.FILES["buss_vehicle_photo"]
-        new_vehicle_id = generate_random_vehicle_id()
-        bid = request.session["buss_log_id"]
-        buss_vehicle_company_name = request.POST["buss_vehicle_company_name"]
-        buss_vehicle_model_name = request.POST["buss_vehicle_model_name"]
-        buss_vehicle_type = request.POST["buss_vehicle_type"]
-        buss_vehicle_color = request.POST["buss_vehicle_color"]
-        buss_vehicle_number = request.POST["buss_vehicle_number"]
-        buss_vehicle_location = request.POST["buss_vehicle_location"]
-        buss_rent_per_day = request.POST["buss_rent_per_day"]
-        buss_vehicle_status = request.POST["buss_vehicle_status"]
-        buss_vehicle_description = request.POST["buss_vehicle_description"]
+    try:
+        if request.session["buss_log_id"]:
+            vehicle_company = buss_vehicle.VEHICLE_COMPANY_CHOICES
+            vehicle_color = buss_vehicle.VEHICLE_COLOR_CHOICES
+            vehicle_type = buss_vehicle.CAR_TYPE_CHOICES
+            vehicle_status = buss_vehicle.VEHICLE_STATUS_CHOICES
+            v_choice_data = {
+                "vehicle_company":vehicle_company,
+                "vehicle_color":vehicle_color,
+                "vehicle_type":vehicle_type,
+                "vehicle_status":vehicle_status,
+                }
+            if request.method == "POST" and request.FILES.get("buss_vehicle_photo"):
+                buss_vehicle_photo = request.FILES["buss_vehicle_photo"]
+                new_vehicle_id = generate_random_vehicle_id()
+                bid = request.session["buss_log_id"]
+                buss_vehicle_company_name = request.POST["buss_vehicle_company_name"]
+                buss_vehicle_model_name = request.POST["buss_vehicle_model_name"]
+                buss_vehicle_type = request.POST["buss_vehicle_type"]
+                buss_vehicle_color = request.POST["buss_vehicle_color"]
+                buss_vehicle_number = request.POST["buss_vehicle_number"]
+                buss_vehicle_location = request.POST["buss_vehicle_location"]
+                buss_rent_per_day = request.POST["buss_rent_per_day"]
+                buss_vehicle_status = request.POST["buss_vehicle_status"]
+                buss_vehicle_description = request.POST["buss_vehicle_description"]
 
-        buss_data = buss_vehicle(
-                buss_vehicle_id = new_vehicle_id,
-                buss_vehicle_owner = business_user(id=bid),
-                buss_vehicle_company_name = buss_vehicle_company_name,
-                buss_vehicle_model = buss_vehicle_model_name,
-                buss_vehicle_color = buss_vehicle_color,
-                buss_vehicle_type = buss_vehicle_type,
-                buss_vehicle_number = buss_vehicle_number,
-                buss_vehicle_location = buss_vehicle_location,
-                buss_rent_per_day = buss_rent_per_day,
-                buss_vehicle_photo = buss_vehicle_photo,
-                buss_vehicle_description = buss_vehicle_description,
-                buss_vehicle_status = buss_vehicle_status,
-            )
-        buss_data.save()
-        messages.success(request,f"New vehicle '{ buss_data } - {buss_data.buss_vehicle_model}' has been added successfuly, Now user can book your '{buss_data}-{buss_data.buss_vehicle_model}' on rent.")
-        return redirect("add_new_vehicle")
-        
-    else:
-        print("this is else!!")
+                buss_data = buss_vehicle(
+                        buss_vehicle_id = new_vehicle_id,
+                        buss_vehicle_owner = business_user(id=bid),
+                        buss_vehicle_company_name = buss_vehicle_company_name,
+                        buss_vehicle_model = buss_vehicle_model_name,
+                        buss_vehicle_color = buss_vehicle_color,
+                        buss_vehicle_type = buss_vehicle_type,
+                        buss_vehicle_number = buss_vehicle_number,
+                        buss_vehicle_location = buss_vehicle_location,
+                        buss_rent_per_day = buss_rent_per_day,
+                        buss_vehicle_photo = buss_vehicle_photo,
+                        buss_vehicle_description = buss_vehicle_description,
+                        buss_vehicle_status = buss_vehicle_status,
+                    )
+                buss_data.save()
+                messages.success(request,f"New vehicle '{ buss_data } - {buss_data.buss_vehicle_model}' has been added successfuly, Now user can book your '{buss_data}-{buss_data.buss_vehicle_model}' on rent.")
+                return render(request,"add_new_vehicle.html",{"v_choice_data":v_choice_data})
+                # return redirect("add_new_vehicle")
+                
+        else:
+            print("this is else!!")
+            return redirect("/rental_business")
+            # return redirect("/rental_business")
+    except Exception as e:
+        print("exception xxx::???", e)
+        return redirect("/rental_business")
+    
+    print("final add_new_vehicle render")
     return render(request,"add_new_vehicle.html",{"v_choice_data":v_choice_data})
 
 
 
 
-def buss_profile(request): 
-    return render(request,"buss_profile/myprofile.html")
+def vehicle_booking_approval(request):
+    try:
+        if request.session["buss_log_id"]:
+            id = request.session["buss_log_id"]
+            if request.method == "POST":
+                action = request.POST.get("action")  # Identify which button was clicked
+                booked_vehicle_id = request.POST.get("booked_vehicle_id")
+                try:
+                    # Fetch the booked vehicle object from the database
+                    booked_vehicle = booking_table.objects.get(id=booked_vehicle_id)
+
+                    if action == "approve":
+                        booked_vehicle.status = "approved"
+                        message = f"Vehicle ID {booked_vehicle_id} has been approved."
+
+                    elif action == "reject":
+                        booked_vehicle.status = "rejected"
+                        message = f"Vehicle ID {booked_vehicle_id} has been rejected."
+
+                    else:
+                        print(f"Wrong request :: action={action} and id={booked_vehicle_id}")
+                    # booked_vehicle.approval_date = timezone.now()
+                    booked_vehicle.save()
+
+
+                except booking_table.DoesNotExist:
+                    return HttpResponse("Booked vehicle not found.", status=404)
+            
+            
+            fetch_booked_vdata = booking_table.objects.filter(
+                vehicle_id__in=buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
+            ).order_by('-booking_date')
+            
+            fetch_booked_vdata = {
+                    # "buss_udata":buss_udata,
+                    "fetch_booked_vdata":fetch_booked_vdata,
+            }
+            return render(request,"vehicle_booking_approval.html", fetch_booked_vdata)
+        
+    except Exception as e:
+        pass
+
+    # return render(request,"vehicle_booking_approval.html")
+    return redirect("/rental_business")
+
+    
+
+
+def buss_profile(request):
+    try:
+        if request.session["log_id"]:
+            b_log_user = request.session["buss_log_user"]
+            b_log_id = request.session["buss_log_id"]
+            business_udata = business_user.objects.filter(id=b_log_id)[0]
+        return render(request,"buss_profile/myprofile.html", {"business_udata": business_udata})
+    
+    
+    except:
+        userdata = "Please login!!"
+        print(userdata)
+        pass
+    return redirect("/")
+    

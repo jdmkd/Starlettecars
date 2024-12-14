@@ -13,7 +13,6 @@ class show_business_user(admin.ModelAdmin):
         "buss_updProfile_image",
         "buss_updProfile_photo",
         "buss_password",
-        "buss_rpassword",
         "buss_created_at",
         "buss_last_login",
         "buss_auth_token",

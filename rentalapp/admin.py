@@ -67,8 +67,10 @@ class showbookings(admin.ModelAdmin):
         "booking_date",
         "from_duration",
         "from_to",
-        "amount",
+        "status",
+        "approval_date",
         "paystatus",
+        "amount",
     ]
 
     def get_vehicle_status(self, id):

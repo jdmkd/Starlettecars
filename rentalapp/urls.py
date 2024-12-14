@@ -76,6 +76,9 @@ urlpatterns = [
     path('export/vehicle/report/in/csv/', views.export_vehicle_report_in_excel, name='export_vehicle_report_in_excel'),
 
 
+    # /generate/booked/vehicle/report
+    path("generate/booked/vehicle/report", views.generate_booked_vehicle_report, name="generate_booked_vehicle_report",),
+
     path("apix", views.apix.as_view(), name="apix"),
 ]
 if settings.DEBUG:
