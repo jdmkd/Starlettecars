@@ -1,445 +1,785 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <title>{% block title%}Home{% endblock %}</title>
-        {% block linkcss %}
-        <link href="{% static 'css/swiperjs/swiper-bundle.min.css' %}" rel="stylesheet">
-        
-        {% comment %} <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" /> {% endcomment %}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        
-        <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
-        
-        {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
-        <link href="{% static 'css/tailwind-output.css' %}"  rel="stylesheet" >
-        {% comment %} <link href=" {% static 'css/tailx.css' %}"  rel="stylesheet" > {% endcomment %}
-        {% endblock %}
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<body class=" bg-gray-50">
+    <title>{% block title%}Home{% endblock %}</title>
+    
+    
+    {% block linkcss %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+    href="{% static 'css/swiperjs/swiper-bundle.min.css' %}"
+    rel="stylesheet"
+    />
+    
+    {% comment %}
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+    {% endcomment %}
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        />
+        {% comment %} <link rel="stylesheet" href=" {% static 'css/kaiadmin.min.css' %} " /> {% endcomment %}
+        <link rel="stylesheet" href=" {% static 'css/style.css' %} " />
+        <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} " />
+        <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} " />
+        {% comment %}
+        <script src="https://cdn.tailwindcss.com"></script>
+        {% endcomment %}
+        <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" />
+        {% comment %}
+        <link href=" {% static 'css/tailx.css' %}" rel="stylesheet" />
+        {% endcomment %} 
+    {% endblock linkcss %}
+  </head>
+
+  <body class="bg-gray-50">
     <style>
-            a{
-                text-decoration: none;
-                /* text-transform: none; */
-            }
-            .home a p{ 
-                text-decoration: none;
-                text-transform: none;
-            }
-            .home a:hover { 
-                background:#ffea00;
-                /* #f9d806 */
-                /* #ffee80 */
-            }
+      a {
+        text-decoration: none;
+        /* text-transform: none; */
+      }
+      .home a p {
+        text-decoration: none;
+        text-transform: none;
+      }
+      .home a:hover {
+        background: #ffea00;
+        /* #f9d806 */
+        /* #ffee80 */
+      }
     </style>
 
+    {% block header %}
+      <header class="header !text-white bg-black">
+        <div id="menu-btn" class="fas fa-bars"></div>
+        <h1 class="text-4xl font-semibold !text-white">Service Provider</h1>
 
-{% block header %}
-        <header class="header">
-            <div id="menu-btn" class="fas fa-bars"></div>
-            {% block logo %}
-            <a href="/rental_business" class="logo"> <span>Starlette</span>Business </a>
-            {% endblock  %}
-
-            <nav class="navbar">
-                {% block navbar %}
-                    {% block 1link %}
-                        <a href="/">Starlette</a>
-                    {% endblock %}
-                    <a href="/rental_business">home</a>
-                    {% comment %} <a href="{% url 'registered_vehicles' %}">Registered vehicles</a> {% endcomment %}
-                    <a href="http://">services</a>
-                    <!-- <a href=" {% static '#featured' %} ">featured</a> -->
-                    <a href=" http:// ">feedback</a>
-                    <a href="http://">contact</a><br/>
-                {% endblock  %}    
-                
-            </nav>
-
-            {% block action %}
-            <div class="action">
-                <div class="profile" onclick="menuToggle();">
-                    {% if buss_udata.buss_updProfile_photo %}
-                    <img src="/media/{{ buss_udata.buss_updProfile_photo }}" alt=""/>
-                    {% else %}
-                    <img src="{% static 'image/profileicons/profile-user.png' %}" alt="{% static 'image/profileicons/profile-user.png' %}"/>
-                    {% endif %}
-                                
+        <div class="flex justify-end items-center gap-[5rem]">
+          <div class="flex justify-end">
+            {% block navbar %} 
+              <nav class="navbar relative !left-0 ">
+                <a href="/rental_business" class="!text-white">home</a>
+                  {% block 1link %}
+                  <a href="/" class="!text-white">Starlette</a>
+                  {% endblock 1link%}
+              </nav>
+              <div class="mx-2 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between" >
+                <div class="flex items-center space-x-4">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      class="pl-10 pr-4 py-3 text-xl rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <i
+                      class="fas fa-search absolute left-3 top-5 text-gray-400"
+                    ></i>
+                  </div>
                 </div>
-        
-                <div class="umenu">
-                    {% if request.session.buss_log_user %}
-                        <h3>Welcome, {{buss_udata.buss_fname}}!</h3>
-                    {% else %}
-                        <h3>My Profile</h3>
-                    {% endif %}
-                    <ul>
-                        {% if request.session.buss_log_user %}
-                        <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'buss_profile'%}">My
-                                Profile</a></li>
-                                
-                        <li class="group">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="car-icon mx-3 transition-transform duration-300 ease-in-out group-hover:rotate-6 group-hover:fill-gray-800" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="22" height="22" viewBox="0 0 256 256" xml:space="preserve">
-                                <defs>
-                                </defs>
-                                <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: #696969; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-                                    <path d="M 84.99 37.498 l -16.835 -2.571 c -0.428 -0.065 -0.824 -0.277 -1.115 -0.597 l -8.952 -9.805 c -1.115 -1.222 -2.703 -1.922 -4.357 -1.922 H 25.005 c -1.991 0 -3.833 0.993 -4.928 2.656 l -5.862 8.905 c -0.234 0.356 -0.586 0.625 -0.992 0.759 l -9.169 3.022 C 1.629 38.744 0 40.996 0 43.548 v 9.404 c 0 3.254 2.647 5.9 5.9 5.9 h 3.451 c 0.969 4.866 5.269 8.545 10.416 8.545 s 9.447 -3.679 10.416 -8.545 h 30.139 c 0.969 4.866 5.27 8.545 10.416 8.545 s 9.446 -3.679 10.415 -8.545 H 84.1 c 3.254 0 5.9 -2.646 5.9 -5.9 v -9.622 C 90 40.394 87.893 37.941 84.99 37.498 z M 19.767 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 s 6.623 2.971 6.623 6.623 C 26.39 60.427 23.419 63.397 19.767 63.397 z M 70.738 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 c 3.651 0 6.622 2.971 6.622 6.623 C 77.36 60.427 74.39 63.397 70.738 63.397 z M 86 52.952 c 0 1.048 -0.853 1.9 -1.9 1.9 h -2.922 c -0.908 -4.941 -5.239 -8.7 -10.439 -8.7 s -9.531 3.759 -10.44 8.7 H 30.207 c -0.909 -4.941 -5.24 -8.7 -10.44 -8.7 s -9.531 3.759 -10.439 8.7 H 5.9 c -1.048 0 -1.9 -0.853 -1.9 -1.9 v -9.404 c 0 -0.822 0.524 -1.547 1.306 -1.805 l 9.168 -3.021 c 1.26 -0.415 2.354 -1.253 3.083 -2.36 l 5.861 -8.905 c 0.353 -0.536 0.946 -0.855 1.587 -0.855 H 53.73 c 0.532 0 1.044 0.226 1.403 0.62 l 8.952 9.805 c 0.907 0.993 2.139 1.652 3.467 1.854 l 16.834 2.571 C 85.321 41.595 86 42.385 86 43.331 V 52.952 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                </g>
-                            </svg>
-                            <a href="{% url 'registered_vehicles' %}">
-                                Registered Vehicles
-                            </a>
-                        </li>
-                        <li><img src="{% static 'image/profileicons/log-out.png' %}"><a
-                                href="{% url 'add_new_vehicle' %}">Add your vehicle</a></li>
-                        <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="{% url 'vehicle_booking_approval' %}">Booking Approval</a></li>
-                        <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
-                                href="{% url 'buss_logout' %}">Logout</a></li>
-                        {% else %}
-                        <li id="login-btn" class="login-btn"><img
-                                src="{% static 'image/profileicons/edit.png' %}"><a href="{% url 'login_and_registration' %}">Login or Reg</a></li>
-                        {% endif %}
-                        {% if request.session.buss_log_user %}
-                        <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="http://">settings</a></li>
-                        {% endif %}
-                        <li><img src="{% static 'image/profileicons/help.png' %}"><a href="http://">Help</a></li>
-                    </ul>
-                </div>
+              </div>
+            {% endblock navbar %}
+          </div>
+
+          {% block action %}
+          <div class="action">
+            <div class="profile" onclick="menuToggle();">
+              {% if buss_udata.buss_updProfile_photo %}
+              <img src="/media/{{ buss_udata.buss_updProfile_photo }}" alt="" />
+              {% else %}
+              {% comment %} <img
+                src="{% static 'image/profileicons/profile-user.png' %}"
+                class="!text-white"
+                alt="user profile"
+              /> {% endcomment %}
+              <?xml version="1.0" ?>
+              <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#dfdfdf" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c39.77 0 72 32.24 72 72S295.8 272 256 272c-39.76 0-72-32.24-72-72S216.2 128 256 128zM256 448c-52.93 0-100.9-21.53-135.7-56.29C136.5 349.9 176.5 320 224 320h64c47.54 0 87.54 29.88 103.7 71.71C356.9 426.5 308.9 448 256 448z"/>
+              </svg>
+              {% endif %}
             </div>
-            {% endblock %}
-    </header>
-{% endblock %}
-        
-<section class="">
-    {% if messages %}
-    
+
+            <div class="umenu">
+              {% if request.session.buss_log_user %}
+              <h3>Welcome, {{buss_udata.buss_fname}}!</h3>
+              {% else %}
+              <h3>My Profile</h3>
+              {% endif %}
+              <ul>
+                {% if request.session.buss_log_user %}
+                <li>
+                  <img src="{% static 'image/profileicons/account.png' %}" /><a
+                    href="{% url 'buss_profile'%}"
+                    >My Profile</a
+                  >
+                </li>
+
+                <li class="group">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="car-icon mx-3 transition-transform duration-300 ease-in-out group-hover:rotate-6 group-hover:fill-gray-800"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    version="1.1"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 256 256"
+                    xml:space="preserve"
+                  >
+                    <defs></defs>
+                    <g
+                      style="
+                        stroke: none;
+                        stroke-width: 0;
+                        stroke-dasharray: none;
+                        stroke-linecap: butt;
+                        stroke-linejoin: miter;
+                        stroke-miterlimit: 10;
+                        fill: #696969;
+                        fill-rule: nonzero;
+                        opacity: 1;
+                      "
+                      transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+                    >
+                      <path
+                        d="M 84.99 37.498 l -16.835 -2.571 c -0.428 -0.065 -0.824 -0.277 -1.115 -0.597 l -8.952 -9.805 c -1.115 -1.222 -2.703 -1.922 -4.357 -1.922 H 25.005 c -1.991 0 -3.833 0.993 -4.928 2.656 l -5.862 8.905 c -0.234 0.356 -0.586 0.625 -0.992 0.759 l -9.169 3.022 C 1.629 38.744 0 40.996 0 43.548 v 9.404 c 0 3.254 2.647 5.9 5.9 5.9 h 3.451 c 0.969 4.866 5.269 8.545 10.416 8.545 s 9.447 -3.679 10.416 -8.545 h 30.139 c 0.969 4.866 5.27 8.545 10.416 8.545 s 9.446 -3.679 10.415 -8.545 H 84.1 c 3.254 0 5.9 -2.646 5.9 -5.9 v -9.622 C 90 40.394 87.893 37.941 84.99 37.498 z M 19.767 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 s 6.623 2.971 6.623 6.623 C 26.39 60.427 23.419 63.397 19.767 63.397 z M 70.738 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 c 3.651 0 6.622 2.971 6.622 6.623 C 77.36 60.427 74.39 63.397 70.738 63.397 z M 86 52.952 c 0 1.048 -0.853 1.9 -1.9 1.9 h -2.922 c -0.908 -4.941 -5.239 -8.7 -10.439 -8.7 s -9.531 3.759 -10.44 8.7 H 30.207 c -0.909 -4.941 -5.24 -8.7 -10.44 -8.7 s -9.531 3.759 -10.439 8.7 H 5.9 c -1.048 0 -1.9 -0.853 -1.9 -1.9 v -9.404 c 0 -0.822 0.524 -1.547 1.306 -1.805 l 9.168 -3.021 c 1.26 -0.415 2.354 -1.253 3.083 -2.36 l 5.861 -8.905 c 0.353 -0.536 0.946 -0.855 1.587 -0.855 H 53.73 c 0.532 0 1.044 0.226 1.403 0.62 l 8.952 9.805 c 0.907 0.993 2.139 1.652 3.467 1.854 l 16.834 2.571 C 85.321 41.595 86 42.385 86 43.331 V 52.952 z"
+                        style="
+                          stroke: none;
+                          stroke-width: 1;
+                          stroke-dasharray: none;
+                          stroke-linecap: butt;
+                          stroke-linejoin: miter;
+                          stroke-miterlimit: 10;
+                          fill: rgb(0, 0, 0);
+                          fill-rule: nonzero;
+                          opacity: 1;
+                        "
+                        transform=" matrix(1 0 0 1 0 0) "
+                        stroke-linecap="round"
+                      />
+                    </g>
+                  </svg>
+                  <a href="{% url 'registered_vehicles' %}">
+                    Registered Vehicles
+                  </a>
+                </li>
+                <li>
+                  <img src="{% static 'image/profileicons/log-out.png' %}" /><a
+                    href="{% url 'add_new_vehicle' %}"
+                    >Add your vehicle</a
+                  >
+                </li>
+                <li>
+                  <img src="{% static 'image/profileicons/inbox.png' %}" /><a
+                    href="{% url 'vehicle_booking_approval' %}"
+                    >Booking Approval</a
+                  >
+                </li>
+                <li id="login-btn">
+                  <img src="{% static 'image/profileicons/log-out.png' %}" /><a
+                    href="{% url 'buss_logout' %}"
+                    >Logout</a
+                  >
+                </li>
+                {% else %}
+                <li id="login-btn" class="login-btn">
+                  <img src="{% static 'image/profileicons/edit.png' %}" /><a
+                    href="{% url 'login_and_registration' %}"
+                    >Login or Reg</a
+                  >
+                </li>
+                {% endif %} 
+
+                {% if request.session.buss_log_user %}
+                <li>
+                  <img src="{% static 'image/profileicons/settings.png' %}" /><a
+                    href="http://"
+                    >settings</a
+                  >
+                </li>
+                {% endif %}
+                <li>
+                  <img src="{% static 'image/profileicons/help.png' %}" /><a
+                    href="http://"
+                    >Help</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          {% endblock action %}
+        </div>
+      </header>
+    {% endblock header %}
+
+
+
+
+
+    <section class="">
+      {% if messages %} 
         {% for message in messages %} 
-          {% if message.message == "Buss Account Login successful!" %}
-            {% if 'login_success' in message.tags %}
+
+          {% if message.message == "Buss Account Login successful!" %} 
+            {% if 'login_success' in message.tags %} 
               {% include 'components/login_success.html' %}
-            {% endif %}
-          
-          {% elif message.message == "Buss Account Registration successful!" %}  
-            {% if 'registration_success' in message.tags %}
-              {% include 'components/registration_success.html' %}
-            {% endif %}
-          {% endif %}
+            {% endif %} 
+
+          {% elif message.message == "Buss Account Registration successful!" %} 
+            {% if 'registration_success' in message.tags %} 
+              {% include 'components/registration_success.html' %} 
+            {% endif %} 
+          {% endif %} 
 
 
-          {% comment %} {% if message.tags == "success" %}
-            {% if message.message == "Login successful!" %}
-              {% include 'components/login_success.html' %}
-            {% elif message.message == "Registration successful!" %}
-              {% include 'components/registration_success.html' %}
-            {% endif %}
-          {% elif message.tags == "error" %}
-          
-          {% elif message.tags == "info" %}
+          {% comment %} 
+            {% if message.tags == "success" %} 
+              {% if message.message == "Login successful!" %} 
+                {% include 'components/login_success.html' %} 
+              {% elif message.message == "Registration successful!" %} 
+                {% include 'components/registration_success.html' %} 
+              {% endif %} {% elif message.tags == "error" %} 
+            {% elif message.tags == "info" %} 
+            {% endif %} 
+          {% endcomment %} 
+        {% endfor %} 
+      
+      {% endif %} 
+      {% comment %} {% include
+      'components/login_success.html' %} {% endcomment %} {% comment %} {%
+      include 'components/registration_success.html' %} {% endcomment %}
+    </section>
 
-          {% endif %} {% endcomment %}
 
 
 
 
-        {% endfor %}
-    {% endif %}
+
+    {% block homeimage %} 
+    {% comment %}
+    <section
+      class="home relative text-center overflow-hidden px-[1rem] md:px-[2rem] border-b-2"
+      id="home"
+    >
+      <div
+        class="h-[55rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-semibold gap-[1rem]"
+      >
+        <div
+          class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between"
+        >
+          <h4 class="normal-case tracking-wide">
+            Maximize Your Earnings:
+            <span
+              class="underline underline-offset-4 decoration-2 decoration-indigo-500"
+              >List your vehicle on our platform.</span
+            >
+          </h4>
+          <p class="normal-case tracking-wide">
+            Turn Your Vehicle Into Income:
+            <span
+              class="underline underline-offset-4 decoration-2 decoration-yellow-500"
+              >Join our Rental Network.</span
+            >
+          </p>
+        </div>
+
+        <div
+          class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between"
+        >
+          <p class="normal-case tracking-wide">
+            Your vehicle, Your terms:
+            <span
+              class="underline underline-offset-4 decoration-2 decoration-pink-500"
+              >Register and start earning.</span
+            >
+          </p>
+          <h3
+            data-speed="3"
+            class="home-parallax !text-[3.5rem] sm:!text-[5rem] md:!text-[6rem] font-bold !text-gray-900 !content-end tracking-wide"
+          >
+            Partner with us and rent out your vehicle.
+          </h3>
+        </div>
+      </div>
+    </section>
+    {% endcomment %} 
+    {% endblock homeimage %} 
     
-    {% comment %} {% include 'components/login_success.html' %} {% endcomment %}
-    {% comment %} {% include 'components/registration_success.html' %} {% endcomment %}
-</section>
 
+    {% block main_container %}
 
-
-{% comment %} {% block Popup_Message %}
-            {% if messages %}
-            <section class="popup_message">
-                 {% for message in messages %}
-                 
-                    <div class="modal_box">
-                        <button type="button" class="close_btn close btn-close" style="background: red;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="fa-regular fa-circle-check"></i>
-                        <h3>{{ message }}</h3>
-                        <div class="buttons">
-                            <button class="close_btn">Ok, Close</button>
-                        </div>
-                    </div>
-                {% endfor %}            
-          </section>
-          {% endif %}
-{% endblock %} {% endcomment %}
-
-
-
-{% block homeimage %}
-<section class="home relative  text-center overflow-hidden px-[1rem] md:px-[2rem] border-b-2" id="home">
-    {% comment %} <div class="absolute  border-solid border-red">
-      <img src={% static "image/ooorganize.svg"%} alt="">
-    </div> {% endcomment %}
-    <div class="h-[55rem] sm:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-semibold gap-[1rem]">
-        <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
-            <h4 class="normal-case tracking-wide">Maximize Your Earnings: <span class="underline underline-offset-4 decoration-2 decoration-indigo-500">List your vehicle on our platform.</span></h4>
-            <p class="normal-case tracking-wide">Turn Your Vehicle Into Income: <span class="underline underline-offset-4 decoration-2 decoration-yellow-500">Join our Rental Network.</span></p>
-        </div>
-
-        <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
-          <p class="normal-case tracking-wide">Your vehicle, Your terms: <span class="underline underline-offset-4 decoration-2 decoration-pink-500">Register and start earning.</span></p>
-          <h3 data-speed="3" class="home-parallax !text-[3.5rem] sm:!text-[5rem] md:!text-[6rem] font-bold !text-gray-900 !content-end tracking-wide">Partner with us and rent out your vehicle.</h3>
-        </div>
-    </div>
-</section>
-        </section>
-{% endblock %}
-
-{% block popularvehicles %}
-    {% if request.session.buss_log_user and fetch_buss_vehicle %}
-        {% comment %}  {% endcomment %}
-        <section class="bg-gray-50" id="">
-            <h1 class="flex justify-center text-[4rem] font-semibold">Your Vehicles</h1>
-            <div class="swiper vehicles-slider !h-fit">
-                <div class="flex flex-col swiper-wrapper scroll-smooth focus:scroll-auto snap-x overflow-x-scroll xl:overflow-hidden ltr">
-                    {% for vdata in fetch_buss_vehicle %}
-                    {% if vdata.buss_vehicle_owner  %}
-                        <div class="swiper-slide box relative flex flex-row m-10 w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
-                            <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
-                                <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
-                                <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
-                            </a>
-                            <div class="mt-4 px-5 pb-5">
-                                <a href="/vehicle/checkout/{{ vdata.id}}">
-                                    <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model|slice:":7" }}</h5>
-                                </a>
-                                <div class="mt-2 mb-5 items-center justify-between">
-                                    <p>
-                                        <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
-                                        <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>
-                                    </p>
-                                    <div class="flex items-center">
-                                        <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
-                                    </div>
-                                </div>   
-                            
-                            
-                                <div class="flex flex-row items-center justify-evenly  text-center gap-[1rem]">
-                                    <a href="{{ vdata.id }}" class="rounded-md px-[.7rem] py-2.5 text-center text-sm font-medium text-white bg-red-600 hover:bg-red-400 focus:outline-none focus:ring-4 focus:ring-blue-300">remove vehicle</a>
-                                     
-                                    <a href="/vehicle/checkout/{{ vdata.id}}" class="flex items-center justify-center rounded-md bg-slate-900 px-[.7rem] py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        Booking
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
+      <div class="relative min-h-screen top-[4rem] flex flex-col">
+        <div class="flex-1 flex">
+          <!-- Sidebar Navigation -->
+          {% block left_sidebar_main %}
+            <nav class="w-72 shadow-sm">
+              <ul class=" fixed bg-black w-auto h-screen text-2xl">
+                <li class="border-b border-gray-500/70">
+                  <a
+                    href="/rental_business"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                  >
+                    <svg
+                      class="text-gray-400 group-hover:text-gray-300 mr-5 h-10 w-10"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                      />
+                    </svg>
+                    Dashboard
+                  </a>
+                </li>
+                {% if request.session.buss_log_user %}
+                    <li class="border-b border-gray-500/70">
+                      <a
+                        href="{% url 'registered_vehicles' %}"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                      >
+                      {% comment %} <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="car-icon mx-3 transition-transform duration-300 ease-in-out group-hover:rotate-6 group-hover:fill-gray-800"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      version="1.1"
+                      width="22"
+                      height="22"
+                      fill="#fff"
+                      viewBox="0 0 256 256"
+                      xml:space="preserve"
+                    >
+                      <defs></defs>
+                      <g
+                        style="
+                          stroke: none;
+                          stroke-width: 0;
+                          stroke-dasharray: none;
+                          stroke-linecap: butt;
+                          stroke-linejoin: miter;
+                          stroke-miterlimit: 10;
+                          fill: #ffffff;
+                          fill-rule: nonzero;
+                          opacity: 1;
+                        "
+                        transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+                      >
+                        <path
+                          d="M 84.99 37.498 l -16.835 -2.571 c -0.428 -0.065 -0.824 -0.277 -1.115 -0.597 l -8.952 -9.805 c -1.115 -1.222 -2.703 -1.922 -4.357 -1.922 H 25.005 c -1.991 0 -3.833 0.993 -4.928 2.656 l -5.862 8.905 c -0.234 0.356 -0.586 0.625 -0.992 0.759 l -9.169 3.022 C 1.629 38.744 0 40.996 0 43.548 v 9.404 c 0 3.254 2.647 5.9 5.9 5.9 h 3.451 c 0.969 4.866 5.269 8.545 10.416 8.545 s 9.447 -3.679 10.416 -8.545 h 30.139 c 0.969 4.866 5.27 8.545 10.416 8.545 s 9.446 -3.679 10.415 -8.545 H 84.1 c 3.254 0 5.9 -2.646 5.9 -5.9 v -9.622 C 90 40.394 87.893 37.941 84.99 37.498 z M 19.767 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 s 6.623 2.971 6.623 6.623 C 26.39 60.427 23.419 63.397 19.767 63.397 z M 70.738 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 c 3.651 0 6.622 2.971 6.622 6.623 C 77.36 60.427 74.39 63.397 70.738 63.397 z M 86 52.952 c 0 1.048 -0.853 1.9 -1.9 1.9 h -2.922 c -0.908 -4.941 -5.239 -8.7 -10.439 -8.7 s -9.531 3.759 -10.44 8.7 H 30.207 c -0.909 -4.941 -5.24 -8.7 -10.44 -8.7 s -9.531 3.759 -10.439 8.7 H 5.9 c -1.048 0 -1.9 -0.853 -1.9 -1.9 v -9.404 c 0 -0.822 0.524 -1.547 1.306 -1.805 l 9.168 -3.021 c 1.26 -0.415 2.354 -1.253 3.083 -2.36 l 5.861 -8.905 c 0.353 -0.536 0.946 -0.855 1.587 -0.855 H 53.73 c 0.532 0 1.044 0.226 1.403 0.62 l 8.952 9.805 c 0.907 0.993 2.139 1.652 3.467 1.854 l 16.834 2.571 C 85.321 41.595 86 42.385 86 43.331 V 52.952 z"
+                          style="
+                            stroke: none;
+                            stroke-width: 1;
+                            stroke-dasharray: none;
+                            stroke-linecap: butt;
+                            stroke-linejoin: miter;
+                            stroke-miterlimit: 10;
+                            fill: #fff;
+                            fill-rule: nonzero;
+                            opacity: 1;
+                          "
+                          transform=" matrix(1 0 0 1 0 0) "
+                          stroke-linecap="round"
+                        />
+                      </g>
+                    </svg> {% endcomment %}
                     
+                      Registered Vehicles
+                    
+                      </a>
+                    </li>
+                    <li class="border-b border-gray-500/70">
+                      <a
+                        href="{% url 'add_new_vehicle' %}"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                      >
+                        Add your vehicle</a
+                    >
+                      </a>
+                    </li>
+                    
+                    <li class="border-b border-gray-500/70">
+                      <a
+                        href="{% url 'vehicle_booking_approval' %}"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                      >
+                      Booking Approval</a
+                    >
+                      </a>
+                    </li>
+
+                    <li class="border-b border-gray-500/70">
+                      <a
+                        href="{% url 'buss_logout' %}"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                      >
+                        Logout</a
+                    >
+                      </a>
+                    </li>
+                    
+                {% else %}
+                <li class="border-b border-gray-500/70">
+                  <a
+                    href="{% url 'login_and_registration' %}"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                  >
+                  Login OR Registration
+                      
+                  </a
+                >
+                  </a>
+                </li>
+                  
+                {% endif %}
+
+                
+                {% comment %} <li class="border-b border-gray-500/70">
+                  <a
+                    href="#"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
+                  >
+                    <svg
+                      class="text-gray-400 group-hover:text-gray-300 mr-5 h-10 w-10"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    Reports
+                  </a>
+                </li> {% endcomment %}
+              </ul>
+            </nav>
+          {% endblock left_sidebar_main %}
+          <!-- Main Content -->
+
+          {% block main_content %}
+            <main class="flex-1 p-6">
+              <main class="flex-grow p-6">
+                <div class="!px-7 mx-1">
+                  <h2 class="text-4xl font-semibold text-gray-800 mb-4">
+                    Dashboard Overview
+                  </h2>
+
+                  <!-- Stats Grid -->
+                  <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+                  >
+                  
+
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Total Revenue
+                      </h3>
+                      <p class="text-3xl font-bold text-blue-600 mb-2">{{ total_revenue }}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        My Vehicles
+                      </h3>
+                      <p class="text-3xl font-bold text-green-600 mb-2">{{ registered_vehicles_count }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Active Bookings
+                      </h3>
+                      <p class="text-3xl font-bold text-yellow-600 mb-2">{{ fetch_booked_vdata|length }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Pending
+                      </h3>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ pending_count }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Approved
+                      </h3>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ approved_count }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Rejected
+                      </h3>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ rejected_count }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    <div class="bg-white p-10 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-3">
+                        Cancelled by Customer
+                      </h3>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ canceled_count }}</p>
+                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                    </div>
+                    
+                  </div>
+
+                  
+                  
+                  
+                  <!-- Charts and Tables -->
+                  <div class="grid grid-cols-1 gap-8">
+
+                    <!-- Recent Sales Table -->
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                      <h3 class="text-3xl font-semibold text-gray-700 mb-2">
+                        Recent booking request
+                      </h3>
+                      <table class="w-full">
+                        <thead>
+                          <tr
+                            class="text-left py-4 text-2xl font-semibold text-gray-500 uppercase"
+                          >
+                            <th class="py-4">Customer</th>
+                            <th class="py-4">Product</th>
+                            <th class="py-4">Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody class="">
+                          {% if fetch_booked_vdata %}
+                            {% for booked_vehicle in fetch_booked_vdata|slice:":5" %}
+                            <tr class="border-t">
+                              <td class="py-4">
+                                <div class="flex items-center">
+                                  {% comment %} <img
+                                    class="h-8 w-8 rounded-full mr-2"
+                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt="Customer avatar"
+                                  /> {% endcomment %}
+                                  <span class=" font-medium text-gray-900"
+                                    >{{ booked_vehicle.login_id }}</span
+                                  >
+                                </div>
+                              </td>
+                              <td class="py-4">
+                                <span class=" text-gray-500"
+                                  >{{booked_vehicle.vehicle_id}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" text-gray-500"
+                                  >{{booked_vehicle.vehicle_id.buss_vehicle_company_name}} - {{booked_vehicle.vehicle_id.buss_vehicle_model}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >{{booked_vehicle.from_duration}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >{{booked_vehicle.from_to}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >{{booked_vehicle.amount}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >{{booked_vehicle.booking_date}}</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >{{booked_vehicle.is_cancelled}}</span
+                                >
+                              </td>
+
+                            </tr>
+
+                            {% endfor %}
+                            
+                            {% else %}
+                            <tr class="border-t">
+                              <td class="py-4">
+                                <div class="flex items-center">
+                                  {% comment %} <img
+                                    class="h-8 w-8 rounded-full mr-2"
+                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt="Customer avatar"
+                                  /> {% endcomment %}
+                                  <span class=" font-medium text-gray-900"
+                                    >-</span
+                                  >
+                                </div>
+                              </td>
+                              <td class="py-4">
+                                <span class=" text-gray-500"
+                                  >-</span
+                                >
+                              </td>
+                              <td class="py-4">
+                                <span class=" font-semibold text-gray-900"
+                                  >-</span
+                                >
+                              </td>
+                            </tr>
+                          {% endif %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  
+                </div>
+
+                
+                {% if request.session.buss_log_user %}
+                {% if fetch_buss_vehicle %}
+                {% comment %}  {% endcomment %}
+                <div class="bg-gray-50 top-[10rem] px-0 flex flex-col flex-1 items-center" id="">
+                    <h1 class="flex mt-4 justify-center text-[4rem] text-black/80 font-semibold">Your Vehicles</h1>
+                    <div class="!h-fit">
+                        <div class="flex flex-col w scroll-smooth">
+                            {% for vdata in fetch_buss_vehicle %}
+                              {% if vdata.buss_vehicle_owner  %}
+                                  <form action="vehicle/details" method="post">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="vehicle_id" value={{ vdata.id }} hidden/>
+          
+                                      <div class=" box relative flex flex-row m-10 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md ">
+                                          <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/">
+                                              <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
+                                              <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
+                                          </a>
+                                          <div class="flex flex-col border-l justify-evenly  w-[100%] px-2 py-3 gap-2">
+                                              <div class="flex flex-col justify-evenly px-3 gap-2">
+                                                  <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_id }}</h5>
+                                                  <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model|slice:":7" }}</h5>
+                                                  <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_type }}</h5>
+                                              </div>
+                                              <div class="flex px-3 my-2 items-center justify-end">
+                                                  <p>
+                                                      <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
+                                                      <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>
+                                                  </p>
+                                                  {% comment %} <div class="flex items-center">
+                                                      <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                      </svg>
+                                                      <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                      </svg>
+                                                      <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                      </svg>
+                                                      <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                      </svg>
+                                                      <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                      </svg>
+                                                      <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+                                                  </div> {% endcomment %}
+                                              </div>   
+                                          
+                                          
+                                              <div class="flex flex-row items-center justify-evenly px-3 text-center gap-[1.5rem]">
+                                                  <a href="{{ vdata.id }}" class="flex items-center gap-3 justify-center rounded-md px-[.7rem] py-2 text-3xl font-medium text-white bg-red-600  hover:bg-red-600/80 focus:outline-none focus:ring-4 focus:ring-red-300">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                          <path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5zm2.5.5a.5.5 0 0 1 1 0v6a.5.5 0 0 1-1 0v-6zm3 .5a.5.5 0 0 1 .5-.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
+                                                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13.5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                                      </svg>
+                                                      <p>remove vehicle</p>
+                                                  </a>
+                                                  
+                                                  
+                                                  <div class="flex items-center gap-3 justify-center cursor-pointer rounded-md  px-[.7rem] py-2 text-3xl font-medium text-white bg-slate-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                                      <button type="submit" class="flex justify-center items-center  gap-3" value="Vehicle Details">
+                                                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                                              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                                          </svg>
+                                                          Vehicle Details
+                                                      </button>
+                                                  </div>
+                                                  
+                                              </div>
+                                          </div>
+                                      </div>
+          
+                                  
+                                  </form>   
+                                  
+                              {% endif %}
+                            {% endfor %}
+                                    
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div> 
+                {% else %}
+                <section class="bg-gray-50 relative top-[10rem]" id="">
+                    <div class="flex flex-col items-center justify-center text-center space-y-6 py-[5rem] bg-white border rounded-lg shadow-sm">
                         
                     
-                    {% endif %}
-                    {% endfor %}
-                            
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </section>        
-    {% endif %}
-{% endblock %}
-
-
-{% block branches %}
-        <section class="px-[2rem] sm:px-[1rem] md:px-[3rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-[2rem] sm:gap-[2rem] md:gap-[4rem] xl:gap-[6rem] 2xl:gap-[4rem] bg-gray-100  border-b-2">
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-home text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">50+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">Starlette Business is designed for your business with business relevant benefits</p>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-box text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">120+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">Modernize and simplify business purchasing to focus on your customers</p>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-user text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">250+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">happy clients</p>
-                </div>
-            </div>
-
-            <div class="flex flex-row mb-3 px-[2rem] py-[4rem] items-center shadow bg-white rounded-xl shadow-lg space-x-4">
-                <i class="fas fa-car text-[3rem]"></i>
-                <div class="content px-5">
-                    <h3 class="text-[2rem] font-bold text-yellow-400">60+</h3>
-                    <p class="text-[1.6rem] font-medium text-slate-800">wide range of new cars than can inhance the experience.</p>
-                </div>
-            </div>
-
-        </section>
-
-{% endblock %}
-
-
-
-
-
-
-
-
-{% block ourservices %}
-<section class="px-[2rem] sm:px-[3rem] md:px-[4rem] 2xl:px-[10rem] py-[4rem] sm:py-[4rem] md:py-[3rem] xl:py-[3rem] bg-gray-100  border-b-2" id="">
-    
-    <h1 class="flex justify-center text-[4rem] font-semibold">our services</h1>
-    <div class="my-[4rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[4rem]">
-        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3 items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
-            <i class="fas fa-car text-[3rem]"></i>
-            <h3 class="text-[2.5rem] normal-case text-black font-semibold">Secured payment</h3>
-            <p class="text-[1.5rem] normal-case text-gray-800">We have Secure payment system.</p>
-            <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
-        </div>
-        
-        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
-            <i class="fas fa-phone text-[3rem]"></i>
-            <h3 class="text-[2.5rem] normal-case font-semibold">Help center & support</h3>
-            <p class="text-[1.5rem] normal-case">We provide help and support to the end of your vehicle.</p>
-            <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
-        </div>
-
-        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
-            <i class="fas fa-tools text-[3rem]"></i>
-            <h3 class="text-[2.5rem] normal-case font-semibold">Services</h3>
-            <p class="text-[1.5rem] normal-case">Best services for rental business.</p>
-            <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
-        </div>
-
-        <div class="mb-3 px-[4rem] py-[4rem] flex flex-col gap-3  items-center shadow bg-white border-[1px] rounded-2xl shadow-lg space-x-4">
-            <i class="fas fa-headset text-[3rem]"></i>
-            <h3 class="text-[2.5rem] normal-case font-semibold">24/7 support</h3>
-            <p class="text-[1.5rem] normal-case">Business custumer support are available.</p>
-            <a href="http://" target="_blank" rel="noopener noreferrer" class="btn"> read more</a>
-        </div>
-    </div>
-</section>
-{% endblock %}
-
-
-<!--        {# <section class="newsletter">#}-->
-<!--            {# <h3>subscribe for latest updates</h3>#}-->
-<!--            {# <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, suscipit.</p>#}-->
-<!--            {# <form action="">#}-->
-<!--                {# <input type="email" placeholder="enter your email">#}-->
-<!--                {# <input type="submit" value="subscribe">#}-->
-<!--                {# </form>#}-->
-<!--            {# </section>#}-->
-
-        {% block contactus %}
-        <section class="contact !m-0 pt-5 border-b-2  bg-blue-50" id="contact">
-            <h1 class="heading  font-semibold">contact us
-                {% comment %} <span>contact us</span> {% endcomment %}
-            </h1>
-
-            <div class="row my-[4rem]">
-                <iframe class="map shadow-xl bg-white  "
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883734.5405313424!2d71.10875065591415!3d22.69997852215749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1648971540844!5m2!1sen!2sin"
-                    allowfullscreen="" loading="lazy"></iframe>
-
-                <form action="/contactdata" class=" shadow hover:shadow-2xl bg-white" method="post">
-                    {% csrf_token %}
-                    <h3>get in touch</h3>
-                    <input type="text" placeholder="your name" class="box" name="fname" required>
-                    <input type="email" placeholder="your email" class="box" name="email" required>
-                    <input type="tel" placeholder="your mobile no" class="box" name="phone" required>
-                    <textarea placeholder="your message" class="box" cols="30" rows="10" name="mess" required></textarea>
-                    <input type="submit" value="send message" class="btn">
-                </form>
-            </div>
-        </section>
-        {% endblock %}
-        
-        {% block footer %}
-        <section class="footer" id="footer">
-            <div class="box-container">
-                <div class="box">
-                    <h3>our branches</h3>
+                        <!-- Message Header -->
+                        <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
+                            No Vehicles Found
+                        </h2>
                     
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> india </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> japan </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
-                    <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
-                </div>
+                        <!-- Message Description -->
+                        <p class="text-gray-600 max-w-3xl text-3xl py-5">
+                            You haven’t registered any vehicles yet. List your first vehicle now to make it available for rentals.
+                        </p>
+                    
+                        <!-- Action Button -->
+                        <a href="{% url 'add_new_vehicle' %}" 
+                            class="px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
+                            Register Your First Vehicle
+                        </a>
+                    </div>
+                </section>
+                {% endif %}      
+            {% endif %}
+        
+                
+               
+              </main>
+            </main>
+          {% endblock main_content %}
+        </div>
+      </div>
 
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="index"> <i class="fas fa-arrow-right"></i> home </a>
-                    <a href="vehicles"> <i class="fas fa-arrow-right"></i> vehicles </a>
-                    <a href="services"> <i class="fas fa-arrow-right"></i> services </a>
-                    <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
-                    <a href="feedback"> <i class="fas fa-arrow-right"></i> reviews </a>
-                    <a href="contact"> <i class="fas fa-arrow-right"></i> contact </a>
-                </div>
+      <!-- Mobile menu button -->
+      <div class="fixed bottom-4 right-4 md:hidden">
+        <button
+          class="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
 
-                <div class="box">
-                    <h3>contact info</h3>
-                    <a href="tel:+916376094539"><i class="fas fa-phone"></i> +91 6376094539 </a>
-                    <a href="tel:+916376094539"> <i class="fas fa-phone"></i> +91 6376094539 </a>
-                    <a href="mailto:starlettecars@gmail.com"><i class="fas fa-envelope"></i> starlettecars@gmail.com </a>
-                    <a href="http://"><i class="fas fa-map-marker-alt"></i> Ahmedabad, india - 382480 </a>
-                </div>
+    {% endblock main_container %} 
 
-                <div class="box">
-                    <h3>contact info</h3>
-                    <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-                    <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-                    <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-                    <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
-                    <a href="#"> <i class="fab fa-pinterest"></i> pinterest </a>
-                </div>
 
-            </div>
-
-            <div class="credit"> © {% now "Y" %} starlettecars, Inc. All Rights Reserved </div>
-
-        </section>
-        {% endblock %}
-        {% block scripts %}
-        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-        <script src=" {% static 'js/script.js' %} "></script>
-        <script src=" {% static 'js/buss_script.js' %} "></script>
-        <script src=" {% static 'js/passvalid.js' %} "></script>
-        <script src=" {% static 'js/uiconscript.js' %} "></script>
-        {% endblock %}
-
-    </body>
-
+    {% block scripts %}
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src=" {% static 'js/script.js' %} "></script>
+    <script src=" {% static 'js/buss_script.js' %} "></script>
+    <script src=" {% static 'js/passvalid.js' %} "></script>
+    <script src=" {% static 'js/uiconscript.js' %} "></script>
+    {% endblock scripts %}
+  </body>
 </html>

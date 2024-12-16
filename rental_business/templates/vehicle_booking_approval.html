@@ -6,11 +6,11 @@
 {% endblock%}
 
 
-{% block popularvehicles %}
-<section class="bg-gray-50 relative top-[2rem] !p-0" id="">
+{% block main_content %}
+<div class=" w-max max-w-fit bg-gray-50 !px-7 mx-1 border-b" id=""> 
     {% comment %} <h1 class="flex justify-center text-[4rem] text-black/80 font-semibold">Vehicle Booking Requests</h1> {% endcomment %}
 
-    <main class="container mx-auto py-3 px-6">
+    <main class="relative container px-5 left-10">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden">
           <div class="p-6 border-b flex justify-between items-center">
             <h2 class="text-4xl font-semibold text-gray-700">Bookings Awaiting Approval</h2>
@@ -40,16 +40,33 @@
               <tbody class="text-gray-700 text-2xl">
                 <!-- Example Row 1 -->
                  {% for booked_vdata in fetch_booked_vdata %}
-                <tr class="border-b border-gray-200 hover:bg-gray-50">
-                  <td class="py-3 px-6 text-left">{{booked_vdata.id}}</td>
+                <tr class=" border-b border-gray-200 hover:bg-gray-50">
+                  <td class="py-3 px-6 text-left">{{forloop.counter}}</td>
                   <td class="py-3 px-6 text-left">
                     <img src="/media/{{ booked_vdata.vehicle_id.buss_vehicle_photo }}" alt="" width="300" height="200"
                             class="m-[5px] h-auto w-[20rem] relative object-cover rounded transition"
                             >
                   </td>
                   {% comment %} <td class="py-3 px-6 text-left">{{booked_vdata.vehicle_id.buss_vehicle_id}}</td> {% endcomment %}
-                  <td class="py-3 px-6 text-left">{{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}</td>
-                  <td class="py-3 px-6 text-left">{{booked_vdata.login_id}}</td>
+                  <td class="py-3 px-6 text-left">
+                    {% comment %} <form action="{% url 'registered_vehicle_details' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="booked_vehicle_id" value="{{booked_vdata.vehicle_id.id}}">
+                      
+                      <button type="submit" class="text-blue-700 hover:text-blue-900 hover:underline">{{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}</button>
+                    </form> {% endcomment %}
+                    {{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}
+                    
+                  </td>
+                  
+                  <td class="py-3 px-6 text-left">
+                    <form action="{% url 'view_user_detail_for_approval' %}" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="booked_vehicle_uid" value="{{booked_vdata.login_id.id}}">
+                      <button type="submit" class="text-red-500 hover:text-green-700 hover:underline">{{booked_vdata.login_id}}</button>
+                    </form>
+                  </td>
+                  
                   <td class="py-3 px-6 text-center">{{booked_vdata.from_duration}} - {{booked_vdata.from_to}} </td>
                   <td class="py-3 px-6 text-left flex justify-start items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 44 44" fill="none">
@@ -162,11 +179,11 @@
       </main>
     
 
-</section>
+    </div>
 
 
 
-{% endblock %}
+{% endblock main_content %}
 
 
 
@@ -180,15 +197,6 @@
 
 
 
-{% block ourservices %}
-{% endblock %}
-
-{% block contactus %}
-{% endblock %}
-
-{% block footer %}
-
-{% endblock footer %}
 
 {% comment %} {% block scripts %}
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>

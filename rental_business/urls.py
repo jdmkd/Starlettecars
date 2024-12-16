@@ -9,6 +9,8 @@ urlpatterns = [
     path("registered/vehicles", views.registered_vehicles, name="registered_vehicles"),
     path("registered/vehicle/details", views.registered_vehicle_details, name="registered_vehicle_details"),
     path("registered/vehicle/details/update", views.registered_vehicle_details_update, name="registered_vehicle_details_update"),
+    path("registered/vehicle/details/update/done", views.registered_vehicle_details_update_done, name="registered_vehicle_details_update_done"),
+
 
 
 
@@ -24,6 +26,8 @@ urlpatterns = [
     path("add_new_vehicle",views.add_new_vehicle,name="add_new_vehicle"),
 
     path("vehicle/booking/approval",views.vehicle_booking_approval,name="vehicle_booking_approval"),
+    path("vehicle/booking/approval/view/user/detail",views.view_user_detail_for_approval,name="view_user_detail_for_approval"),
+
 
     path("business/accounts/myprofile",views.buss_profile, name="buss_profile"),
     
