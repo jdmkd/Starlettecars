@@ -485,50 +485,53 @@
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Total Revenue
                       </h3>
-                      <p class="text-3xl font-bold text-blue-600 mb-2">{{ total_revenue }}</p>
+                      <p class="text-3xl font-bold text-blue-600 mb-2">
+                        <span class="text-4xl font-sans">₹</span>
+                        {% if total_revenue %} {{ total_revenue }} {% else %} 0 {% endif %}
+                      </p>
                       {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         My Vehicles
                       </h3>
-                      <p class="text-3xl font-bold text-green-600 mb-2">{{ registered_vehicles_count }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-green-600 mb-2">{% if registered_vehicles_count %} {{ registered_vehicles_count }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Active Bookings
                       </h3>
-                      <p class="text-3xl font-bold text-yellow-600 mb-2">{{ fetch_booked_vdata|length }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-yellow-600 mb-2">{% if fetch_booked_vdata %} {{ fetch_booked_vdata|length }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Pending
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ pending_count }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if pending_count %} {{ pending_count }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Approved
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ approved_count }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if approved_count %} {{ approved_count }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Rejected
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ rejected_count }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if rejected_count %} {{ rejected_count }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Cancelled by Customer
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{{ canceled_count }}</p>
-                      <p class="text-2xl text-gray-500">+0% from last month</p>
+                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if canceled_count %} {{ canceled_count }} {% else %} 0 {% endif %}</p>
+                      {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     
                   </div>
@@ -549,15 +552,26 @@
                           <tr
                             class="text-left py-4 text-2xl font-semibold text-gray-500 uppercase"
                           >
+                            <th class="py-4 px-4">ID</th>
                             <th class="py-4">Customer</th>
-                            <th class="py-4">Product</th>
+                            <th class="py-4">Vehicle ID</th>
+                            <th class="py-4">Vehicle Name</th>
+                            <th class="py-4">Status</th>
+                            <th class="py-4">To</th>
+                            <th class="py-4">Booking Date</th>
+                            <th class="py-4">Is Cancelled</th>
                             <th class="py-4">Amount</th>
                           </tr>
                         </thead>
                         <tbody class="">
                           {% if fetch_booked_vdata %}
                             {% for booked_vehicle in fetch_booked_vdata|slice:":5" %}
-                            <tr class="border-t">
+                            <tr class="border-t text-xl">
+                              <td class="py-4 px-4">
+                                <span class=" text-gray-500"
+                                  >{{forloop.counter}}</span
+                                >
+                              </td>
                               <td class="py-4">
                                 <div class="flex items-center">
                                   {% comment %} <img
@@ -572,7 +586,7 @@
                               </td>
                               <td class="py-4">
                                 <span class=" text-gray-500"
-                                  >{{booked_vehicle.vehicle_id}}</span
+                                  >{{booked_vehicle.vehicle_id.buss_vehicle_id}}</span
                                 >
                               </td>
                               <td class="py-4">
@@ -580,30 +594,71 @@
                                   >{{booked_vehicle.vehicle_id.buss_vehicle_company_name}} - {{booked_vehicle.vehicle_id.buss_vehicle_model}}</span
                                 >
                               </td>
-                              <td class="py-4">
-                                <span class=" font-semibold text-gray-900"
-                                  >{{booked_vehicle.from_duration}}</span
-                                >
-                              </td>
+                              
+                              {% if booked_vehicle.status == 'pending' %}
+                                <td class="py-4 flex items-center text-yellow-300 font-semibold">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                    <path fill="#ffe082" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                                    <path fill="none" stroke="#ffa000" stroke-width="4" stroke-linecap="round" d="M24,14 L24,28 M24,34 L24,36"></path>
+                                  </svg>{{booked_vehicle.status}}
+                                  {% comment %} <span class="py-2 font-semibold text-gray-900"></span> {% endcomment %}
+                                </td>
+                              {% elif booked_vehicle.status == 'approved' %}
+                                <td class="py-4 flex items-center text-lime-600 font-semibold">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                                  </svg>
+                                  {{booked_vehicle.status}}
+                                </td>
+                              {% else %}
+                                <td class="py-4 flex items-center text-red-800 font-semibold">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                    <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                                    <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                                  </svg>
+                                  {{booked_vehicle.status}}
+                                </td>
+                              {% endif %}
+                              
+
                               <td class="py-4">
                                 <span class=" font-semibold text-gray-900"
                                   >{{booked_vehicle.from_to}}</span
                                 >
                               </td>
-                              <td class="py-4">
-                                <span class=" font-semibold text-gray-900"
-                                  >{{booked_vehicle.amount}}</span
-                                >
-                              </td>
+                              
                               <td class="py-4">
                                 <span class=" font-semibold text-gray-900"
                                   >{{booked_vehicle.booking_date}}</span
                                 >
                               </td>
-                              <td class="py-4">
-                                <span class=" font-semibold text-gray-900"
-                                  >{{booked_vehicle.is_cancelled}}</span
-                                >
+                               
+                              {% if booked_vehicle.is_cancelled %}
+                                <td class="py-4 flex items-center text-red-700 font-semibold">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                    <path fill="#ffccbc" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                                    <path fill="#d32f2f" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                                  </svg>
+                                  Cancelled
+                              </td>
+                              {% else %}
+                                <td class="py-4 flex items-center text-green-600 font-semibold">
+                                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                                    <path fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                                  </svg>
+                                  Not Cancelled
+                                </td>
+                              {% endif %}
+
+                                
+                              
+                              <td class="py-4 ">
+                                <div class=" flex justify-normal items-center">
+                                <span class="text-3xl font-medium font-sans">₹</span>
+                                <span class="text-2xl font-bold text-gray-900 font-sans"
+                                  >{{booked_vehicle.amount}}</span>
+                                </div>
                               </td>
 
                             </tr>

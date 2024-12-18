@@ -27,7 +27,7 @@
                   <th class="py-3 px-6 text-left">Vehicle</th>
                   <th class="py-3 px-6 text-left">User</th>
                   <th class="py-3 px-6 text-center">Duration</th>
-                  <th class="py-3 px-6 text-center">Rental Amount</th>
+                  <th class="py-3 px-6 text-center">Amount</th>
                   <th class="py-3 px-6 text-center">Booking Dates</th>
                   <th class="py-3 px-6 text-center">Payment</th>
                   <th class="py-3 px-6 text-center">Is cancelled</th>
@@ -37,7 +37,7 @@
                   <th class="py-3 px-6 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody class="text-gray-700 text-2xl">
+              <tbody class="text-gray-700 text-xl">
                 <!-- Example Row 1 -->
                  {% for booked_vdata in fetch_booked_vdata %}
                 <tr class=" border-b border-gray-200 hover:bg-gray-50">
@@ -72,7 +72,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 44 44" fill="none">
                       <text x="28" y="30" font-family="Arial, sans-serif" font-size="20" fill="black" text-anchor="middle" class="font-sans">₹</text>
                     </svg>
-                    {{booked_vdata.amount}}</td>
+                    {{booked_vdata.amount}}
+                  </td>
                   
                   <td class="py-3 px-6 text-left">{{booked_vdata.booking_date}}</td>
                   
@@ -105,7 +106,12 @@
                   {% comment %} <td class="py-3 px-6 text-left">{{booked_vdata.cancelled_at}}</td> {% endcomment %}
                   
                   {% if booked_vdata.status == 'pending' %}
-                  <td class="py-3 px-6  font-semibold text-left">{{booked_vdata.status}}</td>
+                  <td class="py-3 px-6 flex items-center text-yellow-300 font-semibold text-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                      <path fill="#ffe082" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                      <path fill="none" stroke="#ffa000" stroke-width="4" stroke-linecap="round" d="M24,14 L24,28 M24,34 L24,36"></path>
+                    </svg>
+                    {{booked_vdata.status}}</td>
                   {% elif booked_vdata.status == 'approved' %}
                   <td class="py-3 px-6 flex items-center text-lime-600 font-semibold text-left">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">

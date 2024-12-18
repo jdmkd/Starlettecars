@@ -16,14 +16,21 @@ from django.shortcuts import redirect, render
 from django.conf import settings
 from .models import usertable, booking_table, contactus, feedback
 from rental_business.models import buss_vehicle
-from django.core.mail import send_mail
 from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
 from django.template.loader import render_to_string
 import pdfkit
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, inch, landscape
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image, KeepTogether
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from django.utils.dateparse import parse_datetime
+
+
+
 
 def homemain(request):
     return render(request, 'index.jsx')
@@ -287,13 +294,12 @@ def booking_history(request):
             service_charges = 250.0
             tax_percentage = 18
             for vehicle in vehicles:
-                base_rental = float(vehicle.amount)  # Assuming `amount` is a field in the model
+                base_rental = float(vehicle.amount) 
                 tax_amount = base_rental * tax_percentage / 100
                 total_rental_amount = base_rental + service_charges + tax_amount
 
-                # Add these fields to a dictionary for easy access in the template
                 vehicles.append({
-                    'name': vehicle.name,  # Assuming the vehicle has a `name` field
+                    'name': vehicle.name,
                     'base_rental': base_rental,
                     'service_charges': service_charges,
                     'tax_amount': tax_amount,
@@ -315,6 +321,8 @@ def booking_history(request):
     return redirect("/")
 
 
+
+
 # generate_receipt
 from xhtml2pdf import pisa
 
@@ -324,18 +332,11 @@ def generate_rental_receipt(request):
         if request.session["log_id"]:
             uid = request.session["log_id"]
             log_user = request.session["log_user"]
-            # vd = request.POST.get("booked_id")
+
             if request.method=="POST":
-                # print("POST hit")
                 booked_vid = request.POST["bookedid"]
-                # print("booked_vid :::",booked_vid)
 
-            # print("log_user :",log_user)
-                
-                # print("booked_vehicle_data :::",booked_vehicle_data)
             user=usertable.objects.get(id=uid)
-
-            # print("user ::",user)
             user_data = {
 
                 "id":user.id,
@@ -403,19 +404,6 @@ def generate_rental_receipt(request):
                 "pricing_data": pricing_data,
                 "payment_data": payment_data,
             }
-            # html_content = render_to_string("booking_receipt_generate.html", context)
-
-            # Create PDF from HTML using xhtml2pdf
-            # response = HttpResponse(content_type="application/pdf")
-            # response['Content-Disposition'] = 'attachment; filename="rental_receipt.pdf"'
-
-            # # Using xhtml2pdf
-            # pisa_status = pisa.CreatePDF(html_content, dest=response)
-
-            # if pisa_status.err:
-            #     return HttpResponse("We had some errors while generating the PDF.")
-
-            # return response
             
             return render(request, "booking_receipt_generate.html", context)
 
@@ -425,48 +413,142 @@ def generate_rental_receipt(request):
     return redirect("booking_history")
     
 
-@csrf_exempt
-def download_generate_rental_receipt_as_pdf(request):
-    try:
-        if request.session["log_id"]:
-            uid = request.session["log_id"]
-            log_user = request.session["log_user"]
-            if request.method =="POST":
-                # vd = request.POST.get("booked_id")
-                booked_vehicle_id = request.POST["bookedid"]
-                print("booked_vehicle_id :::",booked_vehicle_id)
+# @csrf_exempt
+# def download_generate_rental_receipt_as_pdf(request):
+#     try:
+#         if request.session["log_id"]:
+#             uid = request.session["log_id"]
+#             log_user = request.session["log_user"]
+#             if request.method =="POST":
+#                 # vd = request.POST.get("booked_id")
+#                 booked_vehicle_id = request.POST["bookedid"]
+#                 print("booked_vehicle_id :::",booked_vehicle_id)
 
                 
-                print("log_user :",log_user)
-                # print("booked_vehicle_data :::",booked_vehicle_data)
+#                 print("log_user :",log_user)
+#                 # print("booked_vehicle_data :::",booked_vehicle_data)
 
-                user=usertable.objects.get(id=uid)
-                print("user ::",user)
+#                 user=usertable.objects.get(id=uid)
+#                 print("user ::",user)
+
+#                 user_data = {
+#                     "id":user.id,
+#                     "fname": user.fname,
+#                     "lname": user.fname,
+#                     "email": user.emailid,
+#                     "phoneno": user.phonenum,
+#                     "address_line1":user.address_line1,
+#                     "address_line1":user.address_line1,
+#                     "city":user.city,
+#                     "state":user.state,
+#                     "zip_code":user.zip_code,
+#                     "country":user.country
+
+#                 }
+
+
+#                 booked_vehicle_data=booking_table.objects.get(id=booked_vehicle_id)
+#                 vehicle_data = {
+#                     "vehicle_name": f'{booked_vehicle_data.vehicle_id.buss_vehicle_company_name} - {booked_vehicle_data.vehicle_id.buss_vehicle_model}',
+#                     "vehicle_type": booked_vehicle_data.vehicle_id.buss_vehicle_type,
+#                     # "registration_number": {{booked_vehicle_data.vehicle_id.}},
+#                     "vehicle_color":  booked_vehicle_data.vehicle_id.buss_vehicle_color,
+#                     "buss_vehicle_number":booked_vehicle_data.vehicle_id.buss_vehicle_number,
+                    
+#                 }
+
+#                 date_format = "%Y-%m-%d"
+#                 from_date = datetime.strptime(str(booked_vehicle_data.from_duration), date_format)
+#                 to_date = datetime.strptime(str(booked_vehicle_data.from_to), date_format)
+#                 delta = to_date - from_date
+#                 dayss = int(delta.days)
+                
+#                 base_rental = float(booked_vehicle_data.amount)
+#                 service_charges = 250.00
+#                 tax_percentage = 18
+#                 total_rental_amount = base_rental + service_charges + (base_rental * tax_percentage / 100)
+
+#                 booking_data = {
+#                     "booking_id":booked_vehicle_data.id,
+#                     "booking_date": booked_vehicle_data.booking_date,
+#                     "from_duration": booked_vehicle_data.from_duration,
+#                     "to_duration": booked_vehicle_data.from_to,
+#                     "duration": dayss,
+#                     "rental_amount":booked_vehicle_data.amount,
+#                     "service_charges":250,
+#                     "tax":"GST",
+#                     "tax_per":18,
+#                     "total_rental_amount": total_rental_amount,
+#                 }
+#                 pricing_data = {
+#                     "base_price": "₹2500/day",
+#                     "additional_charges": "₹500",
+#                     "discount": "₹0",
+#                     "total": "₹12,500",
+#                 }
+#                 payment_data = {
+#                     "method": "Credit Card",
+#                     "transaction_id": "TXN123456789",
+#                 }
+#                 context = {
+#                     "user_data": user_data,
+#                     "vehicle_data": vehicle_data,
+#                     "booking_data": booking_data,
+#                     "pricing_data": pricing_data,
+#                     "payment_data": payment_data,
+#                 }
+
+                
+#                 html_content = render_to_string("booking_receipt_generate.html", context)
+
+#                 response = HttpResponse(content_type="application/pdf")
+#                 response['Content-Disposition'] = 'attachment; filename="rental_receipt.pdf"'
+
+#                 pisa_status = pisa.CreatePDF(html_content, dest=response)
+
+#                 if pisa_status.err:
+#                     return HttpResponse("We had some errors while generating the PDF.")
+
+#                 return response
+
+#                 # return render(request, "booking_receipt_generate.html", context)
+
+#     except KeyError:
+#         return redirect("booking_history")
+#     # return redirect("/")
+#     return redirect("booking_history")
+
+def download_generate_rental_receipt_as_pdf(request):
+    try:
+        if request.session.get("log_id"):
+            uid = request.session["log_id"]
+            log_user = request.session["log_user"]
+            
+            if request.method == "POST":
+                booked_vehicle_id = request.POST["bookedid"]
+                
+                user = usertable.objects.get(id=uid)
 
                 user_data = {
-                    "id":user.id,
+                    "id": user.id,
                     "fname": user.fname,
-                    "lname": user.fname,
+                    "lname": user.lname,
                     "email": user.emailid,
                     "phoneno": user.phonenum,
-                    "address_line1":user.address_line1,
-                    "address_line1":user.address_line1,
-                    "city":user.city,
-                    "state":user.state,
-                    "zip_code":user.zip_code,
-                    "country":user.country
-
+                    "address_line1": user.address_line1,
+                    "address_line2": user.address_line2,
+                    "city": user.city,
+                    "state": user.state,
+                    "zip_code": user.zip_code,
+                    "country": user.country
                 }
 
-
-                booked_vehicle_data=booking_table.objects.get(id=booked_vehicle_id)
+                booked_vehicle_data = booking_table.objects.get(id=booked_vehicle_id)
                 vehicle_data = {
                     "vehicle_name": f'{booked_vehicle_data.vehicle_id.buss_vehicle_company_name} - {booked_vehicle_data.vehicle_id.buss_vehicle_model}',
                     "vehicle_type": booked_vehicle_data.vehicle_id.buss_vehicle_type,
-                    # "registration_number": {{booked_vehicle_data.vehicle_id.}},
-                    "vehicle_color":  booked_vehicle_data.vehicle_id.buss_vehicle_color,
-                    "buss_vehicle_number":booked_vehicle_data.vehicle_id.buss_vehicle_number,
-                    
+                    "vehicle_color": booked_vehicle_data.vehicle_id.buss_vehicle_color,
+                    "buss_vehicle_number": booked_vehicle_data.vehicle_id.buss_vehicle_number,
                 }
 
                 date_format = "%Y-%m-%d"
@@ -481,57 +563,219 @@ def download_generate_rental_receipt_as_pdf(request):
                 total_rental_amount = base_rental + service_charges + (base_rental * tax_percentage / 100)
 
                 booking_data = {
-                    "booking_id":booked_vehicle_data.id,
+                    "booking_id": booked_vehicle_data.id,
                     "booking_date": booked_vehicle_data.booking_date,
                     "from_duration": booked_vehicle_data.from_duration,
                     "to_duration": booked_vehicle_data.from_to,
                     "duration": dayss,
-                    "rental_amount":booked_vehicle_data.amount,
-                    "service_charges":250,
-                    "tax":"GST",
-                    "tax_per":18,
+                    "rental_amount": booked_vehicle_data.amount,
+                    "service_charges": service_charges,
+                    "tax": "GST",
+                    "tax_per": tax_percentage,
                     "total_rental_amount": total_rental_amount,
                 }
-                pricing_data = {
-                    "base_price": "₹2500/day",
-                    "additional_charges": "₹500",
-                    "discount": "₹0",
-                    "total": "₹12,500",
-                }
-                payment_data = {
-                    "method": "Credit Card",
-                    "transaction_id": "TXN123456789",
-                }
-                context = {
-                    "user_data": user_data,
-                    "vehicle_data": vehicle_data,
-                    "booking_data": booking_data,
-                    "pricing_data": pricing_data,
-                    "payment_data": payment_data,
-                }
 
-                
-                html_content = render_to_string("booking_receipt_generate.html", context)
-
-                # Create PDF from HTML using xhtml2pdf
-                response = HttpResponse(content_type="application/pdf")
+                # Create PDF Response
+                response = HttpResponse(content_type='application/pdf')
                 response['Content-Disposition'] = 'attachment; filename="rental_receipt.pdf"'
 
-                # Using xhtml2pdf
-                pisa_status = pisa.CreatePDF(html_content, dest=response)
+                # Create the PDF canvas
+                c = canvas.Canvas(response, pagesize=letter)
+                width, height = letter
 
-                if pisa_status.err:
-                    return HttpResponse("We had some errors while generating the PDF.")
+                # Header
+                c.setFont("Helvetica", 14)
+                c.drawString(30, height - 40, "Rental Receipt")
+                c.setFont("Helvetica", 10)
+                c.drawString(30, height - 60, "439 Rental Street, Ahmedabad, Gujarat, India")
+                c.drawString(30, height - 75, "Phone: +916376094539")
+                c.drawString(30, height - 90, "Email: starlettecars@gmail.com")
+                c.setFillColor(colors.blue)
+                c.drawString(30, height - 105, "Website: starlettecars.com")
+                c.setFillColor(colors.black)
+
+                # User Details
+                c.setFont("Helvetica", 12)
+                c.drawString(30, height - 140, "User Details:")
+                c.setFont("Helvetica", 10)
+                y_position = height - 155
+                for key, value in user_data.items():
+                    c.drawString(30, y_position, f"{key.replace('_', ' ').title()}: {value}")
+                    y_position -= 15
+
+                # Vehicle Details
+                c.setFont("Helvetica", 12)
+                c.drawString(30, y_position - 20, "Vehicle Details:")
+                c.setFont("Helvetica", 10)
+                y_position -= 35
+                for key, value in vehicle_data.items():
+                    c.drawString(30, y_position, f"{key.replace('_', ' ').title()}: {value}")
+                    y_position -= 15
+
+                # Booking Details
+                c.setFont("Helvetica", 12)
+                c.drawString(30, y_position - 20, "Booking Details:")
+                c.setFont("Helvetica", 10)
+                y_position -= 35
+                for key, value in booking_data.items():
+                    c.drawString(30, y_position, f"{key.replace('_', ' ').title()}: {value}")
+                    y_position -= 15
+
+                # Total Amount
+                c.setFont("Helvetica-Bold", 12)
+                c.drawString(30, y_position - 20, f"Total Amount: ₹{total_rental_amount}")
+
+                # Footer
+                c.setFont("Helvetica", 8)
+                c.drawString(30, 30, "Thank you for choosing our service!")
+                c.drawString(30, 15, "Contact us at starlettecars@gmail.com or +916376094539")
+
+                # Save the PDF
+                c.showPage()
+                c.save()
 
                 return response
 
-                # return render(request, "booking_receipt_generate.html", context)
-
     except KeyError:
         return redirect("booking_history")
-    # return redirect("/")
+
     return redirect("booking_history")
-    
+
+
+
+# from xhtml2pdf import pisa
+# from django.core.exceptions import ObjectDoesNotExist
+# from django.template.context_processors import csrf
+# import logging
+# logger = logging.getLogger(__name__)
+# def download_generate_rental_receipt_as_pdf(request):
+#     try:
+#         # Check for session key
+#         if "log_id" in request.session:
+#             uid = request.session["log_id"]
+#             log_user = request.session.get("log_user")
+
+#             if request.method == "POST":
+#                 # Get the booked vehicle ID from the request
+#                 booked_vehicle_id = request.POST.get("bookedid")
+#                 if not booked_vehicle_id:
+#                     return HttpResponse("Booking ID is required.", status=400)
+                
+#                 logger.info(f"Booked Vehicle ID: {booked_vehicle_id}")
+
+#                 # Fetch user details
+#                 try:
+#                     user = usertable.objects.get(id=uid)
+#                 except ObjectDoesNotExist:
+#                     logger.error(f"User with ID {uid} not found.")
+#                     return HttpResponse("User not found.", status=404)
+                
+#                 # Fetch booked vehicle details
+#                 try:
+#                     booked_vehicle_data = booking_table.objects.get(id=booked_vehicle_id)
+#                 except ObjectDoesNotExist:
+#                     logger.error(f"Booking with ID {booked_vehicle_id} not found.")
+#                     return HttpResponse("Booking not found.", status=404)
+
+#                 # Prepare user data
+#                 user_data = {
+#                     "id": user.id,
+#                     "fname": user.fname,
+#                     "lname": user.lname,
+#                     "email": user.emailid,
+#                     "phoneno": user.phonenum,
+#                     "address_line1": user.address_line1,
+#                     "city": user.city,
+#                     "state": user.state,
+#                     "zip_code": user.zip_code,
+#                     "country": user.country
+#                 }
+
+#                 # Prepare vehicle data
+#                 vehicle_data = {
+#                     "vehicle_name": f'{booked_vehicle_data.vehicle_id.buss_vehicle_company_name} - {booked_vehicle_data.vehicle_id.buss_vehicle_model}',
+#                     "vehicle_type": booked_vehicle_data.vehicle_id.buss_vehicle_type,
+#                     "vehicle_color": booked_vehicle_data.vehicle_id.buss_vehicle_color,
+#                     "buss_vehicle_number": booked_vehicle_data.vehicle_id.buss_vehicle_number,
+#                 }
+
+#                 # Calculate rental duration and pricing
+#                 date_format = "%Y-%m-%d"
+#                 from_date = datetime.strptime(str(booked_vehicle_data.from_duration), date_format)
+#                 to_date = datetime.strptime(str(booked_vehicle_data.from_to), date_format)
+#                 duration = (to_date - from_date).days
+
+#                 base_rental = float(booked_vehicle_data.amount)
+#                 service_charges = 250.00
+#                 tax_percentage = 18
+#                 total_rental_amount = base_rental + service_charges + (base_rental * tax_percentage / 100)
+
+#                 # Prepare booking data
+#                 booking_data = {
+#                     "booking_id": booked_vehicle_data.id,
+#                     "booking_date": booked_vehicle_data.booking_date,
+#                     "from_duration": booked_vehicle_data.from_duration,
+#                     "to_duration": booked_vehicle_data.from_to,
+#                     "duration": duration,
+#                     "rental_amount": booked_vehicle_data.amount,
+#                     "service_charges": service_charges,
+#                     "tax": "GST",
+#                     "tax_per": tax_percentage,
+#                     "total_rental_amount": total_rental_amount,
+#                 }
+
+#                 # Additional details (if applicable, adjust dynamically)
+#                 pricing_data = {
+#                     "base_price": "₹2500/day",
+#                     "additional_charges": "₹500",
+#                     "discount": "₹0",
+#                     "total": f"₹{total_rental_amount}",
+#                 }
+#                 payment_data = {
+#                     "method": "Credit Card",
+#                     "transaction_id": "TXN123456789",
+#                 }
+
+#                 # Combine all data into context
+#                 context = {
+#                     "user_data": user_data,
+#                     "vehicle_data": vehicle_data,
+#                     "booking_data": booking_data,
+#                     "pricing_data": pricing_data,
+#                     "payment_data": payment_data,
+#                 }
+
+#                 context.update(csrf(request))
+
+                
+#                 html_content = render_to_string("booking_receipt_generate.html", context, request=request)
+
+#                 response = HttpResponse(content_type="application/pdf")
+#                 response['Content-Disposition'] = 'attachment; filename="rental_receipt.pdf"'
+
+#                 pisa_status = pisa.CreatePDF(html_content, dest=response)
+
+#                 if pisa_status.err:
+#                     logger.error("Error generating PDF.")
+#                     return HttpResponse("We encountered errors while generating the PDF.", status=500)
+
+#                 return response
+
+#     except KeyError as e:
+#         logger.warning(f"Session KeyError: {str(e)}")
+#         return redirect("booking_history")
+#     except TypeError as e:
+#         logger.error(f"TypeError error: {str(e)}")
+#         return HttpResponse(f"An TypeError error occurred: {str(e)}", status=500)
+#     except Exception as e:
+#         logger.error(f"Unexpected error: {str(e)}")
+#         return HttpResponse(f"An unexpected error occurred: {str(e)}", status=500)
+#     # Redirect to booking history as a fallback
+#     return redirect("booking_history")
+
+
+
+
 
 
 # def download_generate_rental_receipt_as_pdf(request):
@@ -1383,18 +1627,7 @@ def generate_user_report(request):
     # If not a POST request, return an empty form or a default view
     return render(request, 'generate_user_report.html')
 
-from io import BytesIO
-from reportlab.lib.pagesizes import letter, inch, landscape
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image, KeepTogether
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.utils.dateparse import parse_datetime
-from .models import usertable, booking_table
-from datetime import datetime
-from django.core.exceptions import ValidationError
-from django.utils import timezone
+
 
 def export_user_report_in_pdf(request):
     try:
