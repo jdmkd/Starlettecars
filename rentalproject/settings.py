@@ -14,6 +14,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import mimetypes
 import os
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -120,22 +121,21 @@ DATABASES = {
     
     
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'starlletcarsDB',
-        'USER': 'postgres',
-        'PASSWORD': '870909',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': config('DATABASE_ENGINE'),
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT'),
     }
-
 
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'railway',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'OeRge67jk2BjWsAWCXzo',
-    #     'HOST': 'containers-us-west-55.railway.app',
-    #     'PORT': '6576',
+    #     'NAME': 'starlletcarsDB',
+    #     'USER': '',
+    #     'PASSWORD': '',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',
     # }
     
 }
@@ -199,12 +199,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # email configrations
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "starlettecars@gmail.com"
-EMAIL_HOST_PASSWORD = "vvff pfdl xnln bgsd"
+EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
+EMAIL_PORT = config("EMAIL_PORT", cast=int, default=587)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
 
 
 PDFKIT_CONFIG = {
