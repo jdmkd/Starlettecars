@@ -11,9 +11,9 @@
     <link rel="stylesheet" href=" {% static 'css/userprofilecss/editprofile/editprofile.css' %}">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> {% endcomment %}
     {% comment %} <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" id="bootstrap-css"> {% endcomment %}
     {% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/tailwind-output.css' %}">
 </head>
 <body>
     <header class="header">
@@ -73,9 +73,278 @@
         </div>
     </header>
 
+
+    {% if messages %}
+    <div class="messages absolute top-[-20rem]  px-0 flex items-center justify-center w-[100vw] h-[100vh]" id="">
+        <div class="modal_box flex flex-col  items-center justify-center text-center  py-10 px-5 bg-white border rounded-lg shadow-sm z-999">
+            
+        
+            <!-- Message Header -->
+            <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
+                No Vehicles Found
+            </h2>
+        
+            <!-- Message Description -->
+            {% for msg in messages %}
+            <p class="text-gray-600 max-w-xl lg:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl text-3xl py-5 px-3">
+                {{ msg }}
+            </p>
+            {% endfor %}
+        
+            <!-- Action Button -->
+             
+            <button class="close px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
+                Okay
+            </button>
+            {% comment %} <a href="{% url 'add_new_vehicle' %}" 
+                class="modal_box px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
+                Okay
+            </a> {% endcomment %}
+        </div>
+    </div>
+    {% else %}
+    {% endif %}
+
+    <div class=" bg-gray-50">
+        <div>
+            <main class="">
+                
+                <div class="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
+                    <div class="overflow-hidden rounded-lg bg-white shadow-md border-[2px] border-solid border-red-500">
+                        <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
+                            <aside class="py-6 lg:col-span-3">
+                                <nav class="space-y-1">
+                                    <a href="{% url 'myprofile' %}"
+                                        class="bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700 group border-l-4 px-3 py-4 flex items-center text-lg font-medium"
+                                        x-state:on="Current" x-state:off="Default" aria-current="page"
+                                        x-state-description="Current: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, Default: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                        <svg class="text-teal-500 group-hover:text-teal-500 flex-shrink-0 -ml-1 mr-3 h-8 w-8"
+                                        x-state:on="Current" x-state:off="Default"
+                                        x-state-description="Current: &quot;text-teal-500 group-hover:text-teal-500&quot;, Default: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                        x-description="Heroicon name: outline/user-circle" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z">
+                                        </path>
+                                        </svg>
+                                        <span class="truncate">Profile</span>
+                                    </a>
+                                    <a href="{% url 'change_password' %}"
+                                        class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-4 flex items-center text-lg font-medium"
+                                        x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                        <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-8 w-8"
+                                        x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                        x-description="Heroicon name: outline/key" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z">
+                                        </path>
+                                        </svg>
+                                        <span class="truncate">Password</span>
+                                    </a>
+                    
+                                    {% comment %} <a href="#"
+                                        class="border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900 group border-l-4 px-3 py-4 flex items-center text-lg font-medium"
+                                        x-state-description="undefined: &quot;bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700&quot;, undefined: &quot;border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900&quot;">
+                                        <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-8 w-8"
+                                        x-state-description="undefined: &quot;text-teal-500 group-hover:text-teal-500&quot;, undefined: &quot;text-gray-400 group-hover:text-gray-500&quot;"
+                                        x-description="Heroicon name: outline/cog" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495">
+                                        </path>
+                                        </svg>
+                                        <span class="truncate">Account</span>
+                                    </a> {% endcomment %}
+                    
+                                    
+                                </nav>
+                            </aside>
+            
+                            
+                            <form action="updprofile" method="post" enctype="multipart/form-data" class="divide-y divide-gray-200 lg:col-span-9">
+                                {% csrf_token %}
+                                <!-- Profile section -->
+                                <div class="py-6 px-4 sm:p-6">
+                                    
+                                    <div class="my-1 mx-4 flex items-center justify-between">
+                                        <h2 class="text-2xl font-medium leading-6 text-gray-900">
+                                            {{ userdata.emailid }}
+                                            
+                                        </h2>
+                                        
+                                        {% comment %} <a href="{% url 'editprofile' %}" class="ml-5 flex items-center px-4 py-2 gap-2 text-2xl font-medium  text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-md cursor-pointer">
+                                            edit profile
+                                            <img class="" src="{% static 'image/edit_pencil_icon/edit_pencil_icon.svg' %}" alt="{% static 'image/profileicons/account.png' %}" /> 
+                                        </a> {% endcomment %}
+                                        <div class="flex  justify-center text-3xl text-red-500 font-semibold underline underline-offset-4 px-6 ">
+                                            Edit mode
+                                        </div>
+                                        <a href="{% url 'myprofile' %}" class="flex items-center px-4 py-2 gap-2 text-2xl font-medium  text-white bg-blue-500 hover:bg-blue-600 rounded-md shadow-md cursor-pointer" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class=" text-white"
+                                            >
+                                              <path d="M19 12H5"></path>
+                                              <polyline points="12 19 5 12 12 5"></polyline>
+                                            </svg>
+                                            Back
+                                        </a>
+                                    </div>
+                
+                                    <div class="mt-3 flex flex-col lg:flex-row">
+                                        
+                    
+                                        <div class="mt-2 flex flex-row flex-grow justify-between lg:mt-0 lg:ml-6">
+                                            <div class=" flex flex-col items-center space-y-4">
+                                                <!-- Profile Image -->
+                                                <div class="h-40 w-40">
+                                                    {% if userdata.updProfile_photo %}
+                                                        <img
+                                                            id="updProfileimg"
+                                                            class="h-full w-full object-cover rounded-full border-1 border-gray-300 shadow-md"
+                                                            src="/media/{{ userdata.updProfile_photo }}"
+                                                            alt="Profile Image"
+                                                        />
+                                                        <!-- Delete Icon -->
+                                                        <div class="absolute -bottom-2 -right-2">
+                                                            <a
+                                                                href="deleteprofile/{{ userdata.id }}"
+                                                                class="bg-red-500 p-2 rounded-full shadow-lg hover:bg-red-600 transition"
+                                                            >
+                                                            <img src="{% static 'image/trash_icon/trash.svg' %}" alt="Delete Profile Icon" class="w-5 h-5">
+                                                            </a>
+                                                        </div>
+                                                    {% else %}
+                                                        <img
+                                                            id="updProfileimg"
+                                                            class="h-full w-full object-cover rounded-full border-1 border-gray-300 shadow-md"
+                                                            src="{% static 'image/profileicons/account.png' %}"
+                                                            alt="Default Profile Image"
+                                                        />
+                                                    {% endif %}
+                                                </div>
+                                            
+                                                <!-- Upload Profile Image -->
+                                                <label for="updProfileimginput" class="flex flex-col items-center space-y-1 text-center cursor-pointer">
+                                                    {% if userdata.updProfile_photo %}
+                                                        <span class="text-xl px-4 py-3 font-medium text-white rounded-md bg-blue-500 hover:bg-blue-600 transition">Change Profile Image</span>
+                                                    {% else %}
+                                                        <span class="text-xl px-4 py-3 font-medium text-white rounded-md bg-blue-500 hover:bg-blue-600 transition">Upload Profile Image</span>
+                                                    {% endif %}
+
+                                                    <input
+                                                        name="updProfileimginput"
+                                                        id="updProfileimginput"
+                                                        class="hidden"
+                                                        type="file"
+                                                    />
+                                                    
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="my-[4rem] mx-[1rem] grid grid-cols-12 gap-[3.6rem]">
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="first-name" class="block text-[1.2rem] font-semibold text-gray-700/95">First name</label>
+                                            <input type="text" name="updfname" placeholder="First Name" value="{{ userdata.fname }}" id="first-name" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                    
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="last-name" class="block text-[1.2rem] font-semibold text-gray-700">Last name</label>
+                                            <input type="text" name="updlname" placeholder="Last Name" value="{{ userdata.lname }}" id="last-name" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        
+                        
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="mobile-no" class="block text-[1.2rem] font-semibold text-gray-700">mobile no</label>
+                                            <input type="text" name="updphonenum" value="{% if userdata.phonenum %}{{ userdata.phonenum }}{% endif %}"  placeholder="Phonenum" id="mobile-no" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+
+                                        {% comment %}  {% endcomment %}
+
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="aadhaar_number" class="block text-[1.2rem] font-semibold text-gray-700">aadhaar number</label>
+                                            <input type="text" name="aadhaar_number"  value="{% if userdata.aadhaar_number %}{{ userdata.aadhaar_number }}{% endif %}" placeholder="Aadhaar Number" id="aadhaar_number" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="date_of_birth" class="block text-[1.2rem] font-semibold text-gray-700">date_of_birth</label>
+                                            <input type="date" name="date_of_birth" value="{% if userdata.date_of_birth %}{{ userdata.date_of_birth|date:'Y-m-d' }}{% endif %}" placeholder="Date of Birth" id="date_of_birth" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="driver_license_number" class="block text-[1.2rem] font-semibold text-gray-700">driver license number</label>
+                                            <input type="text" name="driver_license_number" value="{% if userdata.driver_license_number %}{{ userdata.driver_license_number }}{% endif %}" placeholder="driver license number" id="driver_license_number" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="driver_license_expiry" class="block text-[1.2rem] font-semibold text-gray-700">driver_license_expiry</label>
+                                            <input type="date" name="driver_license_expiry" value="{% if userdata.driver_license_expiry %}{{ userdata.driver_license_expiry|date:'Y-m-d' }}{% endif %}" placeholder="driver license expiry" id="driver_license_expiry" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="address_line1" class="block text-[1.2rem] font-semibold text-gray-700">Address Line 1</label>
+                                            <input type="text" name="address_line1" value="{% if userdata.address_line1 %}{{ userdata.address_line1 }}{% endif %}" placeholder="Addess line1" id="address_line1" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="address_line2" class="block text-[1.2rem] font-semibold text-gray-700">Address Line 2</label>
+                                            <input type="text" name="address_line2" value="{% if userdata.address_line2 %}{{ userdata.address_line2 }}{% endif %}" placeholder="Address line2" id="address_line2" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="city" class="block text-[1.2rem] font-semibold text-gray-700">City</label>
+                                            <input type="text" name="city" value="{% if userdata.city %}{{ userdata.city }}{% endif %}" placeholder="City" id="city" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="state" class="block text-[1.2rem] font-semibold text-gray-700">State</label>
+                                            <input type="text" name="state" value="{% if userdata.state %}{{ userdata.state }}{% endif %}" placeholder="State" id="state" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="zip_code" class="block text-[1.2rem] font-semibold text-gray-700">Zip code</label>
+                                            <input type="text" name="zip_code" value="{% if userdata.zip_code %}{{ userdata.zip_code }}{% endif %}" placeholder="Zip code" id="zip_code" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+                                        <div class="col-span-12 sm:col-span-6">
+                                            <label for="country" class="block text-[1.2rem] font-semibold text-gray-700">Country</label>
+                                            <input type="text" name="country" value="{% if userdata.country %}{{ userdata.country }}{% endif %}" placeholder="Country" id="country" class="mt-1 block w-full rounded-md border border-gray-300 normal-case py-3 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 lg:text-[1.3rem] sm:text-sm" />
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+          
+                                
+                                    <div class="mt-4 flex justify-end py-4 px-4 sm:px-6 text-2xl ">
+                                        <a href="{% url 'myprofile' %}" class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                                            Cancel</a>
+                                        <button type="submit" class="ml-5 inline-flex justify-center rounded-md border border-transparent bg-blue-500 hover:bg-blue-600 py-2 px-4 font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+          
+    </div>
+
+
+    {% comment %} {% include 'components/popup.html' %} {% endcomment %}
+    
+
+
+    {% comment %} {% if messages %}
+        
+        {% for message in messages %} 
+            {% if  %}
+                {% include 'components/messages.html' %}
+            {% else %}
+            {% endif %}
+        {% endfor %}
+    {% endif %} {% endcomment %}
+
+
     
     
-    <div class="container rounded">
+    {% comment %} <div class="container rounded">
         <div class="row">
             
             <form action="updprofile" method="post" enctype="multipart/form-data" >
@@ -114,169 +383,12 @@
                     {% endif %}
                     <div class="message"></div>
 
-                    <div class="img">
-                        <!-- {% comment %} updProfile_photo {% endcomment %}
-                        {% comment %} {% static 'image/profileicons/account.png' %} {% endcomment %} -->
-                        {% if userdata.updProfile_photo %}
-                            <img id="updProfileimg" class="rounded-circle" src="/media/{{ userdata.updProfile_photo }}" alt="" width="50%" >
-                            
-                            <div class="deleteprofile" id="deleteprofile">
-                                <a href="deleteprofile/{{ userdata.id }}"><img src="{% static 'image/trash_icon/trash.svg' %}"></a>
-                            </div>
-                        {% else %}
-                            <img id="updProfileimg" class="rounded-circle" width="50%" src="{% static 'image/profileicons/account.png' %}">
-                        {% endif %}
-                        
-                        <input id="updProfileimginput" class="updProfileimginput" type="file" name="updProfileimg"/>
-                        <span class="">{{ userdata.fname }} {{ userdata.lname }}</span>
-                        <span class="text-black-50">{{ userdata.emailid }}</span>
-                        <span> </span>
-                    </div>
-                <div class="profile-section">
                     
-                    <div class="profile-detail">
-                        <div class="profile-heading">
-                            <h4 class="text-right">Profile Settings</h4>
-                        </div>
-                        <div class="profile-input">
-                            <div class="input">
-                                <label class="labels">First Name</label>
-                                <input type="text" name="updfname" value="{{userdata.fname}}" class="form-control" placeholder="first name">
-                            </div>
-                            <div class="input">
-                                <label class="labels">Last Name</label>
-                                <input type="text" name="updlname" value="{{userdata.lname}}" class="form-control" placeholder="last name">
-                                </div>
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">Mobile Number</label>
-                                    <input type="text" name="updphonenum" value="{% if userdata.phonenum %}{{ userdata.phonenum }}{% endif %}"  class="form-control" pattern="^\d{10}$" placeholder="Enter phone number" required>
-                                </div>
-                                <div class="input">
-                                    <label class="labels">Aadhaar Number</label>
-                                    <input type="text" name="aadhaar_number" value="{% if userdata.aadhaar_number %}{{ userdata.aadhaar_number }}{% endif %}"  class="form-control" pattern="^\d{12}$" placeholder="Enter aadhaar number" required>
-                                </div>
-                                
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">date of birth</label>
-                                    <input type="date" name="date_of_birth"  class="form-control" value="{% if userdata.date_of_birth %}{{ userdata.date_of_birth|date:'Y-m-d' }}{% endif %}" 
-                                            {% comment %} onfocus="(this.type='date')" {% endcomment %}
-                                            {% comment %} onblur="if(this.value===''){this.type='text'; this.placeholder='Enter date of birth';}"  {% endcomment %}
-                                            required>
-                                </div>
-                            </div>
-                            <div class="profile-heading">
-                                <h4 class="text-right">Driving License:</h4>
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">Licence Number</label>
-                                    <input type="text" name="driver_license_number" value="{% if userdata.driver_license_number %}{{ userdata.driver_license_number }}{% endif %}"  class="form-control" pattern="^[A-Za-z]{2}\d{2}[A-Za-z0-9]{6}\d{4}\d{2}$" placeholder="Enter driver license number" required>
-                                </div>
-                                <div class="input">
-                                    <label class="labels">Driver license expiry</label>
-                                    <input type="date" name="driver_license_expiry" value="{% if userdata.driver_license_expiry %}{{ userdata.driver_license_expiry|date:'Y-m-d' }}{% endif %}"  class="form-control" placeholder="Enter driver license expiry" required/>
-                                </div>
-                            </div>
-                            <div class="profile-heading">
-                                <h4 class="text-right">Address Details</h4>
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">Address line1</label>
-                                    <input type="text" name="address_line1" value="{% if userdata.address_line1 %}{{ userdata.address_line1 }}{% endif %}"  class="form-control"  placeholder="Enter address 1" required>
-                                </div>
-                                <div class="input">
-                                    <label class="labels">Address line2</label>
-                                    <input type="text" name="address_line2" value="{% if userdata.address_line2 %}{{ userdata.address_line2 }}{% endif %}"  class="form-control" placeholder="Enter address 2" >
-                                </div>
-                                
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">City</label>
-                                    <input type="text" name="city" value="{% if userdata.city %}{{ userdata.city }}{% endif %}"  class="form-control" placeholder="Enter city name" required>
-                                </div>
-                                <div class="input">
-                                    <label class="labels">State</label>
-                                    <input type="text" name="state" value="{% if userdata.state %}{{ userdata.state }}{% endif %}"  class="form-control" placeholder="Enter state name" required>
-                                </div>
-                            </div>
-                            <div class="profile-input">
-                                <div class="input">
-                                    <label class="labels">Zip code</label>
-                                    <input type="text" name="zip_code" value="{% if userdata.zip_code %}{{ userdata.zip_code }}{% endif %}"  class="form-control" placeholder="Enter zip code" required>
-                                </div>
-                                <div class="input">
-                                    <label class="labels">Country</label>
-                                    <input type="text" name="country" value="{% if userdata.country %}{{ userdata.country }}{% endif %}"  class="form-control" placeholder="Enter country name" >
-                                </div>
-                            </div>
-                    
-        
-                            
-
-                            <div class="button">
-                                {% if request.session.log_user %}
-                                    <a href="{% url 'change_password' %}" class="btn"> change password</a>
-                                {% else %}
-                                    <a href="{% url 'login'%}">change password</a>
-                                {% endif %}
-                                <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </form>
         </div>
-    </div>
+    </div> {% endcomment %}
 
-    <section class="footer" id="footer">
-
-        <div class="box-container">
-
-            <div class="box">
-                <h3>our branches</h3>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> india </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> japan </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
-                <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
-            </div>
-
-            <div class="box">
-                <h3>quick links</h3>
-                <a href="index"> <i class="fas fa-arrow-right"></i> home </a>
-                <a href="vehicles"> <i class="fas fa-arrow-right"></i> vehicles </a>
-                <a href="services"> <i class="fas fa-arrow-right"></i> services </a>
-                <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
-                <a href="feedback"> <i class="fas fa-arrow-right"></i> reviews </a>
-                <a href="contact"> <i class="fas fa-arrow-right"></i> contact </a>
-            </div>
-
-            <div class="box">
-                <h3>contact info</h3>
-                <a href="tel:+916376094539"><i class="fas fa-phone"></i> +91 6376094539 </a>
-                <a href="tel:+916376094539"> <i class="fas fa-phone"></i> +91 6376094539 </a>
-                <a href="mailto:starlettecars@gmail.com"><i class="fas fa-envelope"></i> starlettecars@gmail.com </a>
-                <a href="http://"><i class="fas fa-map-marker-alt"></i> Ahmedabad, india - 382480 </a>
-            </div>
-
-            <div class="box">
-                <h3>contact info</h3>
-                <a href="#"> <i class="fab fa-facebook-f"></i> facebook </a>
-                <a href="#"> <i class="fab fa-twitter"></i> twitter </a>
-                <a href="#"> <i class="fab fa-instagram"></i> instagram </a>
-                <a href="#"> <i class="fab fa-linkedin"></i> linkedin </a>
-                <a href="#"> <i class="fab fa-pinterest"></i> pinterest </a>
-            </div>
-        </div>
-        <div class="credit"> © {% now "Y" %} starlettecars, Inc. All Rights Reserved </div>
-
-    </section>
+   
 
     <script>
         // {% comment %} let msg_closebtn = document.getElementsByClassName("close"); {% endcomment %}
@@ -316,6 +428,31 @@
                 }
             });
         });
+
+
+
+
+
+        // Popup Message
+        let popup_message =document.querySelector(".popup_message");
+        let modal_box = document.querySelector(".modal_box");
+        let closeBtnx = document.querySelector(".close_btn");
+        // setTimeout(()=>{ //remove shake class after 500ms
+        //     popup_message.classList.toggle("active")
+            // pField.classList.remove("shake");
+        setTimeout(() => {
+            if (document.querySelector(".popup_message.active")){
+            // popup_message.classList.toggle("active")
+            return true
+            }
+            else{
+            popup_message.classList.toggle("active")
+            }
+        },100000)
+
+        document.querySelector(".modal_box").addEventListener("click", () => {
+        popup_message.classList.toggle("active")
+        })
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

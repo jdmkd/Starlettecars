@@ -1,7 +1,8 @@
 import random
+import re
 import uuid
 from django.utils.safestring import mark_safe
-from datetime import datetime
+from datetime import date, datetime
 from django.utils import timezone
 from django.db import models
 # from .models import *
@@ -16,6 +17,7 @@ class business_user(models.Model):
     buss_phonenum = models.CharField(max_length=13, blank=True)
     buss_created_at = models.DateTimeField(default=timezone.now)
     buss_last_login = models.DateTimeField(default=timezone.now)
+    
     def update_buss_last_login(self):
         self.buss_last_login = timezone.now()
         self.save()
@@ -23,9 +25,6 @@ class business_user(models.Model):
     buss_auth_token = models.CharField(max_length=100, null=True)
     buss_is_verified = models.BooleanField(default=False)
 
-    # buss_users_vehicles = models.ForeignKey(buss_vehicle,on_delete=models.DO_NOTHING,null=True)
-    # licence_no = models.CharField(max_length=50)
-    # address = models.TextField()
     buss_updProfile_photo = models.ImageField(
         blank=True, null=True, upload_to="BussProfileImg/"
     )  # , default='profile_img/925667.jpg'
@@ -42,6 +41,69 @@ class business_user(models.Model):
             return ""
 
     buss_updProfile_image.allow_tags = True
+
+
+
+    # Identification Details
+    buss_date_of_birth = models.DateField(null=True, blank=True)
+    buss_aadhaar_number = models.CharField(max_length=12, unique=True, null=True, blank=True)
+    buss_driver_license_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    buss_driver_license_expiry = models.DateField(default=None, null=True, blank=True)
+    
+    def validate_buss_aadhaar(self):
+        """
+        Validates the Aadhaar number (India-specific example).
+        - Checks if the Aadhaar is 12 digits long.
+        - Ensures it contains only numeric characters.
+        """
+        if not self.buss_aadhaar_number:
+            return False, "Aadhaar number is missing."
+        
+        if len(self.buss_aadhaar_number) != 12:
+            return False, "Aadhaar number must be 12 digits long."
+        
+        if not self.buss_aadhaar_number.isdigit():
+            return False, "Aadhaar number must contain only numeric characters."
+        
+        return True, "Aadhaar number is valid."
+
+    def validate_buss_license(self):
+        """
+        Validates if the user's driver's license is valid.
+        - Ensures the license number is present.
+        - Checks if the license expiry date is in the future.
+        """
+        if not self.buss_driver_license_number:
+            return False, "Driver's license number is missing."
+        
+        if not self.buss_driver_license_expiry:
+            return False, "Driver's license expiry date is missing."
+        
+        if self.buss_driver_license_expiry < date.today():
+            return False, "Driver's license has expired."
+        
+        return True, "Driver's license is valid."
+    
+    def is_buss_license_valid(self):
+        """
+        Check if the user's driver's license is still valid.
+        """
+        from datetime import date
+        return self.buss_driver_license_expiry >= date.today()
+    
+        # pattern = r'^[A-Z]{2}\d{2}[A-Z]{0,2}\d{4}$'
+        # return bool(re.match(pattern, license_number))
+    
+    # Address Details
+    buss_address_line1 = models.CharField(max_length=255, null=True, blank=True)
+    buss_address_line2 = models.CharField(max_length=255, null=True, blank=True)
+    buss_city = models.CharField(max_length=50, null=True, blank=True)
+    buss_state = models.CharField(max_length=50, null=True, blank=True)
+    buss_zip_code = models.CharField(max_length=10, null=True, blank=True)
+    buss_country = models.CharField(max_length=50,null=True, blank=True , default="India")
+
+
+
 
     buss_role = models.CharField(max_length=30)
     buss_status = models.CharField(max_length=30)
@@ -132,6 +194,22 @@ class buss_vehicle(models.Model):
             # Add more options as needed
         )
     buss_vehicle_type = models.CharField(max_length=40, choices=CAR_TYPE_CHOICES)
+
+    def validate_chassis_number(chassis_number):
+        pattern = r'^[A-HJ-NPR-Z0-9]{17}$'
+        return re.match(pattern, chassis_number) is not None
+    # print(validate_chassis_number("1HGCM82633A123456"))  # Output: True
+    # print(validate_chassis_number("INVALID-CHASSIS"))    # Output: False
+    
+    buss_chassi_number = models.CharField(max_length=17, unique=True, null=True, validators=[validate_chassis_number],)
+
+    buss_year_of_manufacture = models.PositiveIntegerField(null=True)
+
+    buss_registration_date = models.DateField(blank=True, null=True)
+
+
+
+
 
     buss_vehicle_location = models.CharField(blank=True, null=True, max_length=20)
     buss_rent_per_day = models.CharField(max_length=40)

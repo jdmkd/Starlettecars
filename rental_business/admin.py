@@ -16,10 +16,23 @@ class show_business_user(admin.ModelAdmin):
         "buss_created_at",
         "buss_last_login",
         "buss_auth_token",
+
+        "buss_date_of_birth",
+        "buss_aadhaar_number",
+        "buss_driver_license_number",
+        "buss_driver_license_expiry",
+        "buss_address_line1",
+        "buss_address_line2",
+        "buss_city",
+        "buss_state",
+        "buss_zip_code",
+        "buss_country",
+
         "buss_role",
         "buss_status",
         "buss_is_verified",
     ]
+    # search_fields=('id','buss_lname')
 admin.site.register(business_user, show_business_user)
 
 
@@ -41,6 +54,10 @@ class show_buss_vehicle(admin.ModelAdmin):
         "buss_vehicle_is_verified",
         "buss_vehicle_is_soldout",
         "buss_vehicle_status",
+        "buss_chassi_number",
+        "buss_year_of_manufacture",
+        "buss_registration_date"
+
     ]
 admin.site.register(buss_vehicle, show_buss_vehicle)
 

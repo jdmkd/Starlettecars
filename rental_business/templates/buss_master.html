@@ -76,7 +76,7 @@
                   <a href="/" class="!text-white">Starlette</a>
                   {% endblock 1link%}
               </nav>
-              <div class="mx-2 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between" >
+              {% comment %} <div class="mx-2 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between" >
                 <div class="flex items-center space-x-4">
                   <div class="relative">
                     <input
@@ -85,11 +85,11 @@
                       class="pl-10 pr-4 py-3 text-xl rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                     <i
-                      class="fas fa-search absolute left-3 top-5 text-gray-400"
+                      class="fas fa-search absolute left-3 top-6 text-gray-400"
                     ></i>
                   </div>
                 </div>
-              </div>
+              </div> {% endcomment %}
             {% endblock navbar %}
           </div>
 
@@ -201,20 +201,8 @@
                 </li>
                 {% endif %} 
 
-                {% if request.session.buss_log_user %}
-                <li>
-                  <img src="{% static 'image/profileicons/settings.png' %}" /><a
-                    href="http://"
-                    >settings</a
-                  >
-                </li>
-                {% endif %}
-                <li>
-                  <img src="{% static 'image/profileicons/help.png' %}" /><a
-                    href="http://"
-                    >Help</a
-                  >
-                </li>
+                
+                
               </ul>
             </div>
           </div>
@@ -348,73 +336,83 @@
                         href="{% url 'registered_vehicles' %}"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
                       >
-                      {% comment %} <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="car-icon mx-3 transition-transform duration-300 ease-in-out group-hover:rotate-6 group-hover:fill-gray-800"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      version="1.1"
-                      width="22"
-                      height="22"
-                      fill="#fff"
-                      viewBox="0 0 256 256"
-                      xml:space="preserve"
-                    >
-                      <defs></defs>
-                      <g
-                        style="
-                          stroke: none;
-                          stroke-width: 0;
-                          stroke-dasharray: none;
-                          stroke-linecap: butt;
-                          stroke-linejoin: miter;
-                          stroke-miterlimit: 10;
-                          fill: #ffffff;
-                          fill-rule: nonzero;
-                          opacity: 1;
-                        "
-                        transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+                      <svg class="text-gray-400 group-hover:text-gray-300 mr-5 h-10 w-10"
+                          viewBox="0 0 512 512"
+                          fill="#fff"
+                          stroke="#000"
+                          stroke-width="2"
                       >
-                        <path
-                          d="M 84.99 37.498 l -16.835 -2.571 c -0.428 -0.065 -0.824 -0.277 -1.115 -0.597 l -8.952 -9.805 c -1.115 -1.222 -2.703 -1.922 -4.357 -1.922 H 25.005 c -1.991 0 -3.833 0.993 -4.928 2.656 l -5.862 8.905 c -0.234 0.356 -0.586 0.625 -0.992 0.759 l -9.169 3.022 C 1.629 38.744 0 40.996 0 43.548 v 9.404 c 0 3.254 2.647 5.9 5.9 5.9 h 3.451 c 0.969 4.866 5.269 8.545 10.416 8.545 s 9.447 -3.679 10.416 -8.545 h 30.139 c 0.969 4.866 5.27 8.545 10.416 8.545 s 9.446 -3.679 10.415 -8.545 H 84.1 c 3.254 0 5.9 -2.646 5.9 -5.9 v -9.622 C 90 40.394 87.893 37.941 84.99 37.498 z M 19.767 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 s 6.623 2.971 6.623 6.623 C 26.39 60.427 23.419 63.397 19.767 63.397 z M 70.738 63.397 c -3.652 0 -6.623 -2.971 -6.623 -6.622 c 0 -3.652 2.971 -6.623 6.623 -6.623 c 3.651 0 6.622 2.971 6.622 6.623 C 77.36 60.427 74.39 63.397 70.738 63.397 z M 86 52.952 c 0 1.048 -0.853 1.9 -1.9 1.9 h -2.922 c -0.908 -4.941 -5.239 -8.7 -10.439 -8.7 s -9.531 3.759 -10.44 8.7 H 30.207 c -0.909 -4.941 -5.24 -8.7 -10.44 -8.7 s -9.531 3.759 -10.439 8.7 H 5.9 c -1.048 0 -1.9 -0.853 -1.9 -1.9 v -9.404 c 0 -0.822 0.524 -1.547 1.306 -1.805 l 9.168 -3.021 c 1.26 -0.415 2.354 -1.253 3.083 -2.36 l 5.861 -8.905 c 0.353 -0.536 0.946 -0.855 1.587 -0.855 H 53.73 c 0.532 0 1.044 0.226 1.403 0.62 l 8.952 9.805 c 0.907 0.993 2.139 1.652 3.467 1.854 l 16.834 2.571 C 85.321 41.595 86 42.385 86 43.331 V 52.952 z"
-                          style="
-                            stroke: none;
-                            stroke-width: 1;
-                            stroke-dasharray: none;
-                            stroke-linecap: butt;
-                            stroke-linejoin: miter;
-                            stroke-miterlimit: 10;
-                            fill: #fff;
-                            fill-rule: nonzero;
-                            opacity: 1;
-                          "
-                          transform=" matrix(1 0 0 1 0 0) "
-                          stroke-linecap="round"
-                        />
-                      </g>
-                    </svg> {% endcomment %}
+                        <g>
+                          <path d="M360.819,282.016c-11.672-0.016-22.359,4.75-29.984,12.406c-7.656,7.625-12.422,18.313-12.422,29.984
+                          c0.016,23.406,18.969,42.375,42.406,42.375c23.422,0,42.375-18.984,42.375-42.375c0.016-11.672-4.75-22.359-12.391-29.984
+                          C383.163,286.766,372.475,282,360.819,282.016z M360.819,345.484c-11.672-0.016-21.078-9.453-21.094-21.078
+                          c0-11.672,9.406-21.094,21.094-21.094c11.656,0,21.078,9.422,21.078,21.094C381.881,336.031,372.459,345.469,360.819,345.484z"
+                          />
+                          <path
+                            d="M126.616,282.016c-11.688-0.016-22.344,4.75-29.984,12.406c-7.656,7.625-12.406,18.313-12.406,29.984
+                          c0.016,23.391,18.953,42.375,42.391,42.375c23.422,0,42.391-18.969,42.391-42.375C169.006,300.953,150.022,282.016,126.616,282.016
+                          z M126.616,345.484c-11.672-0.016-21.063-9.453-21.078-21.078c0-11.672,9.406-21.094,21.078-21.094
+                          c11.656,0.016,21.078,9.422,21.094,21.094C147.694,336.031,138.256,345.469,126.616,345.484z"
+                          />
+                          <path
+                            d="M507.976,226.172c-3.25-3.781-7.984-5.984-12.953-5.984h-104.11c-6.547,0-12.719-3.016-16.734-8.156
+                          l-45.875-58.656c-4.031-5.141-10.203-8.156-16.734-8.156H145.334c-7.609,0-14.625,4.078-18.422,10.656l-36.953,64.313H16.991
+                          c-5.016,0-9.797,2.219-13.016,6.063s-4.594,8.938-3.719,13.859l6.969,64.5c1.172,10.766,10.234,18.953,21.078,18.969l47.719,0.109
+                          v-14.984l-47.672-0.109c-3.203-0.016-5.875-2.406-6.219-5.594l-7.125-65.484l0.453-1.641l1.531-0.688h72.969
+                          c5.375,0,10.313-2.875,13.016-7.531l36.938-64.297c1.109-1.953,3.188-3.141,5.422-3.141h166.234c1.891,0,3.75,0.891,4.922,2.391
+                          l45.875,58.688c6.938,8.813,17.328,13.891,28.547,13.891h104.11l1.531,0.688l0.516,0.672l0.172-0.297l-17.625,68.688
+                          c-0.672,2.766-3.188,4.703-6.063,4.703l-62.172-0.125V324.5l62.141,0.141c9.734,0,18.203-6.563,20.625-15.984l17.641-68.734
+                          C512.569,235,511.194,229.969,507.976,226.172z"
+                          />
+                          <polygon
+                            points="177.209,323.891 310.225,324.281 310.225,309.297 177.209,308.922"
+                          />
+                        </g>
+                      </svg>
+
                     
                       Registered Vehicles
-                    
-                      </a>
+                     </a>
+
                     </li>
                     <li class="border-b border-gray-500/70">
                       <a
                         href="{% url 'add_new_vehicle' %}"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
                       >
-                        Add your vehicle</a
-                    >
+                              
+                      <svg class="text-gray-400 group-hover:text-gray-300 mr-5 h-10 w-10" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M13 19H5C3.89543 19 3 18.1046 3 17V7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M18.5 14V16.5M18.5 19V16.5M18.5 16.5H16M18.5 16.5H21" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Add your vehicle
                       </a>
+                      
                     </li>
                     
                     <li class="border-b border-gray-500/70">
+                      
                       <a
                         href="{% url 'vehicle_booking_approval' %}"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
                       >
-                      Booking Approval</a
-                    >
-                      </a>
+                      
+                        <svg
+                          class="text-gray-400 group-hover:text-gray-300 mr-5 h-10 w-10"
+                          viewBox="0 0 20 20"
+                          fill="#000"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g>
+                            <path
+                              d="M3.5 0V5M11.5 0V5M3 7.5H6M12 7.5H9M3 10.5H6M9 10.5H12M1.5 2.5H13.5C14.0523 2.5 14.5 2.94772 14.5 3.5V13.5C14.5 14.0523 14.0523 14.5 13.5 14.5H1.5C0.947716 14.5 0.5 14.0523 0.5 13.5V3.5C0.5 2.94772 0.947715 2.5 1.5 2.5Z"
+                              stroke="#fff"
+                            />
+                          </g>
+                        </svg> 
+                        Booking Approval
+                        </a>
                     </li>
 
                     <li class="border-b border-gray-500/70">
@@ -422,6 +420,7 @@
                         href="{% url 'buss_logout' %}"
                         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-4 py-3 font-medium rounded-md"
                       >
+                      
                         Logout</a
                     >
                       </a>
@@ -709,15 +708,15 @@
                         <div class="flex flex-col w scroll-smooth">
                             {% for vdata in fetch_buss_vehicle %}
                               {% if vdata.buss_vehicle_owner  %}
-                                  <form action="vehicle/details" method="post">
+                                  <form action="{% url 'registered_vehicle_details' %}" method="post">
                                       {% csrf_token %}
                                       <input type="hidden" name="vehicle_id" value={{ vdata.id }} hidden/>
           
                                       <div class=" box relative flex flex-row m-10 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md ">
-                                          <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/">
+                                          <div class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/">
                                               <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
-                                              <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span>
-                                          </a>
+                                              {% comment %} <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span> {% endcomment %}
+                                          </div>
                                           <div class="flex flex-col border-l justify-evenly  w-[100%] px-2 py-3 gap-2">
                                               <div class="flex flex-col justify-evenly px-3 gap-2">
                                                   <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_id }}</h5>
@@ -785,8 +784,8 @@
                     </div>
                 </div> 
                 {% else %}
-                <section class="bg-gray-50 relative top-[10rem]" id="">
-                    <div class="flex flex-col items-center justify-center text-center space-y-6 py-[5rem] bg-white border rounded-lg shadow-sm">
+                <div class="bg-gray-50 top-[10rem] px-0 flex flex-col flex-1 items-center" id="">
+                    <div class="flex flex-col relative top-[10rem] items-center justify-center text-center space-y-6 py-[5rem] bg-white border rounded-lg shadow-sm">
                         
                     
                         <!-- Message Header -->
@@ -805,7 +804,7 @@
                             Register Your First Vehicle
                         </a>
                     </div>
-                </section>
+                  </div>
                 {% endif %}      
             {% endif %}
         

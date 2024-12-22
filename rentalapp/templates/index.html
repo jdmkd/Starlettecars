@@ -60,7 +60,7 @@
             <div id="menu-btn" class="fas fa-bars"></div>
             <a href="/" class="logo"> <span>Starlette</span>cars </a>
             <nav class="navbar">
-                <a href="/rental_business">Busines Acc</a>
+                <a href="/rental_business">Business Acc</a>
                 
                 <a href="/">home</a>
                 <a href="/vehicles">vehicles</a>
@@ -159,20 +159,19 @@
 
 
         {% block homeimage %}
-        <section class="home bg-gray-50 relative text-center overflow-hidden  px-[1rem] " id="home">
-          {% comment %} <div class="absolute  border-solid border-red">
-            <img src={% static "image/ooorganize.svg"%} alt="">
-          </div> {% endcomment %}
-          <!--underline decoration-indigo-500-->
+        <section class="home relative h-[100vh] !pt-[2rem] pb-0 px-0 bg-gray-50  text-center overflow-hidden" id="home">
+          <div class=" overflow-y-visible">
+            <img class="!absolute !h-auto xl:!h-auto !w-[100vw] !object-cover " src={% static "image/2mustang_home_image.jpg"%} alt="home page image">
+          </div>
 
-          <div class="h-[45rem] md:h-[64rem] flex flex-row px-[.5rem] md:px-[3rem] py-[3rem] justify-between font-medium">
-            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-start justify-between">
-              <h4 class="mb-5 normal-case tracking-wide">Convenient, Affordable, Reliable: <span class="underline underline-offset-4 decoration-2 decoration-indigo-500">Your next adventure awaits</span></h4>
-              <p class="normal-case tracking-wide">Drive Your Dreams: <span class="underline underline-offset-4 decoration-2 decoration-yellow-500">explore our wide range of rental vehicles</span></p>
-            </div>
-            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex flex-col items-end justify-between">
+          <div class="relative h-[45rem] md:h-[64rem] flex flex-col px-[.5rem] md:px-[3rem] py-[3rem] justify-start font-medium text-slate-950/80">
+            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex items-start justify-between">
+              <h4 class="mb-5 normal-case tracking-wide">Convenient, Affordable, Reliable: <span class="underline underline-offset-4 decoration-2 decoration-indigo-500 w-10">Your next adventure awaits</span></h4>
               <p class="normal-case tracking-wide underline underline-offset-4 decoration-2 decoration-pink-500">Rent the perfect vehicle for any Occasion</p>
-              <h3 data-speed="3" class="home-parallax text-[5rem] font-bold !text-gray-900 !content-end tracking-wide">find your car</h3>
+              {% comment %} <p class="normal-case tracking-wide text-white">Drive Your Dreams: <span class="underline text-slate-950/90 underline-offset-4 decoration-2 decoration-yellow-500">explore our wide range of rental vehicles</span></p> {% endcomment %}
+            </div>
+            <div class="mx-[0rem] px-[1rem] py-[1rem] relative text-[1.5rem] md:text-[2rem] font-mono flex items-center justify-center">
+              <h3 data-speed="3" class="home-parallax !text-slate-950/90 text-[5rem] font-bold !content-end tracking-wide ">find your car</h3>
             </div>
 
             <!-- c:\Users\Admin\Downloads\car_rental_illustration.jpg -->
@@ -185,7 +184,7 @@
       {% endblock %}
 
       {% block branches %}
-        <section class="mt-0 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-50  border-b-2">
+        {% comment %} <section class="mt-0 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[5rem] xl:gap-[4rem] bg-gray-50  border-b-2">
 
             <div class="flex flex-row mb-3 px-[4rem] py-[4rem] items-center shadow bg-white hover:bg-gray-800 rounded-xl shadow-lg space-x-4 cursor-pointer  hover:text-white group">
                 <i class="fas fa-home text-[3rem]"></i>
@@ -219,7 +218,7 @@
                 </div>
             </div>
 
-        </section>
+        </section> {% endcomment %}
 
       {% endblock %}
 

@@ -30,6 +30,7 @@ urlpatterns = [
 
 
     path("business/accounts/myprofile",views.buss_profile, name="buss_profile"),
+    path("business/accounts/myprofile/edit",views.buss_profile_edit, name="buss_profile_edit"),
     
 ]
 

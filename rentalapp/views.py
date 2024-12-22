@@ -32,9 +32,6 @@ from django.utils.dateparse import parse_datetime
 
 
 
-def homemain(request):
-    return render(request, 'index.jsx')
-
 def index(request):
     try:
         if request.session["log_id"]:
@@ -218,13 +215,12 @@ def vehicle_booking(request):
                             total_rental_amount = base_rental + service_charges + tax_amount
                             
                             vehicle_status = buss_vehicle.objects.get(id=vid)
-                            # print("vehicle_status.id" ,id)
-                            # print("vehicle_status.vid" ,vid)
                             
+                            if vehicle_status.buss_chassi_number is None:
+                                messages.error(request, "This Vehicle is not approved!!")
                             if vehicle_status.buss_vehicle_status == "Booked":
                                 messages.success(request, "This Vehicle is Already Booked!")
                                 # print("redirected same vehicle page....")
-                                # return redirect("/booking/history")
                             if vehicle_status.buss_vehicle_status == "Under Maintenance":
                                 messages.success(request, "This Vehicle is in Under Maintenance!")
                                 # print("redirected same vehicle page....")
@@ -233,7 +229,7 @@ def vehicle_booking(request):
                                 # print("redirected same vehicle page....")
 
 
-                            if vehicle_status.buss_vehicle_status == "Available":
+                            if vehicle_status.buss_vehicle_status == "Available" and vehicle_status.buss_chassi_number is not None:
                                 vehicle_status.buss_vehicle_status = "Booked"
                                 vehicle_status.save()
 
@@ -643,170 +639,6 @@ def download_generate_rental_receipt_as_pdf(request):
 
 
 
-# from xhtml2pdf import pisa
-# from django.core.exceptions import ObjectDoesNotExist
-# from django.template.context_processors import csrf
-# import logging
-# logger = logging.getLogger(__name__)
-# def download_generate_rental_receipt_as_pdf(request):
-#     try:
-#         # Check for session key
-#         if "log_id" in request.session:
-#             uid = request.session["log_id"]
-#             log_user = request.session.get("log_user")
-
-#             if request.method == "POST":
-#                 # Get the booked vehicle ID from the request
-#                 booked_vehicle_id = request.POST.get("bookedid")
-#                 if not booked_vehicle_id:
-#                     return HttpResponse("Booking ID is required.", status=400)
-                
-#                 logger.info(f"Booked Vehicle ID: {booked_vehicle_id}")
-
-#                 # Fetch user details
-#                 try:
-#                     user = usertable.objects.get(id=uid)
-#                 except ObjectDoesNotExist:
-#                     logger.error(f"User with ID {uid} not found.")
-#                     return HttpResponse("User not found.", status=404)
-                
-#                 # Fetch booked vehicle details
-#                 try:
-#                     booked_vehicle_data = booking_table.objects.get(id=booked_vehicle_id)
-#                 except ObjectDoesNotExist:
-#                     logger.error(f"Booking with ID {booked_vehicle_id} not found.")
-#                     return HttpResponse("Booking not found.", status=404)
-
-#                 # Prepare user data
-#                 user_data = {
-#                     "id": user.id,
-#                     "fname": user.fname,
-#                     "lname": user.lname,
-#                     "email": user.emailid,
-#                     "phoneno": user.phonenum,
-#                     "address_line1": user.address_line1,
-#                     "city": user.city,
-#                     "state": user.state,
-#                     "zip_code": user.zip_code,
-#                     "country": user.country
-#                 }
-
-#                 # Prepare vehicle data
-#                 vehicle_data = {
-#                     "vehicle_name": f'{booked_vehicle_data.vehicle_id.buss_vehicle_company_name} - {booked_vehicle_data.vehicle_id.buss_vehicle_model}',
-#                     "vehicle_type": booked_vehicle_data.vehicle_id.buss_vehicle_type,
-#                     "vehicle_color": booked_vehicle_data.vehicle_id.buss_vehicle_color,
-#                     "buss_vehicle_number": booked_vehicle_data.vehicle_id.buss_vehicle_number,
-#                 }
-
-#                 # Calculate rental duration and pricing
-#                 date_format = "%Y-%m-%d"
-#                 from_date = datetime.strptime(str(booked_vehicle_data.from_duration), date_format)
-#                 to_date = datetime.strptime(str(booked_vehicle_data.from_to), date_format)
-#                 duration = (to_date - from_date).days
-
-#                 base_rental = float(booked_vehicle_data.amount)
-#                 service_charges = 250.00
-#                 tax_percentage = 18
-#                 total_rental_amount = base_rental + service_charges + (base_rental * tax_percentage / 100)
-
-#                 # Prepare booking data
-#                 booking_data = {
-#                     "booking_id": booked_vehicle_data.id,
-#                     "booking_date": booked_vehicle_data.booking_date,
-#                     "from_duration": booked_vehicle_data.from_duration,
-#                     "to_duration": booked_vehicle_data.from_to,
-#                     "duration": duration,
-#                     "rental_amount": booked_vehicle_data.amount,
-#                     "service_charges": service_charges,
-#                     "tax": "GST",
-#                     "tax_per": tax_percentage,
-#                     "total_rental_amount": total_rental_amount,
-#                 }
-
-#                 # Additional details (if applicable, adjust dynamically)
-#                 pricing_data = {
-#                     "base_price": "₹2500/day",
-#                     "additional_charges": "₹500",
-#                     "discount": "₹0",
-#                     "total": f"₹{total_rental_amount}",
-#                 }
-#                 payment_data = {
-#                     "method": "Credit Card",
-#                     "transaction_id": "TXN123456789",
-#                 }
-
-#                 # Combine all data into context
-#                 context = {
-#                     "user_data": user_data,
-#                     "vehicle_data": vehicle_data,
-#                     "booking_data": booking_data,
-#                     "pricing_data": pricing_data,
-#                     "payment_data": payment_data,
-#                 }
-
-#                 context.update(csrf(request))
-
-                
-#                 html_content = render_to_string("booking_receipt_generate.html", context, request=request)
-
-#                 response = HttpResponse(content_type="application/pdf")
-#                 response['Content-Disposition'] = 'attachment; filename="rental_receipt.pdf"'
-
-#                 pisa_status = pisa.CreatePDF(html_content, dest=response)
-
-#                 if pisa_status.err:
-#                     logger.error("Error generating PDF.")
-#                     return HttpResponse("We encountered errors while generating the PDF.", status=500)
-
-#                 return response
-
-#     except KeyError as e:
-#         logger.warning(f"Session KeyError: {str(e)}")
-#         return redirect("booking_history")
-#     except TypeError as e:
-#         logger.error(f"TypeError error: {str(e)}")
-#         return HttpResponse(f"An TypeError error occurred: {str(e)}", status=500)
-#     except Exception as e:
-#         logger.error(f"Unexpected error: {str(e)}")
-#         return HttpResponse(f"An unexpected error occurred: {str(e)}", status=500)
-#     # Redirect to booking history as a fallback
-#     return redirect("booking_history")
-
-
-
-
-
-
-# def download_generate_rental_receipt_as_pdf(request):
-#     """Render HTML to a PDF and return it as a downloadable response."""
-#     if request.session["log_id"]:
-#         # uid = request.session["log_id"]
-#         # log_user = request.session["log_user"]
-#         print("download_generate_rental_receipt_as_pdf !!!!!!!")
-#         if request.method =="POST":
-#             print("inside POST!!!!!!!!!!!!")
-#             html = render_to_string('booking_receipt_generate.html')
-
-#             # Configure pdfkit
-#             options = {
-#                 'page-size': 'A4',
-#                 'encoding': 'UTF-8',
-#             }
-
-#             # Convert HTML to PDF
-#             pdfkit_config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-
-#             pdf = pdfkit.from_string(html, False, options=options, configuration=pdfkit_config)
-#             # pdf = pdfkit.from_string(html, False, options=options)
-
-#             # Return PDF as response
-#             response = HttpResponse(pdf, content_type='application/pdf')
-#             response['Content-Disposition'] = 'inline; filename="rental_receipt.pdf"'
-#             print("Done!!!")
-#             return response
-
-
 def cancelbooking(request, id):
     print("cancelbooking id :::",id)
     try:
@@ -814,13 +646,12 @@ def cancelbooking(request, id):
 
         boooking_history_data.is_cancelled = True
         boooking_history_data.cancelled_at = timezone.now()
-        boooking_history_data.save()
 
         if boooking_history_data.vehicle_id.buss_vehicle_status == "Booked":
             boooking_history_data.vehicle_id.buss_vehicle_status = "Available"
             boooking_history_data.vehicle_id.save()
             print("boooking_history_data.vehicle_id.buss_vehicle_status.save()ed") 
-
+        boooking_history_data.save()
         return redirect("/booking/history")
         # return render(request, "booking_history.html", {"boooking_history_data": boooking_history_data},)
     except booking_table.DoesNotExist:
@@ -1082,94 +913,106 @@ from django.core.validators import FileExtensionValidator
 def updprofile(request):
     print("Update Profile page!!!!!!!!!1")
     try:
-        if request.method == "POST":
-            print("POST!!!!!!!!!!!!!")
-            try:
-                print("getting POST request !!!!!!!!")
-                updfname = request.POST["updfname"]
-                updlname = request.POST["updlname"]
-                updphonenum = request.POST["updphonenum"]
+        if request.session["log_id"]:
 
-                aadhaar_number = request.POST["aadhaar_number"]
-                date_of_birth = request.POST["date_of_birth"]
-                driver_license_number = request.POST["driver_license_number"]
-                driver_license_expiry = request.POST["driver_license_expiry"]
-                address_line1 = request.POST["address_line1"]
-                address_line2 = request.POST["address_line2"]
-                city = request.POST["city"]
-                state = request.POST["state"]
-                zip_code = request.POST["zip_code"]
-                country = request.POST["country"]
-
-
-                logid = request.session["log_id"]
-                print("log_id ::",logid)
-                userdata = usertable.objects.filter(id=logid)[0]
-                
-                print("userdata ::",userdata)
-
-                #update the user profile details
-                userdata.fname = updfname
-                userdata.lname = updlname
-                userdata.phonenum = updphonenum
-                userdata.date_of_birth = date_of_birth
-                userdata.aadhaar_number = aadhaar_number
-                userdata.driver_license_number = driver_license_number
-                userdata.driver_license_expiry = driver_license_expiry
-                userdata.address_line1 = address_line1
-                userdata.address_line2 = address_line2
-                userdata.city = city
-                userdata.state = state
-                userdata.zip_code = zip_code
-                userdata.country = country
-                print("you profile have been updated!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                userdata.save()
-
+            logid = request.session["log_id"]
+            print("log_id ::",logid)
+            userdata = usertable.objects.filter(id=logid)[0]
+                    
+            print("userdata ::",userdata)
+            
+            if request.method == "POST":
+                print("POST!!!!!!!!!!!!!")
                 try:
-                    if request.method == "POST" and request.FILES.get("updProfileimg"):
-                        updProfileimg = request.FILES["updProfileimg"]
-                        userdata = usertable.objects.filter(id=logid)[0]
-                        if updProfileimg:
-                            # print("updProfileimg:::",updProfileimg)
-                            valid_extensions = ["jpg", "jpeg", "png", "gif","webp"]
-                            validator = FileExtensionValidator(
-                                allowed_extensions=valid_extensions,
-                                message="Please upload a valid image file.",
-                            )
-                            try:
-                                validator(updProfileimg)
+                    print("getting POST request !!!!!!!!")
+                    updfname = request.POST["updfname"]
+                    updlname = request.POST["updlname"]
+                    updphonenum = request.POST["updphonenum"]
 
-                            except ValidationError as e:
-                                messages.error(request,"Please upload a valid image file.")
+                    aadhaar_number = request.POST["aadhaar_number"]
+                    date_of_birth = request.POST["date_of_birth"]
+                    driver_license_number = request.POST["driver_license_number"]
+                    driver_license_expiry = request.POST["driver_license_expiry"]
+                    address_line1 = request.POST["address_line1"]
+                    address_line2 = request.POST["address_line2"]
+                    city = request.POST["city"]
+                    state = request.POST["state"]
+                    zip_code = request.POST["zip_code"]
+                    country = request.POST["country"]
+
+
+
+                    #update the user profile details
+                    userdata.fname = updfname
+                    userdata.lname = updlname
+                    userdata.phonenum = updphonenum
+                    userdata.date_of_birth = date_of_birth
+                    print("date_of_birth :",date_of_birth)
+                    userdata.aadhaar_number = aadhaar_number
+                    userdata.driver_license_number = driver_license_number
+                    userdata.driver_license_expiry = driver_license_expiry
+                    print("driver_license_expiry :",driver_license_expiry)
+                    userdata.address_line1 = address_line1
+                    userdata.address_line2 = address_line2
+                    userdata.city = city
+                    userdata.state = state
+                    userdata.zip_code = zip_code
+                    userdata.country = country
+                    userdata.save()
+                    print("you profile have been updated!!!!")
+
+                    try:
+                        if request.method == "POST" and request.FILES.get("updProfileimg"):
+                            print('request.method == "POST" and request.FILES.get("updProfileimg")')
+                            updProfileimg = request.FILES["updProfileimg"]
+                            userdata = usertable.objects.filter(id=logid)[0]
+                            if updProfileimg:
+                                # print("updProfileimg:::",updProfileimg)
+                                valid_extensions = ["jpg", "jpeg", "png", "gif","webp"]
+                                validator = FileExtensionValidator(
+                                    allowed_extensions=valid_extensions,
+                                    message="Please upload a valid image file.",
+                                )
+                                try:
+                                    validator(updProfileimg)
+
+                                except ValidationError as e:
+                                    messages.error(request,"Please upload a valid image file.")
+                                    return redirect("editprofile")
+
+                                userdata.updProfile_photo = updProfileimg
+                                userdata.save()
+                                
+                                # print("This is userdata.updProfile_photo ::",userdata.updProfile_photo)
+                                # return render(request,"Userprofile/editprofile/editprofile.html",context)
                                 return redirect("editprofile")
+                            
 
-                            userdata.updProfile_photo = updProfileimg
-                            userdata.save()
-                            # print("This is userdata.updProfile_photo ::",userdata.updProfile_photo)
-                            # return render(request,"Userprofile/editprofile/editprofile.html",context)
-                            return redirect("editprofile")
-                except:
+                    except Exception as e:
+                        print("Exception1 :",e)
+                    
+                    messages.success(request, "Your profile has been updated.")
+                    return redirect("editprofile")
+
+                except Exception as e:
+                    print("This is BASE ECEPTION")
+                    print("Exception2 :",e)
+                    messages.error(request, f'{e}')
+                    # print("You can't update your profile....error occurred")
                     pass
-                messages.success(request, "Your profile has been updated.")
-                return redirect("editprofile")
 
-            except:
-                # print("This is BASE ECEPTION")
-                # print("You can't update your profile....error occurred")
-                pass
-
+            return render(
+                request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata}
+            )
         else:
-            # print("This is Else of updateprofile Error occurred!! ")
-            messages.error(request, "Error....you cann't update your Profile!!")
-            return render(request, "Userprofile/editprofile/editprofile.html")
-    except:
+            messages.error(request, "Profile login")
+            return redirect("/")
+    except Exception as e:
+        print("Exception3 :",e)
+        messages.error(request, f'{e}')
         pass
-    logid = request.session["log_id"]
-    userdata = usertable.objects.filter(id=logid)[0]
 
-    return render(
-        request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata}
-    )
+    return redirect("/")
 
 
 def deleteprofileImg(request, id):

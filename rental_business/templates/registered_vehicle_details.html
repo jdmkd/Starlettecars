@@ -62,7 +62,7 @@
                     <div class="my-[1rem] flex items-center gap-[1rem] sm:gap-[2rem]">
                       <div class="flex flex-row justify-center items-center gap-2 text-5xl text-gray-900 font-bold ">
                         <span class="font-sans">₹</span>
-                        <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="" id="" class="block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                                value="{{ vehicle_details_list.buss_rent_per_day }}" class="font-sans" disabled>
                       </div>
                       <span class="text-5xl line-through font-medium text-gray-600 ml-4">
@@ -102,7 +102,7 @@
                       <span class="mx-[1rem] px-[.5rem] py-[.4rem] rounded bg-yellow-300 text-lg font-semibold">5.0</span>
                     </div>
                     
-                    <textarea name="" id="" class="my-5 block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                    <textarea name="" id="" class="my-5 block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                                 disabled>{{ vehicle_details_list.buss_vehicle_description }}</textarea>
                     
                     <div class="my-[2rem]">
@@ -111,26 +111,58 @@
                       <ul class="my-2 text-xl text-gray-500 font-semibold">
                         <li class="my-[2rem] flex flex-col gap-2">     
                           <label for="">location :</label>
-                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                          <input type="text" name="" id="" class="block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                                   value={{ vehicle_details_list.buss_vehicle_location }} disabled/>
                         </li>
                         
                         <li class="my-[2rem] flex flex-col gap-2">
                           <label for="">type :</label>             
-                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                          <input type="text" name="" id="" class="block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                                  value={{ vehicle_details_list.buss_vehicle_type }} disabled/>
                         </li>
                         <li class="my-[2rem] flex flex-col gap-2">      
+                          <label for="">vehicle status :</label>   
+                          
+                          
+                          <select 
+                            name="buss_vehicle_status" 
+                            id="buss_vehicle_status" 
+                            class="block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6">
+                            
+                            {% for value, label in vehicle_details_list.VEHICLE_STATUS_CHOICES %}
+                              <option value="{{ value }}" {% if value == vehicle_details_list.buss_vehicle_status %}selected{% endif %}>
+                                {{ label }}</option>
+                                {% comment %} VEHICLE_STATUS_CHOICES {% endcomment %}
+                            {% endfor %}
+                          </select> 
+
+
+                          </li>
+                        <li class="my-[2rem] flex flex-col gap-2">      
                           <label for="">color :</label>      
-                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                          <input type="text" name="" id="" class="block w-full rounded-md border-1 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                                  value={{ vehicle_details_list.buss_vehicle_color }} disabled/>
                         </li>
-                        <li class="my-[2rem] flex flex-col gap-2">
-                          <label for="">number :</label>       
-                          <input type="text" name="" id="" class="block w-full rounded-md border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6" 
-                                  value={{ vehicle_details_list.buss_vehicle_number }} disabled/>
+                        <li class="my-[2rem] flex flex-col gap-2">      
+                          <label for="">chassi number :</label> 
+                          {% comment %} <input type="text" placeholder="buss_vehicle_type" class="input" name="buss_vehicle_type" required> {% endcomment %}
+                          <input type="text" name="buss_chassi_number"  placeholder="chassi number" class="shadow px-[1rem] py-[1rem]  border-[.1rem] border-solid border-gray-300 hover:border-gray-400 rounded-[.3rem] text-[1.5rem] min-w-[25rem]" 
+                          value={% if vehicle_details_list.buss_chassi_number %}{{ vehicle_details_list.buss_chassi_number }}{% else %}{% endif %}
+                          disabled>
                         </li>
-                        <li class="my-[2rem]">feul :</li>
+                        <li class="my-[2rem] flex flex-col gap-2">      
+                            <label for="">year of manufacture :</label>   
+                          <input type="text" name="buss_year_of_manufacture"  placeholder="year of manufacture" class="shadow px-[1rem] py-[1rem]  border-[.1rem] border-solid border-gray-300 hover:border-gray-400 rounded-[.3rem] text-[1.5rem] min-w-[25rem]" 
+                          value={% if vehicle_details_list.buss_year_of_manufacture %}{{ vehicle_details_list.buss_year_of_manufacture }}{% else %}{% endif %}
+                          disabled>
+                        </li>
+                        
+                        <li class="my-[2rem] flex flex-col gap-2"> 
+                              <label for="registration date" class="text-2xl">registration date</label>
+                              <input type="date" name="buss_registration_date" id="registration date" placeholder="registration date" class="shadow px-[1rem] py-[1rem]  border-[.1rem] border-solid border-gray-300 hover:border-gray-400 rounded-[.3rem] text-[1.5rem] min-w-[25rem]" 
+                              value={% if vehicle_details_list.buss_registration_date %}{{ vehicle_details_list.buss_registration_date }}{% else %}{% endif %}
+                              disabled>
+                        </li>
       
                       </ul>
                     </div>

@@ -83,7 +83,7 @@
                   </div>
                   {% comment %} <button class="btn btn-primary">Back to Starlettecars</button> {% endcomment %}
                   {% if request.session.log_user %}
-                    <a href="{% url 'editprofile'%}">Back</a>
+                    <a href="{% url 'myprofile'%}">Back</a>
                   {% else %}
                     <a href="{% url 'login'%}">Back</a>
                   {% endif %}
