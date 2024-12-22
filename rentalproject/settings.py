@@ -128,15 +128,6 @@ DATABASES = {
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
     }
-
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'starlletcarsDB',
-    #     'USER': '',
-    #     'PASSWORD': '',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',
-    # }
     
 }
 
