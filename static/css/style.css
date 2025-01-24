@@ -148,11 +148,8 @@ a .my-bookings:hover{
     color:#00ff08bf;
     font-weight: bold;
     transition-property: transparent;
-    border: 1px solid #7b7b7b3a;
-    border-radius: 7px;
+    
     padding: 2px 5px;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-
 }
 
 .header .logo span{
@@ -225,8 +222,8 @@ a .my-bookings:hover{
 
 
 #menu-btn{
-    font-size: 2.5rem;
-    color:var(--light-color);
+    font-size: 3rem;
+    color:#000;
     display: none;
 }
 
@@ -252,30 +249,33 @@ a .my-bookings:hover{
     text-align: center;
     padding:2rem;
     width:40rem;
-    border-radius: 10px;
+    border-radius: 6px;
     /* box-shadow: var(--box-shadow); */
     box-shadow: 2px 2px 5px rgba(118, 118, 118, 0.107),
             0px 2px 5px rgba(158, 158, 158, 0.205);
     /* border: 1px solid rgba(61, 61, 61, 0.515); */
     border:var(--border);
-    background: #fbfbfb;
+    background: #fdfdfdd9;
 }
 .login-form-container form:hover{
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .4),
-            0px 2px 5px rgba(0, 0, 0, .4);
-    border:1px solid rgba(0, 0, 0, 0.521);
-    background: #fbfbfb;
+    /* box-shadow: 2px 2px 5px rgba(0, 0, 0, .1),
+            0px 2px 3px rgba(0, 0, 0, .2); */
+    border:1px solid rgba(0, 0, 0, 0.3);
 }
 .login-form-container form .buttons{
     display: flex;
     gap:1rem;
     align-items: center;
+    
 }
 
 .login-form-container form .btn{
     display: block;
     width:100%;
     margin:.5rem 0;
+    background-color: #0e76ec;
+    color: #ffffff;
+    padding: 10px 10px;
 }
 
 .login-form-container form .box{
@@ -300,13 +300,14 @@ a .my-bookings:hover{
 }
 
 .login-form-container form p a{
-    color:var(--yellow);
+    color:#0e76ec;
     text-decoration: underline;
 }
 
 .login-form-container form h3{
     padding-bottom:1rem;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    font-weight: 600;
     color:var(--black);
     text-transform: uppercase;
 }
@@ -344,16 +345,14 @@ a .my-bookings:hover{
     padding:2rem;
     width:40rem;
     border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .4),
-            0px 2px 5px rgba(0, 0, 0, .4);
+    box-shadow: 2px 2px 5px rgba(118, 118, 118, 0.107),
+            0px 2px 5px rgba(158, 158, 158, 0.205);
     border:var(--border);
-    background: #fbfbfb;
+    background: #fdfdfdd9;
 }
 .signup-form-container form:hover{
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, .4),
-            0px 2px 5px rgba(0, 0, 0, .4);
-    border:1px solid rgba(0, 0, 0, 0.521);
-    background: #fbfbfb;
+    border:1px solid rgba(0, 0, 0, 0.3);
+
 }
 
 .signup-form-container form .buttons{
@@ -366,6 +365,9 @@ a .my-bookings:hover{
     display: block;
     width:100%;
     margin:.5rem 0;
+    background-color: #0e76ec;
+    color: #ffffff;
+    padding: 10px 10px;
 }
 
 .signup-form-container form .box{
@@ -390,17 +392,17 @@ a .my-bookings:hover{
 }
 
 .signup-form-container form p a{
-    color:var(--yellow);
+    color:#0e76ec;
     text-decoration: underline;
 }
 
 .signup-form-container form h3{
     padding-bottom:1rem;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    font-weight: 600;
     color:var(--black);
     text-transform: uppercase;
 }
-
 .signup-form-container #close-signup-form{
     position: absolute;
     top:1.5rem; right:2.5rem;
@@ -569,12 +571,11 @@ a .my-bookings:hover{
     /* margin:1rem 0; */
     
     width: 100%;
-    height: 40rem;
-    object-fit: contain;
+    /* height: 40rem; */
+    
     background-size: cover;
-    margin: .5rem 0;
     position: relative;
-    border-radius: 20px;
+    
     /* border: 2px solid rgba(205, 205, 205, 0.76); */
     /* background-color: rgba(177, 234, 158, 0.297); */
     /* z-index: -9; */
@@ -1894,12 +1895,7 @@ a .my-bookings:hover{
         height: 60rem;
         padding: 1rem 2rem;
     }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
+    
     .vehicles .vehicles-slider .box .content h3{
         font-size: 2rem;
     }
@@ -1913,12 +1909,7 @@ a .my-bookings:hover{
         height: 60rem;
         padding: 1rem 2rem;
     }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
+    
     .vehicles .vehicles-slider .box .content h3{
         font-size: 2rem;
     }
@@ -1999,22 +1990,7 @@ a .my-bookings:hover{
         /* background-color: rgb(236, 8, 8); */
     }
 
-    .vehicles .vehicles-slider{
-        /* height: 60rem; */
-        /* padding: 1rem 13rem; */
-    }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
-    .vehicles .vehicles-slider .box .content h3{
-        /* font-size: 2rem; */
-    }
-    .vehicles .vehicles-slider .box .content p{
-        /* font-size: 1.3rem; */
-    }
+    
 
     /* our services start */
     .services {

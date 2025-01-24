@@ -816,39 +816,7 @@ def contactdata(request):
     return redirect("/")
 
 
-# contact form end --------
-
-
-
-# myprofile
-def myprofile(request):
-    try:
-        if request.session["log_id"]:
-            loguser = request.session["log_user"]
-            logid = request.session["log_id"]
-            userdata = usertable.objects.filter(id=logid)[0]
-        return render(request, "Userprofile/myprofile.html", {"userdata": userdata})
-    except:
-        userdata = "Please login!!"
-        print(userdata)
-        pass
-    return redirect("/")
-
-
-# def updateUserProfile(request):
-#     if request.method =="POST":
-#         try:
-#             email = request.POST.get("email")
-#             fname = request.POST.get("fname")
-#             lname = request.POST.get("lname")
-#             password = request.POST.get("pass")
-#             rpassword = request.POST.get("rpass")
-#             logindata = usertable(fname=fname, lname=lname, emailid=email, password=password, rpassword=rpassword, role=2, status=1)
-#             logindata.save()
-#         except:
-#             pass
-#     else:
-#         messages.error("Error....you cann't update your Profile!!")
+# contact form end ------
 
 
 def inbox(request):
@@ -888,19 +856,35 @@ def setting(request):
     return render(request, "Userprofile/settings.html", {"udata": udata})
 
 
+# myprofile
+def myprofile(request):
+    try:
+        if request.session["log_id"]:
+            loguser = request.session["log_user"]
+            logid = request.session["log_id"]
+            userdata = usertable.objects.filter(id=logid)[0]
+        return render(request, "Userprofile/myprofile.html", {"userdata": userdata})
+    except:
+        userdata = "Please login!!"
+        print(userdata)
+        pass
+    return redirect("/")
+
+
+
+
 def editprofile(request):
     try:
         loguser = request.session["log_user"]
         logid = request.session["log_id"]
         userdata = usertable.objects.filter(id=logid)[0]
-        print("Edit profile page")
+        print("Edit profile page1")
         # print("userdata image edit page :::",userdata.updProfile_photo)
         # print("userdata image :::",userdata.updProfile_image)
-        return render(
-            request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata}
-        )
-    except:
-        # print("Error Except!!!")
+        return render(request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata})
+    except Exception as e:
+        print("Exception :",e)
+        messages.error(request,f"Exception : {e}")
         pass
 
     # return render(request, "Userprofile/editprofile/editprofile.html",{"userdata":userdata})
@@ -922,7 +906,7 @@ def updprofile(request):
             print("userdata ::",userdata)
             
             if request.method == "POST":
-                print("POST!!!!!!!!!!!!!")
+                print("POST!!")
                 try:
                     print("getting POST request !!!!!!!!")
                     updfname = request.POST["updfname"]
@@ -958,13 +942,14 @@ def updprofile(request):
                     userdata.state = state
                     userdata.zip_code = zip_code
                     userdata.country = country
+                    
                     userdata.save()
-                    print("you profile have been updated!!!!")
-
+                    print("you profile have been updated Successfuly!!!!")
+                    
                     try:
-                        if request.method == "POST" and request.FILES.get("updProfileimg"):
-                            print('request.method == "POST" and request.FILES.get("updProfileimg")')
-                            updProfileimg = request.FILES["updProfileimg"]
+                        if request.method == "POST" and request.FILES.get("updProfileimginput"):
+                            print('request.method == "POST" and request.FILES.get("updProfileimginput")')
+                            updProfileimg = request.FILES["updProfileimginput"]
                             userdata = usertable.objects.filter(id=logid)[0]
                             if updProfileimg:
                                 # print("updProfileimg:::",updProfileimg)
@@ -982,17 +967,17 @@ def updprofile(request):
 
                                 userdata.updProfile_photo = updProfileimg
                                 userdata.save()
-                                
-                                # print("This is userdata.updProfile_photo ::",userdata.updProfile_photo)
+                                print("you profile Image have been updated!!!!")
+                                messages.success(request, "Your profile has been updated Successfuly.")
                                 # return render(request,"Userprofile/editprofile/editprofile.html",context)
-                                return redirect("editprofile")
+                                return redirect("myprofile")
                             
-
                     except Exception as e:
                         print("Exception1 :",e)
                     
-                    messages.success(request, "Your profile has been updated.")
-                    return redirect("editprofile")
+                    messages.success(request, "Your profile has been updated Successfuly.")
+                    
+                    return redirect("myprofile")
 
                 except Exception as e:
                     print("This is BASE ECEPTION")
@@ -1001,11 +986,9 @@ def updprofile(request):
                     # print("You can't update your profile....error occurred")
                     pass
 
-            return render(
-                request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata}
-            )
+            return render(request, "Userprofile/editprofile/editprofile.html", {"userdata": userdata})
         else:
-            messages.error(request, "Profile login")
+            messages.error(request, "please login")
             return redirect("/")
     except Exception as e:
         print("Exception3 :",e)

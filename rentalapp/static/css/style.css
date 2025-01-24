@@ -148,11 +148,8 @@ a .my-bookings:hover{
     color:#00ff08bf;
     font-weight: bold;
     transition-property: transparent;
-    border: 1px solid #7b7b7b3a;
-    border-radius: 7px;
+    
     padding: 2px 5px;
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
-
 }
 
 .header .logo span{
@@ -225,8 +222,8 @@ a .my-bookings:hover{
 
 
 #menu-btn{
-    font-size: 2.5rem;
-    color:var(--light-color);
+    font-size: 3rem;
+    color:#000;
     display: none;
 }
 
@@ -1898,12 +1895,7 @@ a .my-bookings:hover{
         height: 60rem;
         padding: 1rem 2rem;
     }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
+    
     .vehicles .vehicles-slider .box .content h3{
         font-size: 2rem;
     }
@@ -1917,12 +1909,7 @@ a .my-bookings:hover{
         height: 60rem;
         padding: 1rem 2rem;
     }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
+    
     .vehicles .vehicles-slider .box .content h3{
         font-size: 2rem;
     }
@@ -2003,22 +1990,7 @@ a .my-bookings:hover{
         /* background-color: rgb(236, 8, 8); */
     }
 
-    .vehicles .vehicles-slider{
-        /* height: 60rem; */
-        /* padding: 1rem 13rem; */
-    }
-    .vehicles .vehicles-slider .box{
-        /* height: 53rem; */
-    }
-    .vehicles .vehicles-slider .box .content{
-        /* height: auto; */
-    }
-    .vehicles .vehicles-slider .box .content h3{
-        /* font-size: 2rem; */
-    }
-    .vehicles .vehicles-slider .box .content p{
-        /* font-size: 1.3rem; */
-    }
+    
 
     /* our services start */
     .services {

@@ -85,6 +85,40 @@
 
 
 
+        {% if messages %}
+        <div class="messages absolute top-[-20rem]  px-0 flex items-center justify-center w-[100vw] h-[100vh]" id="">
+            <div class="modal_box flex flex-col  items-center justify-center text-center  py-10 px-5 bg-white border rounded-lg shadow-sm z-999">
+                
+                {% for message in messages %}
+                <!-- Message Header -->
+                    <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
+                        {{ message.tags }}
+                    </h2>
+                    <p class="{% if message.tags == 'success' %} text-green-600 
+                                {% elif message.tags == 'srror' %} text-red-600 
+                                {% elif message.tags == 'info' %} text-blue-600 
+                                {% else %} text-yellow-600 
+                                {% endif %} 
+                                max-w-xl lg:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl text-3xl py-5 px-3">
+                        {{ message }}
+                    </p>
+                
+                {% endfor %}
+            
+                <!-- Action Button -->
+                
+                <button class="close mt-5 px-6 py-4 bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl text-white text-3xl font-medium rounded-md  transition-all">
+                    Okay
+                </button>
+                {% comment %} <a href="{% url 'add_new_vehicle' %}" 
+                    class="modal_box px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
+                    Okay
+                </a> {% endcomment %}
+            </div>
+        </div>
+        {% endif %}
+
+
 
         <div class="mt-[10rem] bg-gray-50">
             <div>
@@ -189,22 +223,7 @@
                                                         {% endif %}
                                                     </div>
                         
-                                                <!-- Upload Profile Image -->
-                                                <label for="updProfileimginput" class="flex flex-col items-center space-y-1 text-center cursor-pointer">
-                                                    {% if userdata.updProfile_photo %}
-                                                        <span class="text-xl px-4 py-3 font-medium text-white rounded-md bg-blue-500 hover:bg-blue-600 transition">Change Profile Image</span>
-                                                    {% else %}
-                                                        <span class="text-xl px-4 py-3 font-medium text-white rounded-md bg-blue-500 hover:bg-blue-600 transition">Upload Profile Image</span>
-                                                    {% endif %}
-
-                                                    <input
-                                                        name="updProfileimginput"
-                                                        id="updProfileimginput"
-                                                        class="hidden"
-                                                        type="file"
-                                                    />
-                                                    
-                                                </label>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -292,7 +311,16 @@
 
         
 
-
+        <script>
+            // {% comment %} let msg_closebtn = document.getElementsByClassName("close"); {% endcomment %}
+            let msg_closebtn = document.querySelector(".close");
+    
+            msg_closebtn.addEventListener('click', () =>{
+                messages = document.querySelector(".messages");
+                messages.style.cssText = 'display:none;';
+                
+            });
+        </script>
 
 
 
