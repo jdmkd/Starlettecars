@@ -1,3 +1,7 @@
+
+
+#### Dont use this file this for me to make sure if I have make any mistaks in the package.json 
+
 "scripts": {
     "build:rentalapp": "npx tailwindcss -i ./static/css/tailwind.css -o ./rentalapp/static/css/tailwind-output.css --watch",
     "build:rental_business": "npx tailwindcss -i ./static/css/tailwind.css -o ./rental_business/static/css/tailwind-output.css --watch",
