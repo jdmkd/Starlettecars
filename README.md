@@ -95,7 +95,7 @@
 ###### This is for Tailwind setup  #############
     - Open a seprate terminal that defferent from the activated virtual env (.env) must be a seprate terminal in you vs code.
     - First you have to initialize the node setup for tailwind css that we are going to user inside the project.
-    
+
         -> npm init -y
 
     - after initializing node setup you have to install the tailwindcss 
@@ -113,7 +113,8 @@
     - after running the 'npm run dev' nodejs backend serves that tailwind-output.css file
     - we access this tailwind css file into our templates for styling the html codes
     - you have to write this line to the <head> tag in you html file. 
-    <!-- <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" /> -->
+        <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" />
+        <!-- <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" /> -->
 
 
 
