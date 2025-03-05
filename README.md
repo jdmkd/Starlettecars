@@ -114,7 +114,6 @@
     - we access this tailwind css file into our templates for styling the html codes
     - you have to write this line to the <head> tag in you html file. 
         <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" />
-        <!-- <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" /> -->
 
 
 
