@@ -8,12 +8,12 @@ Welcome to the project! This guide will help you set up and run the project effi
 ### Open the project in VS Code or your favorite editor.
 
 ---
-## 🐍 Python & Django Setup
+## 🐍 Python3 & Django 5.0.6 Setup
 
 ### 1️⃣ Prerequisites:
 Ensure you have the following installed:
-- **Python 3**
-- **pip** (Python package manager)
+- **Python 3.12.0**
+- **pip 24.3.1** (Python package manager)
 
 ### 2️⃣ Install Virtual Environment:
 If you don't have `virtualenv` installed, run:
