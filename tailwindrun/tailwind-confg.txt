@@ -1,6 +1,6 @@
 
 
-#### Dont use this file this for me to make sure if I have make any mistaks in the package.json 
+#### Don't make changes in this file this for if you have make any mistaks in the package.json 
 
 "scripts": {
     "build:rentalapp": "npx tailwindcss -i ./static/css/tailwind.css -o ./rentalapp/static/css/tailwind-output.css --watch",
