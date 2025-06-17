@@ -2,7 +2,9 @@
 module.exports = {
   content: [
     './rentalapp/templates/**/*.{html,js}',
+    './rentalapp/static/js/**/*.js',
     './rental_business/templates/**/*.{html,js}',
+    './rental_business/static/js/**/*.js',
     './node_modules/flowbite/**/*.js',
     './node_modules/swiper/**/*.js',
   ],

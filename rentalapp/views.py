@@ -5,6 +5,7 @@ import os
 import email
 import uuid
 import random
+from decouple import config
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ValidationError
@@ -28,8 +29,6 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, Image, KeepTogether
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from django.utils.dateparse import parse_datetime
-
-
 
 
 def index(request):
@@ -1116,7 +1115,7 @@ def send_mail_after_registration(email, auth_token):
     try:
         subject = "Your account needs to be varified."
 
-        message = f"Please click on this link to varify your account. http://127.0.0.1:8000/accounts/verify/{auth_token}"
+        message = f"Please click on this link to varify your account. {config('END_POINT_URL')}/accounts/verify/{auth_token}"
         send_from = settings.EMAIL_HOST_USER
         print("This is send from mail ::", send_from)
         recipient_list = [
@@ -1287,7 +1286,7 @@ def reset_pass_request(request):
             print("This is reset_pass_token ::",reset_pass_token)
             subject = "Change password for Starlettecars"
             plaintext = "change your password."
-            htmltemp = f"<strong>Reset password</strong></br><p>A password change has been requested for your account. If this was you, please use the link below to reset your password. it will expires after 1 hour.</p></br> <p>http://127.0.0.1:8000/accounts/u/request/reset-password/token={reset_pass_token}<p>"
+            htmltemp = f"<strong>Reset password</strong></br><p>A password change has been requested for your account. If this was you, please use the link below to reset your password. it will expires after 1 hour.</p></br> <p>{config('END_POINT_URL')}/accounts/u/request/reset-password/token={reset_pass_token}<p>"
             try:
                 msg = EmailMultiAlternatives(
                     subject,

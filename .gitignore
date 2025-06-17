@@ -44,9 +44,9 @@ __pycache__/
 *$py.class
 
 # tailwind css files
-
+/static/
+./static/
 # ./static/css/tailwind.css
-./static/css/tailwindOutput.css
 
 
 # C extensions

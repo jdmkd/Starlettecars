@@ -1,8 +1,9 @@
-from datetime import timezone
+from datetime import datetime, timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 import uuid
+from decouple import config
 from django.core.validators import FileExtensionValidator
 import random
 from django.contrib import messages
@@ -20,6 +21,12 @@ from django import template
 from django.shortcuts import redirect, render
 from django.conf import settings
 from django.core.mail import send_mail
+import json
+from django.db.models import Count, Sum, F, FloatField
+from django.db.models.functions import Cast
+from django.db.models.functions import Lower, Trim, ExtractMonth, ExtractYear
+
+from django.core.serializers.json import DjangoJSONEncoder
 
 from rentalapp.models import booking_table, usertable
 # from .models import usertable, booking_table, vehicle_table, contactus, feedback
@@ -28,20 +35,19 @@ from .models import business_user, buss_vehicle, buss_contactus, buss_feedback
 
 
 
-def buss_index(request):
+def dashboard(request):
     try:
-        print("inside try")
         if request.session["buss_log_id"]:
             id = request.session["buss_log_id"]
             userdata = request.session["buss_log_user"]
             buss_udata = business_user.objects.get(id=id)
 
-            # Fetch all vehicles owned by the business user
+            # All vehicles owned by this business
             fetch_buss_vehicle = buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
             
-            # Fetch all bookings for the owned vehicles
+            # All bookings for this user's vehicles
             fetch_booked_vdata = booking_table.objects.filter(
-                vehicle_id__in=buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
+                vehicle_id__in=fetch_buss_vehicle
             ).order_by('-booking_date')
 
             # Booking status counts
@@ -62,7 +68,83 @@ def buss_index(request):
                     print(f"Invalid amount for booking ID {booking.id}")
             
             total_revenue = round(total_revenue, 2)
+            
+            # Calculate total revenue for approved bookings by month
+            revenue_by_month = fetch_booked_vdata.filter(status='approved') \
+                .annotate(
+                    amount_float=Cast('amount', output_field=FloatField()),
+                    month=ExtractMonth('booking_date'),
+                    year=ExtractYear('booking_date')
+                ) \
+                .values('year', 'month') \
+                .annotate(total=Sum('amount_float')) \
+                .order_by('year', 'month')
 
+
+            month_labels = []
+            month_revenue = []
+
+            month_map = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            for entry in revenue_by_month:
+                month_num = entry['month']
+                year = entry['year']
+                month_labels.append(f"{month_map[month_num - 1]} {year}")
+                month_revenue.append(round(float(entry['total']), 2))
+
+
+            # Vehicle types pie chart
+            vehicle_type_counts = fetch_buss_vehicle.values('buss_vehicle_type').annotate(count=Count('id'))
+            type_labels = []
+            type_counts = []
+            for entry in vehicle_type_counts:
+                type_labels.append(entry['buss_vehicle_type'])
+                type_counts.append(entry['count'])
+
+            # Top vehicles by booking count
+            top_vehicles = fetch_booked_vdata.values(
+                'vehicle_id__buss_vehicle_company_name', 'vehicle_id__buss_vehicle_model'
+            ).annotate(count=Count('id')).order_by('-count')[:5]
+
+            top_vehicle_labels = []
+            top_vehicle_counts = []
+            for item in top_vehicles:
+                label = f"{item['vehicle_id__buss_vehicle_company_name']} {item['vehicle_id__buss_vehicle_model']}"
+                top_vehicle_labels.append(label)
+                top_vehicle_counts.append(item['count'])
+
+            # Payment method distribution (if available)
+            # fetch_booked_vdata.filter(paystatus='paid')
+            payment_distribution = (
+                fetch_booked_vdata
+                .annotate(payment_clean=Trim(Lower('payment_method')))
+                .values('payment_clean')
+                .annotate(count=Count('id'))
+                .order_by('-count')
+            )
+            
+            payment_labels = []
+            payment_counts = []
+
+            for entry in payment_distribution:
+                label = entry['payment_clean'].capitalize()  # Optional: 'cash' -> 'Cash'
+                count = entry['count']
+
+                payment_labels.append(label)
+                payment_counts.append(count)
+
+            # Add monthly booking count for bar/mixed chart
+            bookings_by_month = fetch_booked_vdata.values('booking_date__month').annotate(count=Count('id')).order_by('booking_date__month')
+
+            booking_month_labels = []
+            booking_month_counts = []
+
+            for entry in bookings_by_month:
+                month_num = entry['booking_date__month']
+                booking_month_labels.append(month_map[month_num - 1])
+                booking_month_counts.append(entry['count'])
+
+            
+                
             # Prepare data for the template
             buss_user_data = {
                 "userdata": userdata,
@@ -75,15 +157,66 @@ def buss_index(request):
                 "canceled_count": canceled_count,
                 "total_booking_count": total_booking_count,
                 "registered_vehicles_count": registered_vehicles_count,
-                "total_revenue": total_revenue  # Add total revenue to context
+                "total_revenue": total_revenue,
+
+                # Chart datasets
+                "month_labels": json.dumps(month_labels),
+                "month_revenue": json.dumps(month_revenue),
+                "type_labels": json.dumps(type_labels),
+                "type_counts": json.dumps(type_counts),
+                "top_vehicle_labels": json.dumps(top_vehicle_labels),
+                "top_vehicle_counts": json.dumps(top_vehicle_counts),
+                "payment_labels": json.dumps(payment_labels),
+                "payment_counts": json.dumps(payment_counts),
+                "booking_month_labels": json.dumps(booking_month_labels),
+                "booking_month_counts": json.dumps(booking_month_counts),
+                
             }
-            return render(request, "buss_index.html", buss_user_data)
+
+            return render(request, "dashboard/dashboard.html", buss_user_data)
     except KeyError as e:
-        userdata = "Please login!!"
-        print("Session Error:", e)
+        print("business user is not logged in")
         pass
 
-    return render(request, "buss_index.html")
+    
+    # if not month_labels or not month_revenue:
+    month_labels = ['Jan 2024', 'Feb 2024', 'Mar 2024', 'Apr 2024']
+    month_revenue = [1200, 1500, 900, 1800]
+
+    # if not booking_month_labels or not booking_month_counts:
+    booking_month_labels = ['Jan', 'Feb', 'Mar', 'Apr']
+    booking_month_counts = [3, 5, 2, 4]
+
+    # Fallbacks for empty vehicle types
+    # if not type_labels or not type_counts:
+    type_labels = ['SUV', 'Sedan', 'Hatchback']
+    type_counts = [5, 3, 2]
+
+    # Fallbacks for top vehicles
+    # if not top_vehicle_labels or not top_vehicle_counts:
+    top_vehicle_labels = ['Toyota Fortuner', 'Hyundai Creta', 'Maruti Swift']
+    top_vehicle_counts = [10, 7, 4]
+
+    # Fallbacks for payment method distribution
+    # if not payment_labels or not payment_counts:
+    payment_labels = ['Cash', 'Card', 'UPI']
+    payment_counts = [8, 5, 7]
+
+    buss_user_data = {
+        # Chart datasets
+        "month_labels": json.dumps(month_labels),
+        "month_revenue": json.dumps(month_revenue),
+        "type_labels": json.dumps(type_labels),
+        "type_counts": json.dumps(type_counts),
+        "top_vehicle_labels": json.dumps(top_vehicle_labels),
+        "top_vehicle_counts": json.dumps(top_vehicle_counts),
+        "payment_labels": json.dumps(payment_labels),
+        "payment_counts": json.dumps(payment_counts),
+        "booking_month_labels": json.dumps(booking_month_labels),
+        "booking_month_counts": json.dumps(booking_month_counts),
+    }
+
+    return render(request, "dashboard/dashboard.html", buss_user_data)
 
 
 
@@ -463,7 +596,7 @@ def buss_send_mail_after_registration(buss_emailid, buss_auth_token):
     try:
         subject = "Your Business Account needs to be varified."
 
-        message = f"Hi paste the link to varify your account. http://127.0.0.1:8000/rental_business/email_verify/{buss_auth_token}"
+        message = f"Hi paste the link to varify your account. {config('END_POINT_URL')}/rental_business/email_verify/{buss_auth_token}"
         send_from = settings.EMAIL_HOST_USER
         print("This is send from gmail ::", send_from)
         recipient_list = [
@@ -530,7 +663,7 @@ def generate_random_vehicle_id():
     new_vehicle_id = f'BUS{new_last_used_id:04d}'
     return new_vehicle_id
     
-def add_new_vehicle(request):
+def add_vehicle(request):
     try:
         if request.session["buss_log_id"]:
             id = request.session["buss_log_id"]
@@ -596,7 +729,7 @@ def add_new_vehicle(request):
                 buss_data.save()
                 messages.success(request,f"New vehicle '{ buss_data } - {buss_data.buss_vehicle_model}' has been added successfuly, Now user can book your '{buss_data}-{buss_data.buss_vehicle_model}' on rent.")
                 
-            return render(request,"add_new_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
+            return render(request,"add_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
                 
         else:
             return redirect("/rental_business")
@@ -606,7 +739,7 @@ def add_new_vehicle(request):
 
         # return redirect("/rental_business")
     return redirect("/rental_business")
-    # return render(request,"add_new_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
+    # return render(request,"add_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
 
 
 
@@ -657,6 +790,7 @@ def vehicle_booking_approval(request):
             return render(request,"vehicle_booking_approval.html", fetch_booked_vdata )
         
     except Exception as e:
+        print("Exception xx : ",e)
         pass
 
     # return render(request,"vehicle_booking_approval.html")
@@ -698,6 +832,7 @@ def view_user_detail_for_approval(request):
 
 def buss_profile(request):
     try:
+        print("buss_profile trying")
         if request.session["buss_log_id"]:
             b_log_user = request.session["buss_log_user"]
             b_log_id = request.session["buss_log_id"]
@@ -706,10 +841,12 @@ def buss_profile(request):
         return render(request,"buss_profile/myprofile.html", {"business_udata": business_udata,"buss_udata":business_udata})
     
     
-    except:
+    except Exception as e:
         userdata = "Please login!!"
         print(userdata)
+        print("Exceptionx : ",e)
         pass
+    print("redirecting to the /rental_business")
     return redirect("/rental_business")
 
 

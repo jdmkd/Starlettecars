@@ -20,9 +20,9 @@ from django.conf import settings
 from django.urls import path, re_path, include
 from django.contrib import admin
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include('rentalapp.urls')),
-    path('rental_business/', include('rental_business.urls')),
+    path("admin/", admin.site.urls),
+    path("",include("rentalapp.urls")),
+    path("rental_business/", include("rental_business.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 
 

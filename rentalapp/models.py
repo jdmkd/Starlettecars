@@ -121,6 +121,8 @@ class booking_table(models.Model):
     from_to = models.DateField(blank=False, null=False)
     amount = models.CharField(max_length=30)
     booking_date = models.DateTimeField(auto_now_add=True)
+    payment_method = models.CharField(max_length=20, choices=[('cash', 'Cash'), ('online', 'Online'), ('upi', 'UPI')], default='cash')
+
     paystatus = models.BooleanField(default=False)
     
     status = models.CharField(max_length=10,

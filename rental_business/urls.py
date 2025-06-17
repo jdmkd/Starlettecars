@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path("", views.buss_index, name="buss_index"),
-    path("buss_index", views.buss_index, name="buss_index"),
+    path("", views.dashboard, name="dashboard"),
+    path("dashboard", views.dashboard, name="dashboard"),
     path("registered/vehicles", views.registered_vehicles, name="registered_vehicles"),
     path("registered/vehicle/details", views.registered_vehicle_details, name="registered_vehicle_details"),
     path("registered/vehicle/details/update", views.registered_vehicle_details_update, name="registered_vehicle_details_update"),
@@ -22,8 +22,8 @@ urlpatterns = [
     path("email_verify/<slug:buss_auth_token>", views.email_verify, name="email_verification"),
     path("accounts/verify/email", views.mail_token_send, name="mail_token_send"),
     path("verificationerror", views.verificationerror, name="verificationerror"),
+    path("add_vehicle",views.add_vehicle, name="add_vehicle"),
 
-    path("add_new_vehicle",views.add_new_vehicle,name="add_new_vehicle"),
 
     path("vehicle/booking/approval",views.vehicle_booking_approval,name="vehicle_booking_approval"),
     path("vehicle/booking/approval/view/user/detail",views.view_user_detail_for_approval,name="view_user_detail_for_approval"),
@@ -31,7 +31,9 @@ urlpatterns = [
 
     path("business/accounts/myprofile",views.buss_profile, name="buss_profile"),
     path("business/accounts/myprofile/edit",views.buss_profile_edit, name="buss_profile_edit"),
-    
+
+
+    # path("dashboard",views.dashboard, name="dashboard"),   
 ]
 
 if settings.DEBUG:

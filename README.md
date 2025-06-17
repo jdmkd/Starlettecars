@@ -48,7 +48,9 @@ This project supports **PostgreSQL** and **SQLite**.
 
 ### 🔹 Option 1: PostgreSQL Setup (Recommended)
 If using PostgreSQL, create a `.env` file at the project root and add the following configurations:
-```env
+```py
+BASE_END_POINT=192.168.1.2:8000
+
 # Database Configuration
 DATABASE_ENGINE=django.db.backends.postgresql
 DATABASE_NAME=your_database_name
@@ -95,6 +97,12 @@ python manage.py createsuperuser
 Follow the prompts to set up your admin credentials.
 
 ---
+## Collect All Static Files for Deployment:
+It will create a static folder:
+```sh
+python manage.py collectstatic
+```
+---
 ## 🚀 Run the Development Server
 Start your Django project with:
 ```sh
@@ -102,8 +110,10 @@ python manage.py runserver
 ```
 Your project is now running! 🎉
 
+
+
 ---
-## 🎨 Tailwind CSS Setup
+# 🎨 Tailwind CSS Setup
 This project uses **Tailwind CSS** for styling.
 
 ### 1️⃣ Initialize Node.js Setup:
@@ -112,35 +122,90 @@ Open a separate terminal (not inside the virtual environment) and run:
 npm init -y
 ```
 
-### 2️⃣ Install Tailwind CSS:
+### 2️⃣ Install Tailwind CSS and Required Tools:
 ```sh
-npm install -D tailwindcss
-npx tailwindcss init
+npm install -D tailwindcss postcss postcss-cli autoprefixer concurrently
+npx tailwindcss init -p
 ```
 
-### 3️⃣ Start the Tailwind Build Process:
+### 3️⃣ Setup Tailwind Input File:
+Create your input CSS file at:
 ```sh
-npm run tailwind-build
-npm run tailwind-watch
+/static/css/tailwind.css
 ```
 
-### 4️⃣ Serve Tailwind CSS:
-Navigate to the `tailwindrun` folder and run:
+Add the base Tailwind directives:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### 4️⃣ Configure tailwind.config.js
+Update it with as your Django template and static paths:
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './**/templates/**/*.html',
+    './**/static/js/**/*.js',
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+### 5️⃣ Update package.json Scripts
+Add or replace the current content of the scripts with:
+```json
+"scripts": {
+    "build:rentalapp": "npx tailwindcss -i ./static/css/tailwind.css -o ./rentalapp/static/css/tailwind-output.css --watch",
+    "build:rental_business": "npx tailwindcss -i ./static/css/tailwind.css -o ./rental_business/static/css/tailwind-output.css --watch",
+    "build": "tailwindcss -i ./static/css/tailwind.css -o ./static/css/tailwind-output.css --minify",
+    "watch": "concurrently \"npm run build:rentalapp\" \"npm run build:rental_business\"",
+    "start": "npm run watch"
+  },
+```
+
+### 6️⃣ Serve Tailwind CSS:
+Start the CSS watcher for both apps:
 ```sh
-cd tailwindrun
-npm run dev
+npm run start
 ```
 This serves the `tailwind-output.css` file.
 
-### 5️⃣ Link Tailwind in HTML:
-Add the following line inside the `<head>` tag of your HTML files:
+### 7️⃣ Clean/Rebuild Output CSS:
+If you want to build production-ready CSS:
+```sh
+npm run build
+```
+This serves the `tailwind-output.css` file.
+
+### 8️⃣ Link Tailwind in HTML:
+In your Django HTML:
 ```html
 <link href="{% static 'css/tailwind-output.css' %}" rel="stylesheet" />
+```
+
+
+### 9️⃣ Clean Static Output (Optional)
+To delete old compiled CSS files manually:
+
+✅ For Windows PowerShell:
+```powershell
+Remove-Item -Recurse -Force rentalapp/static/css/tailwind-output.css
+Remove-Item -Recurse -Force rental_business/static/css/tailwind-output.css
+```
+
+Or from terminal (cmd or Bash):
+
+```bash
+del rentalapp/static/css/tailwind-output.css
+del rental_business/static/css/tailwind-output.css
 ```
 
 ---
 ## 🎯 Done!
 Your project is now fully set up and ready to go! 🚀
-
-Thanks for using this guide. Happy coding! 😊
-
