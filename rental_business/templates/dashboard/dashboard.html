@@ -254,218 +254,220 @@ new Chart(document.getElementById('mixedChart'), {
 <!-- dashboard_recent_booking_requests -->
 {% block dashboard_recent_booking_requests %}
 
-<div class="w-[100%] mt-5 grid grid-cols-1 gap-8 my-[2rem]">
+<div class="mt-5 grid grid-cols-1 gap-8 my-[2rem]">
   <!-- Recent Sales Table -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <h3 class="text-3xl font-semibold text-gray-700 m-4">
         Recent booking request
       </h3>
-      <div class=" overflow-x-auto">
-        {% if fetch_booked_vdata %}
-          <a href="{% url 'vehicle_booking_approval' %}">
-            <table class="w-max">
-              <thead>
-                <tr
-                  class="py-5 bg-gray-200 text-gray-600 uppercase text-xl md:text-3xl leading-normal"
-                >
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">ID</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Customer</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Vehicle ID</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Vehicle Name</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Status</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">To</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Booking Date</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Is Cancelled</th>
-                  <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Amount</th>
-                </tr>
-              </thead>
-              <tbody class="text-gray-700 text-sm sm:text-base md:text-xl"> 
-                {% for booked_vehicle in fetch_booked_vdata|slice:":5" %}
-                <tr class="border-t text-xl">
-                  <td class="py-2 px-4 sm:py-3 sm:px-6 text-left">
-                    <span class="text-gray-500">{{forloop.counter}}</span>
-                  </td>
-                  <td class="py-2 px-4 text-left">
-                    <div class="flex items-center">
+      <div class="overflow-x-scroll ">
+          <div class="min-w-max">
+          {% if fetch_booked_vdata %}
+            <a href="{% url 'vehicle_booking_approval' %}">
+              <table class="min-w-[100%]">
+                <thead>
+                  <tr
+                    class="py-5 bg-gray-200 text-gray-600 uppercase text-xl md:text-3xl leading-normal"
+                  >
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">ID</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Customer</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Vehicle ID</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Vehicle Name</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Status</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">To</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Booking Date</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Is Cancelled</th>
+                    <th class="py-2 px-4 sm:py-4 sm:px-6 text-left">Amount</th>
+                  </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm sm:text-base md:text-xl"> 
+                  {% for booked_vehicle in fetch_booked_vdata|slice:":5" %}
+                  <tr class="border-t text-xl">
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <span class="text-gray-500">{{forloop.counter}}</span>
+                    </td>
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <div class="flex items-center">
+                        {% comment %}
+                        <img
+                          class="h-8 w-8 rounded-full mr-2"
+                          src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          alt="Customer avatar"
+                        />
+                        {% endcomment %}
+                        <span class="font-medium text-gray-900"
+                          >{{ booked_vehicle.login_id }}</span
+                        >
+                      </div>
+                    </td>
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <span class="text-gray-500"
+                        >{{booked_vehicle.vehicle_id.buss_vehicle_id}}</span
+                      >
+                    </td>
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <span class="text-gray-500"
+                        >{{booked_vehicle.vehicle_id.buss_vehicle_company_name}} -
+                        {{booked_vehicle.vehicle_id.buss_vehicle_model}}</span
+                      >
+                    </td>
+
+                    {% if booked_vehicle.status == 'pending' %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left flex items-center text-yellow-300 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          fill="#ffe082"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#ffa000"
+                          stroke-width="4"
+                          stroke-linecap="round"
+                          d="M24,14 L24,28 M24,34 L24,36"
+                        ></path></svg
+                      >{{booked_vehicle.status}} 
                       {% comment %}
-                      <img
-                        class="h-8 w-8 rounded-full mr-2"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt="Customer avatar"
-                      />
+                      <span class="py-2 font-semibold text-gray-900"></span> 
                       {% endcomment %}
-                      <span class="font-medium text-gray-900"
-                        >{{ booked_vehicle.login_id }}</span
+                    </td>
+                    {% elif booked_vehicle.status == 'approved' %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left flex items-center text-lime-600 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
+                        class=""
                       >
-                    </div>
-                  </td>
-                  <td class="py-2 px-4 text-left">
-                    <span class="text-gray-500"
-                      >{{booked_vehicle.vehicle_id.buss_vehicle_id}}</span
-                    >
-                  </td>
-                  <td class="py-2 px-4 text-left">
-                    <span class="text-gray-500"
-                      >{{booked_vehicle.vehicle_id.buss_vehicle_company_name}} -
-                      {{booked_vehicle.vehicle_id.buss_vehicle_model}}</span
-                    >
-                  </td>
-
-                  {% if booked_vehicle.status == 'pending' %}
-                  <td class="py-2 px-4 flex items-center text-yellow-300 font-semibold">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                    >
-                      <path
-                        fill="#ffe082"
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
-                      ></path>
-                      <path
-                        fill="none"
-                        stroke="#ffa000"
-                        stroke-width="4"
-                        stroke-linecap="round"
-                        d="M24,14 L24,28 M24,34 L24,36"
-                      ></path></svg
-                    >{{booked_vehicle.status}} 
-                    {% comment %}
-                    <span class="py-2 font-semibold text-gray-900"></span> 
-                    {% endcomment %}
-                  </td>
-                  {% elif booked_vehicle.status == 'approved' %}
-                  <td class="py-2 px-4 flex items-center text-lime-600 font-semibold">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                      class=""
-                    >
-                      <path
-                        fill="#c8e6c9"
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
-                      ></path>
-                      <path
-                        fill="#4caf50"
-                        d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"
-                      ></path>
-                    </svg>
-                    {{booked_vehicle.status}}
-                  </td>
-                  {% else %}
-                  <td class="py-2 px-4 flex items-center text-red-800 font-semibold">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                    >
-                      <path
-                        fill="#ffcdd2"
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
-                      ></path>
-                      <path
-                        fill="none"
-                        stroke="#f44336"
-                        stroke-width="4"
-                        stroke-linecap="round"
-                        d="M16,16 L32,32 M32,16 L16,32"
-                      ></path>
-                    </svg>
-                    {{booked_vehicle.status}}
-                  </td>
-                  {% endif %}
-
-                  <td class="py-2 px-4">
-                    <span class="font-semibold text-gray-900"
-                      >{{booked_vehicle.from_to}}</span
-                    >
-                  </td>
-
-                  <td class="py-2 px-4">
-                    <span class="font-semibold text-gray-900"
-                      >{{booked_vehicle.booking_date}}</span
-                    >
-                  </td>
-
-                  {% if booked_vehicle.is_cancelled %}
-                  <td class="py-2 px-4 flex items-center text-red-700 font-semibold">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                    >
-                      <path
-                        fill="#ffccbc"
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
-                      ></path>
-                      <path
-                        fill="#d32f2f"
-                        d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"
-                      ></path>
-                    </svg>
-                    Cancelled
-                  </td>
-                  {% else %}
-                  <td class="py-2 px-4 flex items-center text-green-600 font-semibold">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 48 48"
-                    >
-                      <path
-                        fill="#c8e6c9"
-                        d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
-                      ></path>
-                      <path
-                        fill="none"
-                        stroke="#4caf50"
-                        stroke-width="4"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M16,16 L32,32 M32,16 L16,32"
-                      ></path>
-                    </svg>
-                    Not Cancelled
-                  </td>
-                  {% endif %}
-
-                  <td class="py-2 px-4">
-                    <div class="flex justify-normal items-center">
-                      <span class="text-3xl font-medium font-sans">₹</span>
-                      <span class="text-2xl font-bold text-gray-900 font-sans"
-                        >{{booked_vehicle.amount}}</span
+                        <path
+                          fill="#c8e6c9"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+                        ></path>
+                        <path
+                          fill="#4caf50"
+                          d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"
+                        ></path>
+                      </svg>
+                      {{booked_vehicle.status}}
+                    </td>
+                    {% else %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left flex items-center text-red-800 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
                       >
-                    </div>
-                  </td>
-                </tr>
+                        <path
+                          fill="#ffcdd2"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#f44336"
+                          stroke-width="4"
+                          stroke-linecap="round"
+                          d="M16,16 L32,32 M32,16 L16,32"
+                        ></path>
+                      </svg>
+                      {{booked_vehicle.status}}
+                    </td>
+                    {% endif %}
 
-                {% endfor %}             
-                
-              </tbody>
-            </table>
-          </a>
-        {% else %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <span class="font-semibold text-gray-900"
+                        >{{booked_vehicle.from_to}}</span
+                      >
+                    </td>
 
-          <div class="border-t text-2xl text-center text-gray-500 p-4">
-            No recent bookings available.
-          </div>
-        {% endif %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <span class="font-semibold text-gray-900"
+                        >{{booked_vehicle.booking_date}}</span
+                      >
+                    </td>
+
+                    {% if booked_vehicle.is_cancelled %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left flex items-center text-red-700 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          fill="#ffccbc"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+                        ></path>
+                        <path
+                          fill="#d32f2f"
+                          d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"
+                        ></path>
+                      </svg>
+                      Cancelled
+                    </td>
+                    {% else %}
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left flex items-center text-green-600 font-semibold">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        x="0px"
+                        y="0px"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 48 48"
+                      >
+                        <path
+                          fill="#c8e6c9"
+                          d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"
+                        ></path>
+                        <path
+                          fill="none"
+                          stroke="#4caf50"
+                          stroke-width="4"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M16,16 L32,32 M32,16 L16,32"
+                        ></path>
+                      </svg>
+                      Not Cancelled
+                    </td>
+                    {% endif %}
+
+                    <td class="py-2 px-4 sm:py-4 sm:px-6 text-left">
+                      <div class="flex justify-normal items-center">
+                        <span class="text-3xl font-medium font-sans">₹</span>
+                        <span class="text-2xl font-bold text-gray-900 font-sans"
+                          >{{booked_vehicle.amount}}</span
+                        >
+                      </div>
+                    </td>
+                  </tr>
+
+                  {% endfor %}             
+                  
+                </tbody>
+              </table>
+            </a>
+          {% else %}
+
+            <div class="border-t text-2xl text-center text-gray-500 p-4">
+              No recent bookings available.
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
 </div>

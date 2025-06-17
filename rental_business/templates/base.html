@@ -207,7 +207,7 @@
 
 
 
-    <section class="sticky">
+    <section class="">
       {% if messages %} 
         {% for message in messages %} 
 
@@ -247,51 +247,42 @@
     </section>
 
 
-
-
-
-
-    {% block homeimage %} 
-    
-    {% endblock homeimage %} 
-    
-
-
-
     {% block main_container %}
 
       <div class="relative min-h-screen top-[5rem] md:top-[4rem]">
         <div class="flex flex-1">
           <!-- Mobile Navigation Button -->
-            {% comment %} <button
+            {% comment %} 
+              <button
                 id="nav-toggle"
                 class="absolute top-4 left-4 z-50 text-white bg-black p-2 rounded-md md:hidden"
-              >
-              <!-- Three-line icon (Hamburger) -->
-              <svg
-                id="menu-icon"
-                class="w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-              <!-- Cross icon (Hidden by default) -->
-              <svg
-                id="close-icon"
-                class="hidden w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button> {% endcomment %}
+                >
+                <!-- Three-line icon (Hamburger) -->
+                <svg
+                  id="menu-icon"
+                  class="w-6 h-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+                <!-- Cross icon (Hidden by default) -->
+                <svg
+                  id="close-icon"
+                  class="hidden w-6 h-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button> 
+            {% endcomment %}
             
 
           <!-- Sidebar Navigation -->
@@ -474,21 +465,21 @@
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Approved
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if approved_count %} {{ approved_count }} {% else %} 0 {% endif %}</p>
+                      <p class="text-3xl font-bold text-green-600 mb-2">{% if approved_count %} {{ approved_count }} {% else %} 0 {% endif %}</p>
                       {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Rejected
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if rejected_count %} {{ rejected_count }} {% else %} 0 {% endif %}</p>
+                      <p class="text-3xl font-bold text-red-600 mb-2">{% if rejected_count %} {{ rejected_count }} {% else %} 0 {% endif %}</p>
                       {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>
                     <div class="bg-white p-10 rounded-lg shadow-md">
                       <h3 class="text-3xl font-semibold text-gray-700 mb-3">
                         Cancelled by Customer
                       </h3>
-                      <p class="text-3xl font-bold text-purple-600 mb-2">{% if canceled_count %} {{ canceled_count }} {% else %} 0 {% endif %}</p>
+                      <p class="text-3xl font-bold text-cyan-600 mb-2">{% if canceled_count %} {{ canceled_count }} {% else %} 0 {% endif %}</p>
                       {% comment %} <p class="text-2xl text-gray-500">+0% from last month</p> {% endcomment %}
                     </div>                   
                   </div>
@@ -497,15 +488,11 @@
                   {% comment %} Dashboard Charts {% endcomment %}
                   {% block dashboard_charts %}
                   {% endblock dashboard_charts %}
-
-
                   
                   <!-- Tables -->
                   {% block dashboard_recent_booking_requests %}
-                   
-                  
                   {% endblock dashboard_recent_booking_requests %}
-                  
+
                 </div> 
               </div>
             </main>
@@ -515,7 +502,6 @@
 
       
     {% endblock main_container %} 
-
 
     {% block scripts %}
     <script>
