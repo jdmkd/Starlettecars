@@ -49,7 +49,7 @@ This project supports **PostgreSQL** and **SQLite**.
 ### 🔹 Option 1: PostgreSQL Setup (Recommended)
 If using PostgreSQL, create a `.env` file at the project root and add the following configurations:
 ```py
-BASE_END_POINT=192.168.1.2:8000
+BASE_END_POINT=127.0.0.1:8000
 
 # Database Configuration
 DATABASE_ENGINE=django.db.backends.postgresql
