@@ -1,0 +1,10 @@
+{% load static %}
+<div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+  <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+    {{ title }}
+    {% if show_dummy_badge %}
+      <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+    {% endif %}
+  </h2>
+  <canvas id="{{ chart_id }}" height="250"></canvas>
+</div> 
