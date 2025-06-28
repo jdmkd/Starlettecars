@@ -1,0 +1,180 @@
+{% load static %}
+<form method="POST" enctype="multipart/form-data" class="space-y-6">
+  {% csrf_token %}
+  
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Vehicle Company -->
+    <div>
+      <label for="buss_vehicle_company_name" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Company *
+      </label>
+      <select name="buss_vehicle_company_name" id="buss_vehicle_company_name" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="">Select Company</option>
+        <option value="Toyota">Toyota</option>
+        <option value="Mahindra">Mahindra</option>
+        <option value="Honda">Honda</option>
+        <option value="Ford">Ford</option>
+        <option value="Chevrolet">Chevrolet</option>
+        <option value="Tata Motors">Tata Motors</option>
+        <option value="Nissan">Nissan</option>
+        <option value="Volkswagen">Volkswagen</option>
+        <option value="BMW">BMW</option>
+        <option value="Mercedes-Benz">Mercedes-Benz</option>
+        <option value="Audi">Audi</option>
+        <option value="Hyundai">Hyundai</option>
+        <option value="Suzuki">Suzuki</option>
+        <option value="Kia">Kia</option>
+        <option value="MG Motors">MG Motors</option>
+      </select>
+    </div>
+
+    <!-- Vehicle Model -->
+    <div>
+      <label for="buss_vehicle_model" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Model *
+      </label>
+      <input type="text" name="buss_vehicle_model" id="buss_vehicle_model" required
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="e.g., Fortuner, Creta, Swift">
+    </div>
+
+    <!-- Vehicle Color -->
+    <div>
+      <label for="buss_vehicle_color" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Color *
+      </label>
+      <select name="buss_vehicle_color" id="buss_vehicle_color" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="">Select Color</option>
+        <option value="Black">Black</option>
+        <option value="White">White</option>
+        <option value="Silver">Silver</option>
+        <option value="Gray">Gray</option>
+        <option value="Red">Red</option>
+        <option value="Blue">Blue</option>
+        <option value="Green">Green</option>
+        <option value="Yellow">Yellow</option>
+        <option value="Orange">Orange</option>
+        <option value="Purple">Purple</option>
+        <option value="Brown">Brown</option>
+        <option value="Beige">Beige</option>
+        <option value="Gold">Gold</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <!-- Vehicle Type -->
+    <div>
+      <label for="buss_vehicle_type" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Type *
+      </label>
+      <select name="buss_vehicle_type" id="buss_vehicle_type" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="">Select Type</option>
+        <option value="SUV">SUV (Sports Utility Vehicle)</option>
+        <option value="Sedan">Sedan</option>
+        <option value="Hatchback">Hatchback</option>
+        <option value="Convertible">Convertible</option>
+        <option value="Truck">Truck</option>
+        <option value="Van">Van</option>
+        <option value="Coupe">Coupe</option>
+        <option value="Crossover">Crossover</option>
+        <option value="Minivan">Minivan</option>
+        <option value="Pickup">Pickup Truck</option>
+        <option value="Wagon">Wagon</option>
+        <option value="Electric">Electric Car</option>
+        <option value="Luxury">Luxury Car</option>
+        <option value="Sports">Sports Car</option>
+        <option value="Hybrid">Hybrid Car</option>
+      </select>
+    </div>
+
+    <!-- Vehicle Number -->
+    <div>
+      <label for="buss_vehicle_number" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Number *
+      </label>
+      <input type="text" name="buss_vehicle_number" id="buss_vehicle_number" required
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="e.g., MH12AB1234">
+    </div>
+
+    <!-- Chassis Number -->
+    <div>
+      <label for="buss_chassi_number" class="block text-sm font-medium text-gray-700 mb-2">
+        Chassis Number
+      </label>
+      <input type="text" name="buss_chassi_number" id="buss_chassi_number"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="17-character VIN">
+    </div>
+
+    <!-- Year of Manufacture -->
+    <div>
+      <label for="buss_year_of_manufacture" class="block text-sm font-medium text-gray-700 mb-2">
+        Year of Manufacture
+      </label>
+      <input type="number" name="buss_year_of_manufacture" id="buss_year_of_manufacture" min="1900" max="2030"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="e.g., 2020">
+    </div>
+
+    <!-- Registration Date -->
+    <div>
+      <label for="buss_registration_date" class="block text-sm font-medium text-gray-700 mb-2">
+        Registration Date
+      </label>
+      <input type="date" name="buss_registration_date" id="buss_registration_date"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <!-- Vehicle Location -->
+    <div>
+      <label for="buss_vehicle_location" class="block text-sm font-medium text-gray-700 mb-2">
+        Vehicle Location
+      </label>
+      <input type="text" name="buss_vehicle_location" id="buss_vehicle_location"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="e.g., Mumbai, Delhi">
+    </div>
+
+    <!-- Rent Per Day -->
+    <div>
+      <label for="buss_rent_per_day" class="block text-sm font-medium text-gray-700 mb-2">
+        Rent Per Day (₹) *
+      </label>
+      <input type="number" name="buss_rent_per_day" id="buss_rent_per_day" required min="0"
+             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+             placeholder="e.g., 1500">
+    </div>
+  </div>
+
+  <!-- Vehicle Description -->
+  <div>
+    <label for="buss_vehicle_description" class="block text-sm font-medium text-gray-700 mb-2">
+      Vehicle Description *
+    </label>
+    <textarea name="buss_vehicle_description" id="buss_vehicle_description" rows="4" required
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Describe your vehicle features, condition, etc."></textarea>
+  </div>
+
+  <!-- Vehicle Photo -->
+  <div>
+    <label for="buss_vehicle_photo" class="block text-sm font-medium text-gray-700 mb-2">
+      Vehicle Photo *
+    </label>
+    <input type="file" name="buss_vehicle_photo" id="buss_vehicle_photo" required accept="image/*"
+           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+    <p class="text-sm text-gray-500 mt-1">Upload a clear image of your vehicle</p>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="flex justify-end">
+    <button type="submit" 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300">
+      {% if vehicle %}Update Vehicle{% else %}Add Vehicle{% endif %}
+    </button>
+  </div>
+</form> 
