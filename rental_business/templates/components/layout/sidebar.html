@@ -1,0 +1,77 @@
+{% load static %}
+<!-- Sidebar Toggle Button (must be before sidebar for best results) -->
+<button id="sidebar-toggle" class="sidebar-toggle-btn-outside">
+  <i class="fas fa-angle-left"></i>
+</button>
+<!-- Modern Sidebar Navigation -->
+<aside class="modern-sidebar">
+  <!-- Profile Section -->
+  {% if request.session.buss_log_user %}
+  <div class="sidebar-profile-top flex items-center gap-3 p-5 mb-2">
+    <img src="{% static 'image/profileicons/account.png' %}" alt="Logo" class="w-12 h-12 shadow-md" />
+    <div class="profile-info">
+      <div class="font-bold text-base">Starlettecars</div>
+      <div class="text-xs text-gray-400">Business Admin</div>
+    </div>
+  </div>
+  {% endif %}
+  <!-- Search Bar -->
+  <div class="sidebar-search mb-3 px-5">
+    <input type="text" class="sidebar-search-input" placeholder="Search..." />
+  </div>
+  <ul class="sidebar-nav flex-1 px-2">
+    <li>
+      <a href="/rental_business" class="sidebar-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+    {% if request.session.buss_log_user %}
+      <li>
+        <a href="{% url 'registered_vehicles' %}" class="sidebar-link {% if request.resolver_match.url_name == 'registered_vehicles' %}active{% endif %}">
+          <i class="fas fa-car"></i>
+          <span>Registered Vehicles</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'add_vehicle' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_vehicle' %}active{% endif %}">
+          <i class="fas fa-plus-square"></i>
+          <span>Add Vehicle</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}active{% endif %}">
+          <i class="fas fa-check-circle"></i>
+          <span>Booking Approval</span>
+        </a>
+      </li>
+      <li>
+        <a href="{% url 'buss_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'buss_profile' %}active{% endif %}">
+          <i class="fas fa-user"></i>
+          <span>My Profile</span>
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-bottom px-2 pb-4">
+    {% if request.session.buss_log_user %}
+      <a href="{% url 'buss_logout' %}" class="sidebar-link logout-link">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    {% else %}
+      <a href="{% url 'login_and_registration' %}" class="sidebar-link logout-link">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Login/Register</span>
+      </a>
+    {% endif %}
+    <div class="sidebar-theme-switch mt-3">
+      <span class="theme-label"><i class="fas fa-moon"></i> Light Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="theme-toggle">
+        <span class="slider round"></span>
+      </label>
+    </div>
+  </div>
+</aside> 
