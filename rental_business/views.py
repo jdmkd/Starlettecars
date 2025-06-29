@@ -173,7 +173,7 @@ def dashboard(request):
                 
             }
 
-            return render(request, "dashboard/dashboard.html", buss_user_data)
+            return render(request, "dashboard/dashboard_new.html", buss_user_data)
     except KeyError as e:
         print("business user is not logged in")
         pass
@@ -216,7 +216,7 @@ def dashboard(request):
         "booking_month_counts": json.dumps(booking_month_counts),
     }
 
-    return render(request, "dashboard/dashboard.html", buss_user_data)
+    return render(request, "dashboard/dashboard_new.html", buss_user_data)
 
 
 
