@@ -1,77 +1,191 @@
 {% load static %}
-<!-- Sidebar Toggle Button (must be before sidebar for best results) -->
-<button id="sidebar-toggle" class="sidebar-toggle-btn-outside">
-  <i class="fas fa-angle-left"></i>
-</button>
-<!-- Modern Sidebar Navigation -->
-<aside class="modern-sidebar">
-  <!-- Profile Section -->
-  {% if request.session.buss_log_user %}
-  <div class="sidebar-profile-top flex items-center gap-3 p-5 mb-2">
-    <img src="{% static 'image/profileicons/account.png' %}" alt="Logo" class="w-12 h-12 shadow-md" />
-    <div class="profile-info">
-      <div class="font-bold text-base">Starlettecars</div>
-      <div class="text-xs text-gray-400">Business Admin</div>
+<div class="relative flex flex-row">
+  <!-- Collapsible Sidebar (responsive) -->
+  <aside id="sidebar" class="miro-sidebar fixed top-0 left-0 h-full w-60 lg:w-72 bg-black flex flex-col justify-between shadow-2xl shadow-black transition-all duration-300 z-40
+    lg:top-[8rem] lg:h-[calc(100vh-8rem)]
+    -translate-x-full lg:translate-x-0" data-collapsible>
+    <div class="flex-1 flex flex-col pt-[8rem] lg:pt-0">
+      <!-- Brand -->
+      {% comment %} <div class="flex items-center px-2 pt-4 pb-2 gap-2">
+        <span class="sidebar-logo font-extrabold text-3xl tracking-wide text-white ml-2">miro</span>
+      </div> {% endcomment %}
+      <!-- Menu -->
+      <div class="pt-3 pb-2">
+        <ul class="space-y-1">
+          <li>
+            <a href="/rental_business" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-2xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'dashboard' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-th-large text-xl w-7 text-center"></i><span class="sidebar-text">Dashboard</span></a>
+          </li>
+          {% if request.session.buss_log_user %}
+          <li>
+            <a href="{% url 'registered_vehicles' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'registered_vehicles' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-car text-xl w-7 text-center"></i><span class="sidebar-text">Registered Vehicles</span></a>
+          </li>
+          <li>
+            <a href="{% url 'add_vehicle' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'add_vehicle' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-plus-square text-xl w-7 text-center"></i><span class="sidebar-text">Add Vehicle</span></a>
+          </li>
+          <li>
+            <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-check-circle text-xl w-7 text-center"></i><span class="sidebar-text">Booking Approval</span></a>
+          </li>
+          <li>
+            <a href="{% url 'buss_profile' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'buss_profile' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-user text-xl w-7 text-center"></i><span class="sidebar-text">My Profile</span></a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="my-3 border-t border-neutral-800"></div>
+      <div class="pb-2">
+        <ul class="space-y-1">
+          {% if request.session.buss_log_user %}
+          <li class="rounded-md">
+            <a href="{% url 'buss_logout' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200"><i class="fas fa-sign-out-alt text-xl w-7 text-center"></i><span class="sidebar-text">Logout</span></a>
+          </li>
+          {% else %}
+          <li class="rounded-md">
+            <a href="{% url 'login_and_registration' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200"><i class="fas fa-sign-in-alt text-xl w-7 text-center"></i><span class="sidebar-text">Login/Register</span></a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-  </div>
-  {% endif %}
-  <!-- Search Bar -->
-  <div class="sidebar-search mb-3 px-5">
-    <input type="text" class="sidebar-search-input" placeholder="Search..." />
-  </div>
-  <ul class="sidebar-nav flex-1 px-2">
-    <li>
-      <a href="/rental_business" class="sidebar-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
-        <i class="fas fa-home"></i>
-        <span>Dashboard</span>
-      </a>
-    </li>
-    {% if request.session.buss_log_user %}
-      <li>
-        <a href="{% url 'registered_vehicles' %}" class="sidebar-link {% if request.resolver_match.url_name == 'registered_vehicles' %}active{% endif %}">
-          <i class="fas fa-car"></i>
-          <span>Registered Vehicles</span>
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'add_vehicle' %}" class="sidebar-link {% if request.resolver_match.url_name == 'add_vehicle' %}active{% endif %}">
-          <i class="fas fa-plus-square"></i>
-          <span>Add Vehicle</span>
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}active{% endif %}">
-          <i class="fas fa-check-circle"></i>
-          <span>Booking Approval</span>
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'buss_profile' %}" class="sidebar-link {% if request.resolver_match.url_name == 'buss_profile' %}active{% endif %}">
-          <i class="fas fa-user"></i>
-          <span>My Profile</span>
-        </a>
-      </li>
-    {% endif %}
-  </ul>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-bottom px-2 pb-4">
-    {% if request.session.buss_log_user %}
-      <a href="{% url 'buss_logout' %}" class="sidebar-link logout-link">
-        <i class="fas fa-sign-out-alt"></i>
-        <span>Logout</span>
-      </a>
-    {% else %}
-      <a href="{% url 'login_and_registration' %}" class="sidebar-link logout-link">
-        <i class="fas fa-sign-in-alt"></i>
-        <span>Login/Register</span>
-      </a>
-    {% endif %}
-    <div class="sidebar-theme-switch mt-3">
-      <span class="theme-label"><i class="fas fa-moon"></i> Light Mode</span>
-      <label class="switch">
-        <input type="checkbox" id="theme-toggle">
-        <span class="slider round"></span>
-      </label>
+    <!-- User Profile Bottom -->
+    <div class="sidebar-user px-4 py-4 border-t border-neutral-800 flex items-center gap-2 bg-black">
+      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-neutral-800 shadow" />
+      <div class="flex-1 min-w-0 sidebar-text">
+        <div class="font-bold text-lg text-white truncate">Thomas</div>
+        <div class="text-sm text-neutral-400 truncate">thomasxheby@gmail.com</div>
+      </div>
+      <button class="ml-2 text-neutral-400 hover:text-white">
+        <i class="fas fa-chevron-down text-xl"></i>
+      </button>
     </div>
+  </aside>
+  
+  <!-- Toggle Button (always attached to sidebar edge) -->
+  <button id="sidebar-toggle" class="fixed top-[8rem] left-4 z-50 px-3 py-2 rounded-lg bg-black shadow-lg shadow-black border border-neutral-700 flex items-center justify-center transition-all duration-300 focus:outline-none hover:bg-neutral-800 lg:absolute lg:top-[4rem]" style="left: 5rem;">
+    <i id="sidebar-toggle-icon" class="fas fa-arrow-right text-xl text-white"></i>
+  </button>
+  
+  <!-- Main Content Wrapper -->
+  <div id="main-content" class="transition-all duration-300 w-full" style="margin-left: 5rem;">
+    {% block main_content %}{% endblock %}
   </div>
-</aside> 
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  const toggleIcon = document.getElementById('sidebar-toggle-icon');
+  const mainContent = document.getElementById('main-content');
+  
+  let collapsed = true; // Default collapsed
+  let isDesktop = window.innerWidth >= 1024;
+  
+  function updateSidebar() {
+    isDesktop = window.innerWidth >= 1024;
+    
+    if (collapsed) {
+      // Collapsed state
+      sidebar.classList.add('collapsed');
+      toggleIcon.classList.remove('fa-arrow-left', 'fa-times', 'fa-xmark', 'fa-close', 'fa-bars');
+      toggleIcon.classList.add('fa-arrow-right');
+      
+      // Both mobile and desktop: narrow sidebar, push content
+      sidebar.classList.remove('-translate-x-full');
+      sidebar.classList.add('lg:translate-x-0');
+      toggleBtn.style.left = '5rem';
+      mainContent.style.marginLeft = '5rem';
+      
+    } else {
+      // Expanded state
+      sidebar.classList.remove('collapsed');
+      toggleIcon.classList.remove('fa-arrow-right', 'fa-bars');
+      toggleIcon.classList.add('fa-arrow-left');
+      
+      // Both mobile and desktop: full sidebar, push content
+      sidebar.classList.remove('-translate-x-full');
+      sidebar.classList.add('lg:translate-x-0');
+      
+      if (isDesktop) {
+        toggleBtn.style.left = '18rem';
+        mainContent.style.marginLeft = '18rem';
+      } else {
+        toggleBtn.style.left = '15rem';
+        mainContent.style.marginLeft = '15rem';
+      }
+    }
+  }
+  
+  // Toggle button click
+  toggleBtn.addEventListener('click', function (e) {
+    collapsed = !collapsed;
+    updateSidebar();
+  });
+  
+  // Handle window resize
+  function handleResize() {
+    updateSidebar();
+  }
+  
+  window.addEventListener('resize', handleResize);
+  
+  // Initialize
+  updateSidebar();
+});
+</script>
+
+<style>
+.miro-sidebar.collapsed {
+  width: 5rem !important;
+  min-width: 5rem !important;
+  max-width: 5rem !important;
+}
+
+@media (min-width: 1024px) {
+  .miro-sidebar {
+    top: 8rem !important;
+    height: calc(100vh - 8rem) !important;
+  }
+}
+
+.miro-sidebar.collapsed .sidebar-text {
+  display: none !important;
+}
+
+.miro-sidebar.collapsed .sidebar-link {
+  justify-content: center !important;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+.miro-sidebar.collapsed .sidebar-user {
+  justify-content: center !important;
+}
+
+.miro-sidebar.collapsed .sidebar-user .sidebar-text {
+  display: none !important;
+}
+
+/* Mobile specific styles */
+@media (max-width: 1023px) {
+  .miro-sidebar {
+    top: 0 !important;
+    height: 100vh !important;
+  }
+}
+
+/* Smooth transitions */
+.miro-sidebar,
+#main-content,
+#sidebar-toggle {
+  transition: all 0.3s ease;
+}
+
+/* Ensure proper z-index stacking */
+#sidebar-toggle {
+  z-index: 50;
+}
+
+.miro-sidebar {
+  z-index: 40;
+}
+</style> 
