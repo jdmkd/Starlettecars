@@ -17,16 +17,16 @@
           </li>
           {% if request.session.buss_log_user %}
           <li>
-            <a href="{% url 'registered_vehicles' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'registered_vehicles' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-car text-xl w-7 text-center"></i><span class="sidebar-text">Registered Vehicles</span></a>
+            <a href="{% url 'buss_profile' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'buss_profile' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-user text-xl w-7 text-center"></i><span class="sidebar-text">My Profile</span></a>
+          </li>
+          <li>
+            <a href="{% url 'registered_vehicles' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'registered_vehicles' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-car text-xl w-7 text-center"></i><span class="sidebar-text">Vehicles</span></a>
           </li>
           <li>
             <a href="{% url 'add_vehicle' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'add_vehicle' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-plus-square text-xl w-7 text-center"></i><span class="sidebar-text">Add Vehicle</span></a>
           </li>
           <li>
             <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-check-circle text-xl w-7 text-center"></i><span class="sidebar-text">Booking Approval</span></a>
-          </li>
-          <li>
-            <a href="{% url 'buss_profile' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'buss_profile' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-user text-xl w-7 text-center"></i><span class="sidebar-text">My Profile</span></a>
           </li>
           {% endif %}
         </ul>
@@ -45,17 +45,6 @@
           {% endif %}
         </ul>
       </div>
-    </div>
-    <!-- User Profile Bottom -->
-    <div class="sidebar-user px-4 py-4 border-t border-neutral-800 flex items-center gap-2 bg-black">
-      <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full border-2 border-neutral-800 shadow" />
-      <div class="flex-1 min-w-0 sidebar-text">
-        <div class="font-bold text-lg text-white truncate">Thomas</div>
-        <div class="text-sm text-neutral-400 truncate">thomasxheby@gmail.com</div>
-      </div>
-      <button class="ml-2 text-neutral-400 hover:text-white">
-        <i class="fas fa-chevron-down text-xl"></i>
-      </button>
     </div>
   </aside>
   
