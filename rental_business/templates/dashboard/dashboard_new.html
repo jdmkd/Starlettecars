@@ -1,0 +1,391 @@
+{% extends 'base_new.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Business Panel{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Page Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
+    <p class="text-gray-600 mt-2">Welcome back! Here's what's happening with your business.</p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Revenue -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Revenue</p>
+          <p class="text-2xl font-bold text-gray-900">₹{{ total_revenue|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-green-100 rounded-full">
+          <i class="fas fa-money-bill-wave text-green-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Bookings -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Total Bookings</p>
+          <p class="text-2xl font-bold text-gray-900">{{ total_booking_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-blue-100 rounded-full">
+          <i class="fas fa-calendar-check text-blue-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registered Vehicles -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Registered Vehicles</p>
+          <p class="text-2xl font-bold text-gray-900">{{ registered_vehicles_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-purple-100 rounded-full">
+          <i class="fas fa-car text-purple-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Approvals -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Pending Approvals</p>
+          <p class="text-2xl font-bold text-gray-900">{{ pending_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-yellow-100 rounded-full">
+          <i class="fas fa-clock text-yellow-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Status Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Approved Bookings -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Approved Bookings</p>
+          <p class="text-2xl font-bold text-gray-900">{{ approved_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-green-100 rounded-full">
+          <i class="fas fa-check-circle text-green-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rejected Bookings -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Rejected Bookings</p>
+          <p class="text-2xl font-bold text-gray-900">{{ rejected_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-red-100 rounded-full">
+          <i class="fas fa-times-circle text-red-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cancelled Bookings -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-600">Cancelled Bookings</p>
+          <p class="text-2xl font-bold text-gray-900">{{ canceled_count|default:'0' }}</p>
+        </div>
+        <div class="p-3 bg-gray-100 rounded-full">
+          <i class="fas fa-ban text-gray-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Revenue Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Revenue Trend
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="revenueChart" height="250"></canvas>
+    </div>
+
+    <!-- Vehicle Category Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Vehicle Category Share
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="vehiclePieChart" height="250"></canvas>
+    </div>
+
+    <!-- Monthly Bookings Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Monthly Bookings
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="bookingBarChart" height="250"></canvas>
+    </div>
+
+    <!-- Top Vehicles Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Top Vehicles Booked
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="topVehiclesChart" height="250"></canvas>
+    </div>
+
+    <!-- Payment Methods Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Payment Method Distribution
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="paymentPolarChart" height="250"></canvas>
+    </div>
+
+    <!-- Mixed Chart -->
+    <div class="bg-white rounded-xl p-6 shadow hover:shadow-xl transition duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-gray-800 flex justify-between">
+        Revenue vs Orders
+        {% if not request.session.buss_log_user %}
+          <span class="bg-red-500 font-normal text-white rounded-lg px-2 py-1">[dummy data]</span>
+        {% endif %}
+      </h2>
+      <canvas id="mixedChart" height="250"></canvas>
+    </div>
+  </div>
+
+  <!-- Recent Bookings Table -->
+  {% if fetch_booked_vdata %}
+  <div class="bg-white rounded-xl p-6 shadow mt-8">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Recent Bookings</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Booking Date</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          {% for booking in fetch_booked_vdata|slice:":5" %}
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center">
+                <div class="flex-shrink-0 h-10 w-10">
+                  {% if booking.vehicle_id.buss_vehicle_photo %}
+                    <img class="h-10 w-10 rounded-full object-cover" src="/media/{{ booking.vehicle_id.buss_vehicle_photo }}" alt="">
+                  {% else %}
+                    <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                      <i class="fas fa-car text-gray-600"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="ml-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {{ booking.vehicle_id.buss_vehicle_company_name }} {{ booking.vehicle_id.buss_vehicle_model }}
+                  </div>
+                  <div class="text-sm text-gray-500">{{ booking.vehicle_id.buss_vehicle_number }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-gray-900">{{ booking.user_id.fname }} {{ booking.user_id.lname }}</div>
+              <div class="text-sm text-gray-500">{{ booking.user_id.emailid }}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              {{ booking.booking_date|date:"M d, Y" }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              ₹{{ booking.amount }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                {% if booking.status == 'approved' %}bg-green-100 text-green-800
+                {% elif booking.status == 'rejected' %}bg-red-100 text-red-800
+                {% elif booking.status == 'pending' %}bg-yellow-100 text-yellow-800
+                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                {{ booking.status|title }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+  // Chart configurations
+  const chartConfigs = {
+    revenueChart: {
+      type: 'line',
+      data: {
+        labels: {{ month_labels|safe }},
+        datasets: [{
+          label: 'Revenue',
+          data: {{ month_revenue|safe }},
+          borderColor: '#0ea5e9',
+          backgroundColor: 'rgba(14, 165, 233, 0.1)',
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { 
+            display: true, 
+            labels: { color: '#333', font: { size: 14 } } 
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return '₹ ' + context.formattedValue;
+              }
+            }
+          },
+          animation: { duration: 1000, easing: 'easeOutQuart' }
+        }    
+      }
+    },
+
+    vehiclePieChart: {
+      type: 'doughnut',
+      data: {
+        labels: {{ type_labels|safe }},
+        datasets: [{
+          data: {{ type_counts|safe }},
+          backgroundColor: ['#f43f5e', '#3b82f6', '#facc15', '#10b981'],
+          hoverOffset: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        cutout: '60%',
+        plugins: { legend: { position: 'bottom' } }
+      }
+    },
+
+    bookingBarChart: {
+      type: 'bar',
+      data: {
+        labels: {{ booking_month_labels|safe }},
+        datasets: [{
+          label: 'Bookings',
+          data: {{ booking_month_counts|safe }},
+          backgroundColor: '#6366f1'
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    },
+
+    topVehiclesChart: {
+      type: 'bar',
+      data: {
+        labels: {{ top_vehicle_labels|safe }},
+        datasets: [{
+          label: 'Bookings',
+          data: {{ top_vehicle_counts|safe }},
+          backgroundColor: ['#1d4ed8', '#2563eb', '#3b82f6', '#60a5fa', '#93c5fd']
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: { x: { beginAtZero: true } }
+      }
+    },
+
+    paymentPolarChart: {
+      type: 'polarArea',
+      data: {
+        labels: {{ payment_labels|safe }},
+        datasets: [{
+          data: {{ payment_counts|safe }},
+          backgroundColor: ['#f43f5e', '#3b82f6', '#facc15', '#10b981', '#8b5cf6']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'bottom' } }
+      }
+    },
+
+    mixedChart: {
+      type: 'line',
+      data: {
+        labels: {{ month_labels|safe }},
+        datasets: [
+          {
+            label: 'Revenue',
+            data: {{ month_revenue|safe }},
+            borderColor: '#0ea5e9',
+            backgroundColor: 'rgba(14, 165, 233, 0.1)',
+            yAxisID: 'y',
+            fill: false
+          },
+          {
+            label: 'Orders',
+            data: {{ booking_month_counts|safe }},
+            borderColor: '#f43f5e',
+            backgroundColor: 'rgba(244, 63, 94, 0.1)',
+            yAxisID: 'y1',
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          y: { type: 'linear', display: true, position: 'left' },
+          y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false } }
+        }
+      }
+    }
+  };
+
+  // Initialize charts
+  document.addEventListener('DOMContentLoaded', function() {
+    Object.keys(chartConfigs).forEach(chartId => {
+      const canvas = document.getElementById(chartId);
+      if (canvas) {
+        new Chart(canvas, chartConfigs[chartId]);
+      }
+    });
+  });
+</script>
+{% endblock scripts %} 
