@@ -1,0 +1,136 @@
+# Cursor Rules for Starlettecars Django Project
+
+# Ignore virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ignore Django specific files
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Ignore Node.js and frontend build files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+.pnp.*
+
+# Ignore Tailwind CSS build files
+tailwind-output.css
+tailwind-confg.txt
+tailwindrun/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore Git files
+.git/
+.gitignore
+.gitattributes
+
+# Ignore environment and configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore backup and temporary files
+*.bak
+*.tmp
+*.temp
+*.orig
+
+# Ignore documentation and readme files (optional - remove if you want to include them)
+README.md
+*.md
+docs/
+
+# Ignore test coverage files
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+.coverage.*
+
+# Ignore database files
+*.db
+*.sqlite
+
+# Ignore uploaded media files (keep the structure but ignore content)
+media/BussProfileImg/*
+media/photos/*
+media/rental_buss/added_vehicles/*
+media/reports/*
+media/UserProfileImg/*
+
+# Ignore static files that are generated
+static/css/tailwind-output.css
+static/css/tailx.css
+
+# Keep important configuration files
+!requirements.txt
+!package.json
+!package-lock.json
+!tailwind.config.js
+!postcss.config.js
+!manage.py
+!rentalproject/settings.py
+!rentalproject/urls.py
+!rentalapp/urls.py
+!rental_business/urls.py
+
+# Keep important model and view files
+!rentalapp/models.py
+!rentalapp/views.py
+!rentalapp/forms.py
+!rentalapp/serializers.py
+!rental_business/models.py
+!rental_business/views.py
+
+# Keep template files
+!rentalapp/templates/
+!rental_business/templates/
+!templates/
+
+# Keep static source files (but ignore generated ones)
+!rentalapp/static/css/*.css
+!rentalapp/static/js/*.js
+!rental_business/static/css/*.css
+!rental_business/static/js/*.js 

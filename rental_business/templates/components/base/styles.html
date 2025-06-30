@@ -51,7 +51,6 @@
   /* Sidebar styling */
   .modern-sidebar {
     position: fixed;
-    top: 8rem;
     left: 0;
     width: 18rem;
     min-width: 18rem;
@@ -102,10 +101,8 @@
     display: flex;
     align-items: center;
     gap: 1.1rem;
-    padding: 1.15rem 1.5rem;
-    font-size: 1.13rem;
+    font-size: 1.3rem;
     color: var(--sidebar-text);
-    border-radius: 0;
     font-weight: 500;
     transition: background 0.18s, color 0.18s, box-shadow 0.18s;
     text-decoration: none;
@@ -261,28 +258,25 @@
       overflow-x: hidden;
     }
     .modern-sidebar.expanded {
-      width: 15rem;
-      min-width: 15rem;
+      {% comment %} width: 15rem;
+      min-width: 15rem; {% endcomment %}
     }
-    .sidebar-profile-top, .sidebar-search, .sidebar-link span, .sidebar-bottom span, .theme-label {
-      display: none;
-    }
+    
     .modern-sidebar.expanded .sidebar-profile-top,
     .modern-sidebar.expanded .sidebar-search,
     .modern-sidebar.expanded .sidebar-link span,
     .modern-sidebar.expanded .sidebar-bottom span,
     .modern-sidebar.expanded .theme-label {
-      display: inline-block;
+      {% comment %} display: inline-block; {% endcomment %}
     }
     .sidebar-link {
-      justify-content: center;
-      padding: 1.1rem 0.5rem;
+      {% comment %} justify-content: center;
+      padding: 1.1rem 0.5rem; {% endcomment %}
     }
     .sidebar-link i {
-      margin: 0;
+      {% comment %} margin: 0; {% endcomment %}
     }
     .header {
-      height: 4rem;
       font-size: 1rem;
       padding-left: 0.7rem;
       padding-right: 0.7rem;
