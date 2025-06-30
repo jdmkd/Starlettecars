@@ -14,7 +14,7 @@
   {% endblock header %}
 
   {% block main_container %}
-    <div class="flex h-screen pt-16">
+    <div class="flex min-h-screen pt-16">
       <!-- Sidebar Navigation -->
       {% block left_sidebar_main %}
         {% include 'components/layout/sidebar.html' %}
@@ -22,7 +22,7 @@
 
       <!-- Main Content -->
       {% block main_content %}
-        <main class="flex-1 ml-[2rem] overflow-auto">
+        <main class="flex-1 ml-0 mt-[4rem]">
           <div class="p-6">
             {% include 'components/ui/alert.html' %}
             
