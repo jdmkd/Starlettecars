@@ -203,6 +203,19 @@ def dashboard(request):
     payment_counts = [8, 5, 7]
 
     buss_user_data = {
+        # Default values for non-logged in users
+        "userdata": None,
+        "buss_udata": None,
+        "fetch_booked_vdata": [],
+        "fetch_buss_vehicle": [],
+        "approved_count": 0,
+        "rejected_count": 0,
+        "pending_count": 0,
+        "canceled_count": 0,
+        "total_booking_count": 0,
+        "registered_vehicles_count": 0,
+        "total_revenue": 0,
+        
         # Chart datasets
         "month_labels": json.dumps(month_labels),
         "month_revenue": json.dumps(month_revenue),
