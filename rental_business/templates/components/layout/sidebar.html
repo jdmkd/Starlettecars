@@ -1,10 +1,18 @@
 {% load static %}
 <div class="relative flex flex-row">
   <!-- Collapsible Sidebar (responsive) -->
-  <aside id="sidebar" class="miro-sidebar fixed top-0 left-0 h-full w-60 lg:w-72 bg-black flex flex-col justify-between shadow-2xl shadow-black transition-all duration-300 z-40
-    lg:top-[8rem] lg:h-[calc(100vh-8rem)]
+  <aside id="sidebar" class="miro-sidebar fixed top-[8rem] left-0 h-[calc(100vh-4rem)] w-60 lg:w-72 bg-black flex flex-col justify-between shadow-2xl shadow-black transition-all duration-300 z-0
     -translate-x-full lg:translate-x-0" data-collapsible>
-    <div class="flex-1 flex flex-col pt-[8rem] lg:pt-0">
+    <div class="flex-1 flex flex-col">
+      <!-- Toggle Button (positioned at top) -->
+      <div class="flex justify-end p-4">
+        <button id="sidebar-toggle" class="z-10 w-8 h-8 rounded-full bg-neutral-800 shadow-xl shadow-black border-2 border-neutral-500 flex items-center justify-center transition-all duration-300 focus:outline-none hover:bg-neutral-600 hover:scale-110 hover:border-neutral-400">
+          <svg id="sidebar-toggle-icon" class="w-8 h-8 text-neutral-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+      </div>
+
       <!-- Brand -->
       {% comment %} <div class="flex items-center px-2 pt-4 pb-2 gap-2">
         <span class="sidebar-logo font-extrabold text-3xl tracking-wide text-white ml-2">miro</span>
@@ -48,10 +56,6 @@
     </div>
   </aside>
   
-  <!-- Toggle Button (always attached to sidebar edge) -->
-  <button id="sidebar-toggle" class="fixed top-[8rem] left-4 z-50 px-3 py-2 rounded-lg bg-black shadow-lg shadow-black border border-neutral-700 flex items-center justify-center transition-all duration-300 focus:outline-none hover:bg-neutral-800 lg:absolute lg:top-[4rem]" style="left: 5rem;">
-    <i id="sidebar-toggle-icon" class="fas fa-arrow-right text-xl text-white"></i>
-  </button>
   
   <!-- Main Content Wrapper -->
   <div id="main-content" class="transition-all duration-300 w-full" style="margin-left: 5rem;">
@@ -75,8 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (collapsed) {
       // Collapsed state
       sidebar.classList.add('collapsed');
-      toggleIcon.classList.remove('fa-arrow-left', 'fa-times', 'fa-xmark', 'fa-close', 'fa-bars');
-      toggleIcon.classList.add('fa-arrow-right');
+      toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M9 5l7 7-7 7"></path>';
       
       // Both mobile and desktop: narrow sidebar, push content
       sidebar.classList.remove('-translate-x-full');
@@ -87,8 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
       // Expanded state
       sidebar.classList.remove('collapsed');
-      toggleIcon.classList.remove('fa-arrow-right', 'fa-bars');
-      toggleIcon.classList.add('fa-arrow-left');
+      toggleIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M15 19l-7-7 7-7"></path>';
       
       // Both mobile and desktop: full sidebar, push content
       sidebar.classList.remove('-translate-x-full');
@@ -129,11 +131,8 @@ document.addEventListener('DOMContentLoaded', function () {
   max-width: 5rem !important;
 }
 
-@media (min-width: 1024px) {
-  .miro-sidebar {
-    top: 8rem !important;
-    height: calc(100vh - 8rem) !important;
-  }
+.miro-sidebar {
+  height: calc(100vh - 4rem) !important;
 }
 
 .miro-sidebar.collapsed .sidebar-text {
@@ -157,8 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /* Mobile specific styles */
 @media (max-width: 1023px) {
   .miro-sidebar {
-    top: 0 !important;
-    height: 100vh !important;
+    height: calc(100vh - 4rem) !important;
   }
 }
 
@@ -171,10 +169,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* Ensure proper z-index stacking */
 #sidebar-toggle {
-  z-index: 50;
+  z-index: 20;
 }
 
 .miro-sidebar {
-  z-index: 40;
+  z-index: 10;
 }
 </style> 
