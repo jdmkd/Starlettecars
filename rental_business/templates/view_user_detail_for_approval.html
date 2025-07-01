@@ -1,26 +1,26 @@
-{% extends "base.html" %}
+{% extends 'base_new.html' %}
 {% load static %}
 
 {% block title %}
     View User Detail
-{% endblock%}
-
+{% endblock %}
 
 {% block main_content %}
-<section class="my-[3rem]">
+<div class="w-full px-2 sm:px-6 lg:px-8 py-4 sm:py-8 mx-auto mt-6 sm:mt-10">
+  {% include 'components/business_messages.html' %}
+  <section class="my-4 sm:my-8 px-2 py-2">
     {% if booking_req_by_user %}
-      <form class="bg-white px-[4rem] py-[2rem] border rounded shadow-md ">
-          <div class="space-y-12">
-            <div class="border-b border-gray-900/10 pb-12">
-                <div class="flex justify-between items-center">
-                    <h2 class="py-5 text-5xl font-semibold leading-7 text-gray-900/80"> User Details</h2>
-                    <div class="flex items-center justify-end">
-                        <a href="{% url 'vehicle_booking_approval' %}" class="flex justify-center gap-2 rounded-md bg-indigo-600 pr-4 py-2 text-[1.5rem] font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <form class="bg-white w-full px-4 py-4 sm:px-6 sm:py-8 border rounded shadow-md ">
+          <div class="space-y-8 sm:space-y-12">
+            <div class="border-b border-gray-900/10 pb-8 sm:pb-12">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h2 class="py-2 sm:py-5 text-2xl sm:text-4xl md:text-2xl font-semibold leading-7 text-gray-900/80 normal-case"> User Details</h2>
+                    <div class="flex items-center justify-end w-full sm:w-auto">
+                        <a href="{% url 'vehicle_booking_approval' %}" class="flex justify-center gap-2 rounded-md bg-indigo-600 pr-4 py-2 text-base sm:text-lg md:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M19 12H5"></path>
                                 <polyline points="12 19 5 12 12 5"></polyline>
                             </svg>
-                            
                         Back
                         </a>
                     </div>
@@ -28,11 +28,11 @@
 
               <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                  <label for="username" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Username</label>
+                  <label for="username" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Username</label>
                   <div class="mt-2">
                     <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       {% comment %} <span class="flex select-none items-center pl-3 text-gray-500 sm:text-[1.5rem]">workcation.com/</span> {% endcomment %}
-                      <input id="email" name="email" type="email" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                      <input id="email" name="email" type="email" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                       value="{{ booking_req_by_user }}"
                       disabled
                     >
@@ -43,7 +43,7 @@
                 
         
                 <div class="py-5 col-span-full">
-                  <label for="photo" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Photo</label>
+                  <label for="photo" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Photo</label>
                   <div class="mt-6 flex items-center gap-x-6">
                     <div class="flex flex-row flex-shrink-0 overflow-hidden rounded-full" aria-hidden="true">
                       {% comment %} <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -64,13 +64,13 @@
             </div>
         
             <div class="border-b border-gray-900/10 pb-12">
-              <h2 class="text-5xl font-semibold leading-7 text-gray-900/80">Personal Information</h2>
+              <h2 class="text-2xl font-semibold leading-7 text-gray-900/80 normal-case">Personal Information</h2>
   
               <div class="border-b pb-12 mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-3">
-                  <label for="first-name" class="block text-[1.8rem] font-medium leading-6 text-gray-900">First name</label>
+                  <label for="first-name" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">First name</label>
                   <div class="mt-2">
-                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                       value="{{ booking_req_by_user.fname }}"
                       disabled
                     >
@@ -78,9 +78,9 @@
                 </div>
         
                 <div class="sm:col-span-3">
-                  <label for="last-name" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Last name</label>
+                  <label for="last-name" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Last name</label>
                   <div class="mt-2">
-                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                       value="{{ booking_req_by_user.lname }}"
                       disabled
                     >
@@ -88,9 +88,9 @@
                 </div>
         
                 <div class="sm:col-span-3">
-                  <label for="email" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Email address</label>
+                  <label for="email" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Email address</label>
                   <div class="mt-2">
-                    <input id="email" name="email" type="email" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                    <input id="email" name="email" type="email" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                       value="{{ booking_req_by_user.emailid }}"
                       disabled
                     >
@@ -98,9 +98,9 @@
                 </div>
         
                 <div class="sm:col-span-3">
-                  <label for="phonenum" class="block text-[1.8rem] font-medium leading-6 text-gray-900">phonenum</label>
+                  <label for="phonenum" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">phonenum</label>
                   <div class="mt-2">
-                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                    <input type="text" name="last-name" id="last-name" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                       value="{{ booking_req_by_user.phonenum }}"
                       disabled
                     >
@@ -113,14 +113,14 @@
 
 
             <div class=" border-gray-900/10 pb-12">
-                <h2 class="text-5xl py-[2rem] font-semibold leading-7 text-gray-900/80">Personal Identity</h2>
+                <h2 class="text-2xl py-[2rem] font-semibold leading-7 text-gray-900/80 normal-case">Personal Identity</h2>
   
                 <div class="border-b pb-12 mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 {% comment %} date_of_birth {% endcomment %}
                     <div class="sm:col-span-3">
-                        <label for="aadhaar_number" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Aadhaar Number</label>
+                        <label for="aadhaar_number" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Aadhaar Number</label>
                         <div class="mt-2">
-                        <input type="text" name="aadhaar_number" id="aadhaar_number" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="aadhaar_number" id="aadhaar_number" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.aadhaar_number }}"
                             disabled
                         >
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                     <div class="sm:col-span-3">
-                        <label for="driver_license_number" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Driver License Number</label>
+                        <label for="driver_license_number" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Driver License Number</label>
                         <div class="mt-2">
-                        <input type="text" name="driver_license_number" id="driver_license_number" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="driver_license_number" id="driver_license_number" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.driver_license_number }}"
                             disabled
                         >
@@ -138,9 +138,9 @@
                         </div>
                     </div>
                     <div class="sm:col-span-3">
-                        <label for="driver_license_expiry" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Driver License Expiry Date</label>
+                        <label for="driver_license_expiry" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Driver License Expiry Date</label>
                         <div class="mt-2">
-                        <input type="text"  id="driver_license_expiry" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text"  id="driver_license_expiry" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.driver_license_expiry }}"
                             disabled
                         >
@@ -151,18 +151,18 @@
                 
                 <div class=" mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                     <div class="col-span-full">
-                    <label for="street-address1" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Street address2</label>
+                    <label for="street-address1" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Street address2</label>
                     <div class="mt-2">
-                        <input type="text" name="street-address1" id="street-address1" autocomplete="street-address1" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="street-address1" id="street-address1" autocomplete="street-address1" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.address_line1 }}"
                             disabled
                         >
                     </div>
                     </div>
                     <div class="col-span-full">
-                        <label for="street-address2" class="block text-[1.8rem] font-medium leading-6 text-gray-900">Street address2</label>
+                        <label for="street-address2" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">Street address2</label>
                         <div class="mt-2">
-                        <input type="text" name="street-address2" id="street-address2" autocomplete="street-address2" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="street-address2" id="street-address2" autocomplete="street-address2" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.address_line2 }}"
                             disabled
                             >
@@ -170,18 +170,18 @@
                     </div>
             
                     <div class="sm:col-span-2 sm:col-start-1">
-                    <label for="city" class="block text-[1.8rem] font-medium leading-6 text-gray-900">City</label>
+                    <label for="city" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">City</label>
                     <div class="mt-2">
-                        <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.city }}"
                             disabled>
                     </div>
                     </div>
             
                     <div class="sm:col-span-2">
-                    <label for="region" class="block text-[1.8rem] font-medium leading-6 text-gray-900">State / Province</label>
+                    <label for="region" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">State / Province</label>
                     <div class="mt-2">
-                        <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.state }}"
                             disabled
                             >
@@ -189,18 +189,18 @@
                     </div>
             
                     <div class="sm:col-span-2">
-                    <label for="postal-code" class="block text-[1.8rem] font-medium leading-6 text-gray-900">ZIP / Postal code</label>
+                    <label for="postal-code" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">ZIP / Postal code</label>
                     <div class="mt-2">
-                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.zip_code }}"
                             disabled
                             >
                     </div>
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="country" class="block text-[1.8rem] font-medium leading-6 text-gray-900">ZIP / Postal code</label>
+                        <label for="country" class="block text-[1.2rem] font-medium leading-6 text-gray-900 normal-case">ZIP / Postal code</label>
                         <div class="mt-2">
-                        <input type="text" name="country" id="country" autocomplete="country" class="block w-full rounded-md border-0 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
+                        <input type="text" name="country" id="country" autocomplete="country" class="block w-full rounded-md border-1 py-[1rem] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-[1.5rem] sm:leading-6"
                             value="{{ booking_req_by_user.country }}"
                             disabled
                             >
@@ -219,6 +219,7 @@
       {% endif %}
       
     </section>
+</div>
 {% endblock main_content %}  
 
 
