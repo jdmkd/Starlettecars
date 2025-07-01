@@ -33,7 +33,7 @@ from rentalapp.models import booking_table, usertable
 from .models import business_user, buss_vehicle, buss_contactus, buss_feedback
 # from rentalapp.models import vehicle_table
 
-
+from .forms import BussVehicleForm
 
 def dashboard(request):
     try:
@@ -407,7 +407,7 @@ def registered_vehicle_details_update_done(request):
                 print("After buss_chassi_number!!")
                 buss_year_of_manufacture = request.POST["buss_year_of_manufacture"]
                 buss_registration_date = request.POST["buss_registration_date"]
-                print("")
+                print("") 
 
                 buss_vehicle_location = request.POST["buss_vehicle_location"]
                 buss_rent_per_day = request.POST["buss_rent_per_day"]
@@ -680,79 +680,27 @@ def add_vehicle(request):
     try:
         if request.session["buss_log_id"]:
             id = request.session["buss_log_id"]
-            
             buss_udata = business_user.objects.get(id=id)
 
-            vehicle_company = buss_vehicle.VEHICLE_COMPANY_CHOICES
-            vehicle_color = buss_vehicle.VEHICLE_COLOR_CHOICES
-            vehicle_type = buss_vehicle.CAR_TYPE_CHOICES
-            vehicle_status = buss_vehicle.VEHICLE_STATUS_CHOICES
-            v_choice_data = {
-                "vehicle_company":vehicle_company,
-                "vehicle_color":vehicle_color,
-                "vehicle_type":vehicle_type,
-                "vehicle_status":vehicle_status,
-                }
-            if request.method == "POST" and request.FILES.get("buss_vehicle_photo"):
-                buss_vehicle_photo = request.FILES["buss_vehicle_photo"]
-                new_vehicle_id = generate_random_vehicle_id()
-                bid = request.session["buss_log_id"]
-                buss_vehicle_company_name = request.POST["buss_vehicle_company_name"]
-                buss_vehicle_model_name = request.POST["buss_vehicle_model_name"]
-                
-                buss_vehicle_type = request.POST["buss_vehicle_type"]
-                buss_vehicle_color = request.POST["buss_vehicle_color"]
-                buss_vehicle_number = request.POST["buss_vehicle_number"]
-
-                buss_chassi_number = request.POST["buss_chassi_number"]
-                print("buss_chassi_number :" ,buss_chassi_number)
-                if buss_vehicle.objects.filter(buss_chassi_number=buss_chassi_number).exists():
-                    print("This chassis number already exists.")
-                    messages.error(request,'This chassis number already exists.')
-                print("After buss_chassi_number!!")
-                buss_year_of_manufacture = request.POST["buss_year_of_manufacture"]
-                buss_registration_date = request.POST["buss_registration_date"]
-                print("")
-
-                buss_vehicle_location = request.POST["buss_vehicle_location"]
-                buss_rent_per_day = request.POST["buss_rent_per_day"]
-                buss_vehicle_status = request.POST["buss_vehicle_status"]
-                buss_vehicle_description = request.POST["buss_vehicle_description"]
-
-                buss_data = buss_vehicle(
-                        buss_vehicle_id = new_vehicle_id,
-                        buss_vehicle_owner = business_user(id=bid),
-                        buss_vehicle_company_name = buss_vehicle_company_name,
-                        buss_vehicle_model = buss_vehicle_model_name,
-                        buss_vehicle_color = buss_vehicle_color,
-                        buss_vehicle_type = buss_vehicle_type,
-                        buss_vehicle_number = buss_vehicle_number,
-
-                        buss_chassi_number = buss_chassi_number,
-                        
-                        buss_year_of_manufacture = buss_year_of_manufacture,
-                        buss_registration_date = buss_registration_date,
-
-                        buss_vehicle_location = buss_vehicle_location,
-                        buss_rent_per_day = buss_rent_per_day,
-                        buss_vehicle_photo = buss_vehicle_photo,
-                        buss_vehicle_description = buss_vehicle_description,
-                        buss_vehicle_status = buss_vehicle_status,
-                    )
-                buss_data.save()
-                messages.success(request,f"New vehicle '{ buss_data } - {buss_data.buss_vehicle_model}' has been added successfuly, Now user can book your '{buss_data}-{buss_data.buss_vehicle_model}' on rent.")
-                
-            return render(request,"add_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
-                
+            if request.method == "POST":
+                form = BussVehicleForm(request.POST, request.FILES)
+                if form.is_valid():
+                    buss_data = form.save(commit=False)
+                    buss_data.buss_vehicle_owner = buss_udata
+                    buss_data.buss_vehicle_id = generate_random_vehicle_id()
+                    buss_data.save()
+                    messages.success(request, f"New vehicle '{buss_data} - {buss_data.buss_vehicle_model}' has been added successfully, Now user can book your '{buss_data}-{buss_data.buss_vehicle_model}' on rent.")
+                    return redirect('add_vehicle')
+                else:
+                    messages.error(request, 'Please correct the errors below.')
+            else:
+                form = BussVehicleForm()
+            return render(request, "add_vehicle.html", {"form": form, "buss_udata": buss_udata})
         else:
             return redirect("/rental_business")
-            # return redirect("/rental_business")
     except Exception as e:
-        print("Exception :",e)
-
-        # return redirect("/rental_business")
+        print("Exception :", e)
     return redirect("/rental_business")
-    # return render(request,"add_vehicle.html",{"v_choice_data":v_choice_data,"buss_udata":buss_udata})
 
 
 
