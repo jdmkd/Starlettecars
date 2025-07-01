@@ -1,0 +1,74 @@
+<style>
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-100%) rotate(0deg);
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .confetti {
+      animation: confettiFall linear infinite;
+    }
+    .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+</style>
+<div id="animation-login-success" class="z-[999] fixed top-0 left-0 right-0 bottom-0 h-screen flex items-center justify-center overflow-hidden">
+  <!-- Confetti -->
+  <div id="confetti-container" class="inset-0 pointer-events-none"></div>
+  <!-- Centered Modal -->
+  <div id="modal-container" class="relative z-[999] w-[50rem] max-w-[50rem] p-12 bg-white rounded-xl shadow-lg text-center fade-in">
+    <!-- Success Icon -->
+    <div class="w-[14rem] h-[14rem] rounded-full mx-auto flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[12rem] h-[12rem]">
+        <circle cx="12" cy="12" r="10" stroke="none" fill="green"></circle>
+        <path d="M9 12l2 2 4-4" fill="none" stroke="white" stroke-width="2"></path>
+      </svg>
+    </div>
+    <!-- Success Message -->
+    <h1 class="mt-6 text-4xl font-semibold text-gray-800">Login Successful!</h1>
+    <p class="mt-6 text-xl text-gray-600">Welcome back! You have successfully logged in.</p>
+  </div>
+</div>
+<script>
+  // Confetti generator
+  const confettiContainer = document.getElementById('confetti-container');
+  function createConfettiPiece() {
+    const confetti = document.createElement('div');
+    const size = Math.random() * 6 + 4;
+    const left = Math.random() * 100;
+    const duration = Math.random() * 2 + 3;
+    confetti.style.position = 'absolute';
+    confetti.style.width = `${size}px`;
+    confetti.style.height = `${size}px`;
+    confetti.style.backgroundColor = randomColor();
+    confetti.style.left = `${left}%`;
+    confetti.style.top = '-10%';
+    confetti.style.animation = `confettiFall ${duration}s linear infinite`;
+    confetti.style.borderRadius = '50%';
+    confettiContainer.appendChild(confetti);
+    setTimeout(() => confetti.remove(), duration * 1000);
+  }
+  function randomColor() {
+    const colors = ['#FF5733', '#FFC300', '#28A745', '#007BFF', '#E91E63'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+  for (let i = 0; i < 100; i++) {
+    createConfettiPiece();
+  }
+  const animationThankyou = document.getElementById('animation-login-success');
+  setTimeout(() => {
+    animationThankyou.style.display = 'none';
+  }, 5000);
+</script>

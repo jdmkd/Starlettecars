@@ -1,0 +1,31 @@
+{% if messages %}
+  {% for message in messages %}
+    {% if message.message == "Buss Account Login successful!" and 'login_success' in message.tags %}
+      {% include 'components/business_login_success.html' %}
+    {% elif message.message == "Buss Account Registration successful!" and 'registration_success' in message.tags %}
+      {% include 'components/business_registration_success.html' %}
+    {% else %}
+      <div class="fixed top-8 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
+        <div class="flex items-center p-4 mb-4 text-sm rounded-lg shadow-lg
+          {% if message.tags == 'success' %}bg-green-100 text-green-800 border border-green-300{% elif message.tags == 'error' %}bg-red-100 text-red-800 border border-red-300{% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800 border border-yellow-300{% else %}bg-blue-100 text-blue-800 border border-blue-300{% endif %}">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {% if message.tags == 'success' %}
+              <circle cx="12" cy="12" r="10" stroke="green" stroke-width="2" fill="none"/>
+              <path d="M9 12l2 2 4-4" stroke="green" stroke-width="2" fill="none"/>
+            {% elif message.tags == 'error' %}
+              <circle cx="12" cy="12" r="10" stroke="red" stroke-width="2" fill="none"/>
+              <path d="M15 9l-6 6M9 9l6 6" stroke="red" stroke-width="2" fill="none"/>
+            {% elif message.tags == 'warning' %}
+              <circle cx="12" cy="12" r="10" stroke="orange" stroke-width="2" fill="none"/>
+              <path d="M12 8v4m0 4h.01" stroke="orange" stroke-width="2" fill="none"/>
+            {% else %}
+              <circle cx="12" cy="12" r="10" stroke="blue" stroke-width="2" fill="none"/>
+              <path d="M12 8v4m0 4h.01" stroke="blue" stroke-width="2" fill="none"/>
+            {% endif %}
+          </svg>
+          <span class="font-medium">xx {{ message }}</span>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %} 

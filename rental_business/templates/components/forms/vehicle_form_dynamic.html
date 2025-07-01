@@ -1,0 +1,120 @@
+{% comment %} Dynamic vehicle form for add_vehicle.html using Django ModelForm {% endcomment %}
+<div class="w-full mx-auto border border-gray-200 rounded-xl p-6 bg-white shadow-md">
+  <form action="" method="POST" enctype="multipart/form-data" class="space-y-6">
+    {% csrf_token %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Vehicle Company -->
+      <div>
+        <label for="id_buss_vehicle_company_name" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Company *
+        </label>
+        {{ form.buss_vehicle_company_name }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_company_name.errors }}</div>
+      </div>
+      <!-- Vehicle Model -->
+      <div>
+        <label for="id_buss_vehicle_model" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Model *
+        </label>
+        {{ form.buss_vehicle_model }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_model.errors }}</div>
+      </div>
+      <!-- Vehicle Type -->
+      <div>
+        <label for="id_buss_vehicle_type" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Type *
+        </label>
+        {{ form.buss_vehicle_type }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_type.errors }}</div>
+      </div>
+      <!-- Vehicle Color -->
+      <div>
+        <label for="id_buss_vehicle_color" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Color *
+        </label>
+        {{ form.buss_vehicle_color }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_color.errors }}</div>
+      </div>
+      <!-- Vehicle Status -->
+      <div>
+        <label for="id_buss_vehicle_status" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Status *
+        </label>
+        {{ form.buss_vehicle_status }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_status.errors }}</div>
+      </div>
+      <!-- Vehicle Number -->
+      <div>
+        <label for="id_buss_vehicle_number" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Number *
+        </label>
+        {{ form.buss_vehicle_number }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_number.errors }}</div>
+      </div>
+      <!-- Chassis Number -->
+      <div>
+        <label for="id_buss_chassi_number" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Chassis Number
+        </label>
+        {{ form.buss_chassi_number }}
+        <div class="text-red-600 text-lg">{{ form.buss_chassi_number.errors }}</div>
+      </div>
+      <!-- Year of Manufacture -->
+      <div>
+        <label for="id_buss_year_of_manufacture" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Year of Manufacture
+        </label>
+        {{ form.buss_year_of_manufacture }}
+        <div class="text-red-600 text-lg">{{ form.buss_year_of_manufacture.errors }}</div>
+      </div>
+      <!-- Registration Date -->
+      <div>
+        <label for="id_buss_registration_date" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Registration Date
+        </label>
+        {{ form.buss_registration_date }}
+        <div class="text-red-600 text-lg">{{ form.buss_registration_date.errors }}</div>
+      </div>
+      <!-- Vehicle Location -->
+      <div>
+        <label for="id_buss_vehicle_location" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Vehicle Location
+        </label>
+        {{ form.buss_vehicle_location }}
+        <div class="text-red-600 text-lg">{{ form.buss_vehicle_location.errors }}</div>
+      </div>
+      <!-- Rent Per Day -->
+      <div>
+        <label for="id_buss_rent_per_day" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+          Rent Per Day (₹) *
+        </label>
+        {{ form.buss_rent_per_day }}
+        <div class="text-red-600 text-lg">{{ form.buss_rent_per_day.errors }}</div>
+      </div>
+    </div>
+    <!-- Vehicle Description -->
+    <div>
+      <label for="id_buss_vehicle_description" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+        Vehicle Description*
+      </label>
+      {{ form.buss_vehicle_description }}
+      <div class="text-red-600 text-lg">{{ form.buss_vehicle_description.errors }}</div>
+    </div>
+    <!-- Vehicle Photo -->
+    <div>
+      <label for="id_buss_vehicle_photo" class="block text-2xl md:text-3xl font-medium text-gray-700 mb-2 normal-case">
+        Vehicle Photo *
+      </label>
+      {{ form.buss_vehicle_photo }}
+      <div class="text-red-600 text-lg">{{ form.buss_vehicle_photo.errors }}</div>
+      <p class="text-lg md:text-xl text-gray-500 mt-1">Upload a clear image of your vehicle</p>
+    </div>
+    <!-- Submit Button -->
+    <div class="flex justify-end">
+      <button type="submit" 
+              class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-300 text-xl md:text-2xl">
+        Add Vehicle
+      </button>
+    </div>
+  </form> 
+</div>
