@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_new.html' %}
 
 
 {% block title %}
@@ -7,126 +7,57 @@
 
 
 {% block main_content %}
-    
-
-    {% if request.session.buss_log_user %}
-        {% if fetch_buss_vehicle %}
-        {% comment %}  {% endcomment %}
-        <div class="bg-gray-50 top-[10rem] px-0 flex flex-col flex-1 items-center" id="">
-            <h1 class="flex mt-4 justify-center text-[4rem] text-black/80 font-semibold">Your Vehicles</h1>
-            <div class="!h-fit">
-                <div class="flex flex-col w scroll-smooth">
-                    {% for vdata in fetch_buss_vehicle %}
-                    {% if vdata.buss_vehicle_owner  %}
-                        <form action="vehicle/details" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="vehicle_id" value={{ vdata.id }} hidden/>
-
-                            <div class=" box relative flex flex-row m-10 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-md ">
-                                <div class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl">
-                                    <img class="object-contain rounded-xl" src="/media/{{ vdata.buss_vehicle_photo}} " alt="" width="300" height="200" />
-                                    {% comment %} <span class="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">39% OFF</span> {% endcomment %}
-                                </div>
-                                <div class="flex flex-col border-l justify-evenly  w-[100%] px-2 py-3 gap-2">
-                                    <div class="flex flex-col justify-evenly px-3 gap-2">
-                                        <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_id }}</h5>
-                                        <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model|slice:":7" }}</h5>
-                                        <h5 class="font-semibold text-2xl tracking-tight text-slate-900">{{ vdata.buss_vehicle_type }}</h5>
-                                    </div>
-                                    <div class="flex px-3 my-2 items-center justify-end">
-                                        <p>
-                                            <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
-                                            <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>
-                                        </p>
-                                        {% comment %} <div class="flex items-center">
-                                            <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
-                                        </div> {% endcomment %}
-                                    </div>   
-                                
-                                
-                                    <div class="flex flex-row items-center justify-evenly px-3 text-center gap-[1.5rem]">
-                                        <a href="{{ vdata.id }}" class="flex items-center gap-3 justify-center rounded-md px-[.7rem] py-2 text-3xl font-medium text-white bg-red-600  hover:bg-red-600/80 focus:outline-none focus:ring-4 focus:ring-red-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                <path d="M5.5 5.5a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5zm2.5.5a.5.5 0 0 1 1 0v6a.5.5 0 0 1-1 0v-6zm3 .5a.5.5 0 0 1 .5-.5v6a.5.5 0 0 1-1 0v-6a.5.5 0 0 1 .5-.5z"/>
-                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13.5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                            </svg>
-                                            <p>remove vehicle</p>
-                                        </a>
-                                        
-                                        
-                                        <div class="flex items-center gap-3 justify-center cursor-pointer rounded-md  px-[.7rem] py-2 text-3xl font-medium text-white bg-slate-900 hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
-                                            <button type="submit" class="flex justify-center items-center  gap-3" value="Vehicle Details">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                </svg>
-                                                Vehicle Details
-                                            </button>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                        
-                        </form>   
-                        
-                    {% endif %}
-                    {% endfor %}
-                            
-                </div>
-                <div class="swiper-pagination"></div>
+<div class="mt-[4rem] py-8 px-2 sm:px-6 lg:px-8">
+  {% if request.session.buss_log_user %}
+    {% if fetch_buss_vehicle %}
+      <h1 class="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">Your Vehicles</h1>
+      <div class="px-[2rem] grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        {% for vdata in fetch_buss_vehicle %}
+        <div class="group bg-white border border-gray-100 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col overflow-hidden">
+          <div class="relative w-full aspect-[16/9] bg-gray-100 flex items-center justify-center overflow-hidden">
+            <img src="/media/{{ vdata.buss_vehicle_photo }}" alt="{{ vdata.buss_vehicle_company_name }}" class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" loading="lazy" />
+          </div>
+          <div class="flex-1 flex flex-col justify-between p-4">
+            <div>
+              <h2 class="text-base font-semibold text-gray-900 truncate">{{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model }}</h2>
+              <div class="flex items-center gap-2 mt-1">
+                <span class="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-0.5 rounded">ID: {{ vdata.buss_vehicle_id }}</span>
+                <span class="inline-block bg-green-50 text-green-700 text-xs font-medium px-2 py-0.5 rounded">{{ vdata.buss_vehicle_type }}</span>
+              </div>
+              <div class="mt-2 text-base font-bold text-gray-800">
+                <span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }} <span class="text-xs font-normal text-gray-500">/day</span>
+              </div>
             </div>
-        </div> 
-        {% else %}
-        <div class="bg-gray-50 top-[10rem] px-0 flex flex-col flex-1 items-center" id="">
-            <div class="flex flex-col relative top-[10rem] items-center justify-center text-center space-y-6 py-[5rem] bg-white border rounded-lg shadow-sm">
-                
-            
-                <!-- Message Header -->
-                <h2 class="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
-                    No Vehicles Found
-                </h2>
-            
-                <!-- Message Description -->
-                <p class="text-gray-600 max-w-xl lg:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl text-3xl py-5 px-3">
-                    You haven’t registered any vehicles yet. List your first vehicle now to make it available for rentals.
-                </p>
-            
-                <!-- Action Button -->
-                <a href="{% url 'add_vehicle' %}" 
-                    class="px-6 py-4 bg-blue-600 text-white text-3xl font-medium rounded-md shadow-lg hover:bg-blue-700 hover:shadow-xl transition-all">
-                    Register Your First Vehicle
-                </a>
+            <div class="flex gap-1 mt-4">
+              <form action="vehicle/details" method="post" class="flex-1">
+                {% csrf_token %}
+                <input type="hidden" name="vehicle_id" value="{{ vdata.id }}" />
+                <button type="submit" class="w-full flex items-center justify-center gap-1 px-2 py-1 rounded bg-slate-900 text-white text-xs font-medium hover:bg-slate-700 transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M16.862 3.487a2.5 2.5 0 1 1 3.535 3.535l-9.193 9.193a4 4 0 0 1-1.414.943l-3.1 1.24a.5.5 0 0 1-.65-.65l1.24-3.1a4 4 0 0 1 .943-1.414l9.193-9.193Z"/><path stroke="currentColor" stroke-width="2" d="M15 5 19 9"/></svg>
+                  Edit
+                </button>
+              </form>
+              <a href="{{ vdata.id }}" class="flex-1 flex items-center justify-center gap-1 px-2 py-1 rounded bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-width="2" d="M6 7h12M9 7V5a3 3 0 0 1 6 0v2m-9 0h12l-1.5 14.5a2 2 0 0 1-2 1.5h-5a2 2 0 0 1-2-1.5L5 7Z"/></svg>
+                Remove
+              </a>
             </div>
+          </div>
         </div>
-        {% endif %}      
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="flex flex-col items-center justify-center min-h-[40vh] text-center space-y-6 py-12 bg-white border rounded-lg shadow-sm mx-auto max-w-xl">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48" class="w-20 h-20 mx-auto text-blue-400"><rect width="48" height="48" rx="24" fill="#e0e7ff"/><path d="M24 14v10l7 4" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h2 class="text-2xl lg:text-3xl font-bold text-gray-800">No Vehicles Found</h2>
+        <p class="text-gray-600 text-base">You haven't registered any vehicles yet. List your first vehicle now to make it available for rentals.</p>
+        <a href="{% url 'add_vehicle' %}" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow hover:bg-blue-700 hover:shadow-lg transition-all">Register Your First Vehicle</a>
+      </div>
     {% endif %}
-{% endblock main_content %}
+  {% endif %}
+</div>
+{% endblock %}
 
 
 {% comment %} {% block main %}
 {% endblock %} {% endcomment %}
-
-
-
-
-
-
-
-
