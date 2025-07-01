@@ -50,4 +50,9 @@
       });
     });
   });
+
+  // Hide loader on browser back/forward navigation (including bfcache restore)
+  window.addEventListener('pageshow', function(event) {
+    hideLoading();
+  });
 </script> 
