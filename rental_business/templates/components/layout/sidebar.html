@@ -1,7 +1,7 @@
 {% load static %}
 <div class="relative flex flex-row">
   <!-- Collapsible Sidebar (responsive) -->
-  <aside id="sidebar" class="miro-sidebar fixed top-[8rem] left-0 h-[calc(100vh-4rem)] w-60 lg:w-72 bg-black flex flex-col justify-between shadow-2xl shadow-black transition-all duration-300 z-0
+  <aside id="sidebar" class="miro-sidebar collapsed fixed top-[8rem] left-0 h-[calc(100vh-4rem)] w-60 lg:w-72 bg-black flex flex-col justify-between shadow-2xl shadow-black transition-all duration-300 z-0
     -translate-x-full lg:translate-x-0" data-collapsible>
     <div class="flex-1 flex flex-col">
       <!-- Toggle Button (positioned at top) -->
@@ -21,20 +21,35 @@
       <div class="pt-3 pb-2">
         <ul class="space-y-1">
           <li>
-            <a href="/rental_business" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-2xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'dashboard' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-th-large text-xl w-7 text-center"></i><span class="sidebar-text">Dashboard</span></a>
+            <a href="/rental_business" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-2xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'dashboard' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}">
+              <i class="fas fa-th-large text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Dashboard</span>
+            </a>
           </li>
           {% if request.session.buss_log_user %}
           <li>
-            <a href="{% url 'buss_profile' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'buss_profile' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-user text-xl w-7 text-center"></i><span class="sidebar-text">My Profile</span></a>
+            <a href="{% url 'buss_profile' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'buss_profile' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}">
+              <i class="fas fa-user text-xl w-7 text-center"></i> 
+              <span class="sidebar-text">My Profile</span>
+            </a>
           </li>
           <li>
-            <a href="{% url 'registered_vehicles' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'registered_vehicles' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-car text-xl w-7 text-center"></i><span class="sidebar-text">Vehicles</span></a>
+            <a href="{% url 'registered_vehicles' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'registered_vehicles' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}">
+              <i class="fas fa-car text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Vehicles</span>
+            </a>
           </li>
           <li>
-            <a href="{% url 'add_vehicle' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'add_vehicle' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-plus-square text-xl w-7 text-center"></i><span class="sidebar-text">Add Vehicle</span></a>
+            <a href="{% url 'add_vehicle' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'add_vehicle' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}">
+              <i class="fas fa-plus-square text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Add Vehicle</span>
+            </a>
           </li>
           <li>
-            <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}"><i class="fas fa-check-circle text-xl w-7 text-center"></i><span class="sidebar-text">Booking Approval</span></a>
+            <a href="{% url 'vehicle_booking_approval' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 {% if request.resolver_match.url_name == 'vehicle_booking_approval' %}bg-neutral-800 text-white{% else %}text-neutral-200{% endif %}">
+              <i class="fas fa-check-circle text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Booking Approval</span>
+            </a>
           </li>
           {% endif %}
         </ul>
@@ -44,11 +59,17 @@
         <ul class="space-y-1">
           {% if request.session.buss_log_user %}
           <li class="rounded-md">
-            <a href="{% url 'buss_logout' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200"><i class="fas fa-sign-out-alt text-xl w-7 text-center"></i><span class="sidebar-text">Logout</span></a>
+            <a href="{% url 'buss_logout' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200">
+              <i class="fas fa-sign-out-alt text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Logout</span>
+            </a>
           </li>
           {% else %}
           <li class="rounded-md">
-            <a href="{% url 'login_and_registration' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200"><i class="fas fa-sign-in-alt text-xl w-7 text-center"></i><span class="sidebar-text">Login/Register</span></a>
+            <a href="{% url 'login_and_registration' %}" class="sidebar-link flex items-center gap-2 px-4 py-3 rounded-xl text-lg font-semibold transition hover:bg-neutral-800 text-neutral-200">
+              <i class="fas fa-sign-in-alt text-xl w-7 text-center"></i>
+              <span class="sidebar-text">Sign In / Sign Up</span>
+            </a>
           </li>
           {% endif %}
         </ul>
@@ -125,6 +146,12 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <style>
+.miro-sidebar .sidebar-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .miro-sidebar.collapsed {
   width: 5rem !important;
   min-width: 5rem !important;
