@@ -1,4 +1,4 @@
-{% extends "base_new.html" %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}
@@ -9,12 +9,12 @@
 <div class="grid grid-cols-1 gap-8 bg-gray-50 border-b">
   <main class="relative  ml-1 px-3 sm:px-6 md:px-8 py-2">
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      {% if fetch_booked_vdata %}
       <div class="p-4 sm:p-6 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-700">Bookings Awaiting Approval</h2>
         <button class="bg-blue-500 text-lg sm:text-xl md:text-2xl text-white px-3 sm:px-4 py-2 rounded hover:bg-blue-600 whitespace-nowrap">View All Bookings</button>
       </div>
       <div class="overflow-x-auto">
-        {% if fetch_booked_vdata %}
         <table class="min-w-[100%] bg-white">
           <thead>
             <tr class="py-5 bg-gray-200 text-gray-600 uppercase text-sm sm:text-base md:text-2xl leading-normal">
@@ -33,148 +33,166 @@
           </thead>
           <tbody class="text-gray-700 text-sm sm:text-base md:text-xl">
             {% for booked_vdata in fetch_booked_vdata %}
-            <tr class="border-b border-gray-200 hover:bg-gray-50">
-              <td class="py-2 px-4 sm:py-3 sm:px-6">{{forloop.counter}}</td>
-              <td class="py-2 px-0 sm:py-3 sm:px-6">
-                <img src="/media/{{ booked_vdata.vehicle_id.buss_vehicle_photo }}" alt="" 
-                        width="300" height="200"
-                        class="mx-[5px] h-auto w-40 sm:w-50 object-cover rounded transition" 
-                        loading="lazy"
-                        >
-              </td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6">
-                {{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}
-              </td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6">
-                <form action="{% url 'view_user_detail_for_approval' %}" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="booked_vehicle_uid" value="{{booked_vdata.login_id.id}}">
-                  <button type="submit" class="text-red-500 hover:text-green-700 hover:underline">{{booked_vdata.login_id}}</button>
-                </form>
-              </td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6">{{booked_vdata.from_duration}} - {{booked_vdata.from_to}} </td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6 font-sans text-2xl font-bold text-left">
-                <div class="flex items-center justify-start gap-1">
-                  <span class="text-black text-2xl font-sans">₹ </span>
-                   {{ booked_vdata.amount }}
-                </div>
-              </td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6">{{booked_vdata.booking_date}}</td>
-              <td class="py-2 px-4 sm:py-3 sm:px-6 font-semibold">
-                <div class=" relative flex items-center text-left">
-                {% if booked_vdata.paystatus %}
-                  {% if booked_vdata.is_cancelled %}
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
-                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                  </svg>refunded
+              <tr class="border-b border-gray-200 hover:bg-gray-50">
+                <td class="py-2 px-4 sm:py-3 sm:px-6">{{forloop.counter}}</td>
+                <td class="py-2 px-0 sm:py-3 sm:px-6">
+                  <img src="/media/{{ booked_vdata.vehicle_id.buss_vehicle_photo }}" alt="" 
+                          width="300" height="200"
+                          class="mx-[5px] h-auto w-40 sm:w-50 object-cover rounded transition" 
+                          loading="lazy"
+                          >
+                </td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6">
+                  {{booked_vdata.vehicle_id.buss_vehicle_company_name}} - {{booked_vdata.vehicle_id.buss_vehicle_model}}
+                </td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6">
+                  <form action="{% url 'view_user_detail_for_approval' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="booked_vehicle_uid" value="{{booked_vdata.login_id.id}}">
+                    <button type="submit" class="text-red-500 hover:text-green-700 hover:underline">{{booked_vdata.login_id}}</button>
+                  </form>
+                </td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6">{{booked_vdata.from_duration}} - {{booked_vdata.from_to}} </td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6 font-sans text-2xl font-bold text-left">
+                  <div class="flex items-center justify-start gap-1">
+                    <span class="text-black text-2xl font-sans">₹ </span>
+                    {{ booked_vdata.amount }}
+                  </div>
+                </td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6">{{booked_vdata.booking_date}}</td>
+                <td class="py-2 px-4 sm:py-3 sm:px-6 font-semibold">
+                  <div class=" relative flex items-center text-left">
+                  {% if booked_vdata.paystatus %}
+                    {% if booked_vdata.is_cancelled %}
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                      <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                    </svg>refunded
+                    {% else %}
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                      <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                    </svg>Done
+                    {% endif %}
                   {% else %}
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
-                    <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                  </svg>Done
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                    <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                    <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
+                  </svg>
                   {% endif %}
-                {% else %}
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-                  <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                  <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
-                </svg>
-                {% endif %}
-                </div>
-              </td>
-              {% if booked_vdata.is_cancelled %}
-                <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">Cancelled</td>
-              {% else %}
-                <td class="py-2 px-4 sm:py-3 sm:px-6 text-green-600 font-semibold">Not Cancelled</td>
-              {% endif %}
-              {% if booked_vdata.status == 'pending'%}
+                  </div>
+                </td>
                 {% if booked_vdata.is_cancelled %}
-                  <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
+                  <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">Cancelled</td>
+                {% else %}
+                  <td class="py-2 px-4 sm:py-3 sm:px-6 text-green-600 font-semibold">Not Cancelled</td>
+                {% endif %}
+                {% if booked_vdata.status == 'pending'%}
+                  {% if booked_vdata.is_cancelled %}
+                    <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
+                      <div class=" relative flex items-center text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                          <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                          <path fill="#f44336" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                        </svg>
+                        Cancelled
+                    </td>
+                  {% else %}
+                  
+                    <td class="py-2 px-4 sm:py-3 sm:px-6 text-yellow-300 font-semibold">
+                      <div class=" relative flex items-center text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                          <path fill="#ffe082" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                          <path fill="none" stroke="#ffa000" stroke-width="4" stroke-linecap="round" d="M24,14 L24,28 M24,34 L24,36"></path>
+                        </svg>
+                        {{booked_vdata.status}}
+                      </div>
+                    </td>
+                  {% endif %}
+                {% elif booked_vdata.status == 'approved' %}
+                  {% if booked_vdata.is_cancelled %}
+                    <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
+                      <div class=" relative flex items-center text-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                          <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                          <path fill="#f44336" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                        </svg>
+                        Cancelled
+                    </td>
+                  {% else %}
+                  <td class="py-2 px-4 sm:py-3 sm:px-6 text-lime-600 font-semibold">
                     <div class=" relative flex items-center text-left">
                       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
-                        <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                        <path fill="#f44336" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                      </svg>
-                      Cancelled
-                  </td>
-                {% else %}
-                
-                  <td class="py-2 px-4 sm:py-3 sm:px-6 text-yellow-300 font-semibold">
-                    <div class=" relative flex items-center text-left">
-                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-                        <path fill="#ffe082" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                        <path fill="none" stroke="#ffa000" stroke-width="4" stroke-linecap="round" d="M24,14 L24,28 M24,34 L24,36"></path>
+                        <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
                       </svg>
                       {{booked_vdata.status}}
                     </div>
                   </td>
-                {% endif %}
-              {% elif booked_vdata.status == 'approved' %}
-                {% if booked_vdata.is_cancelled %}
-                  <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
-                    <div class=" relative flex items-center text-left">
-                      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
-                        <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                        <path fill="#f44336" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
-                      </svg>
-                      Cancelled
-                  </td>
+                  {% endif %}
                 {% else %}
-                <td class="py-2 px-4 sm:py-3 sm:px-6 text-lime-600 font-semibold">
+                <td class="py-2 px-4 sm:py-3 sm:px-6  text-red-800 font-semibold">
                   <div class=" relative flex items-center text-left">
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
-                      <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+                      <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
+                      <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
                     </svg>
                     {{booked_vdata.status}}
                   </div>
                 </td>
                 {% endif %}
-              {% else %}
-              <td class="py-2 px-4 sm:py-3 sm:px-6  text-red-800 font-semibold">
-                <div class=" relative flex items-center text-left">
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
-                    <path fill="#ffcdd2" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path>
-                    <path fill="none" stroke="#f44336" stroke-width="4" stroke-linecap="round" d="M16,16 L32,32 M32,16 L16,32"></path>
-                  </svg>
-                  {{booked_vdata.status}}
-                </div>
-              </td>
-              {% endif %}
-              <td class="py-2 px-4 sm:py-3 sm:px-6 text-left">
-                {% if not booked_vdata.is_cancelled %}
-                <form action="" method="post">
-                  {% csrf_token %}
-                  <input type="hidden" name="booked_vehicle_id" value="{{ booked_vdata.id }}">
+                <td class="py-2 px-4 sm:py-3 sm:px-6 text-left">
+                  {% if not booked_vdata.is_cancelled %}
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      <input type="hidden" name="booked_vehicle_id" value="{{ booked_vdata.id }}">
 
-                  {% if booked_vdata.status == 'pending' %}
-                      <button type="submit" name="action" value="approve" 
-                              class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                          Approve
-                      </button>
-                      <button type="submit" name="action" value="reject" 
-                              class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600">
-                          Reject
-                      </button>
-                  {% elif booked_vdata.status == 'approved' %}
-                      <button type="submit" name="action" value="reject" 
-                              class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                          Reject
-                      </button>
-                  {% elif booked_vdata.status == 'rejected' %}
-                      <button type="submit" name="action" value="approve" 
-                              class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                          Approve
-                      </button>
+                      {% if booked_vdata.status == 'pending' %}
+                          <button type="submit" name="action" value="approve" 
+                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                              Approve
+                          </button>
+                          <button type="submit" name="action" value="reject" 
+                                  class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600">
+                              Reject
+                          </button>
+                      {% elif booked_vdata.status == 'approved' %}
+                          <button type="submit" name="action" value="reject" 
+                                  class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                              Reject
+                          </button>
+                      {% elif booked_vdata.status == 'rejected' %}
+                          <button type="submit" name="action" value="approve" 
+                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                              Approve
+                          </button>
+                      {% endif %}
+                    </form>
                   {% endif %}
-              </form>
-          {% endif %}
-      </td>
-            </tr>
+                </td>
+              </tr>
             {% endfor %}
           </tbody>
         </table>
-        {% else %}
-        
-        {% endif %}
       </div>
+      {% else %}
+        <div class="w-full flex items-center justify-center md:min-w-[100vw] min-h-[60vh] md:min-h-[70vh] md:items-center md:justify-center">
+          <div class="flex flex-col items-center justify-center w-full max-w-full md:max-w-3xl lg:max-w-4xl bg-gradient-to-br from-blue-50 via-white to-blue-100 shadow-2xl rounded-3xl overflow-hidden border border-blue-100 p-4 sm:p-6 md:p-12 lg:p-16 transition-all duration-300 mx-2 md:mx-auto">
+            <div class="flex flex-col items-center">
+              <div class="bg-blue-100 rounded-full p-6 shadow-lg mb-8 animate-fade-in">
+                <svg class="w-20 h-20 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-3A2.25 2.25 0 008.25 5.25V9m10.5 0v10.5A2.25 2.25 0 0116.5 21h-9A2.25 2.25 0 015.25 19.5V9m13.5 0H5.25m13.5 0a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 9m0 0v10.5A2.25 2.25 0 006.75 21h10.5A2.25 2.25 0 0019.5 19.5V9z" />
+                </svg>
+              </div>
+              <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-800 mb-4 text-center leading-tight">No Bookings Awaiting Approval</h2>
+              <p class="text-gray-500 text-lg sm:text-xl text-center max-w-2xl mb-4">Great job! There are currently no pending bookings that require your review or approval. Check back later or enjoy your day!</p>
+              <div class="mt-6 flex justify-center">
+                <a href="/rental_business" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold shadow-lg transition focus:outline-none focus:ring-2 focus:ring-blue-400">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7m-9 2v6m0 0h4m-4 0a2 2 0 01-2-2v-4a2 2 0 012-2h4a2 2 0 012 2v4a2 2 0 01-2 2z"/></svg>
+                  Back to Dashboard
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
   </main>
 </div>
