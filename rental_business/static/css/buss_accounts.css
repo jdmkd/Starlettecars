@@ -24,8 +24,6 @@
 .form{
     position: absolute;
     max-width: 26rem;
-    width: 95%;
-    padding: 20px 20px;
     border-radius: 6px;
     background: #fdfdfdd9;
     margin: 30px 20px 10px 20px;
@@ -40,10 +38,6 @@
                 -1px 2px 5px rgba(157, 157, 157, 0.452),
                 1px 2px 4px rgba(151, 151, 151, 0.401);
     transition: ease-in all .2s;
-}
-.form form{
-    top: -2rem;
-    position: relative;
 }
 
 .form.signup{
