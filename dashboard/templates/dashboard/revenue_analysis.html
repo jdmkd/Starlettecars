@@ -1,0 +1,102 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<h2>Revenue Analysis</h2>
+<form method="get" class="form-inline mb-3">
+  <label for="start_date" class="mr-2">From:</label>
+  <input type="date" id="start_date" name="start_date" value="{{ request.GET.start_date }}" class="form-control mr-2">
+  <label for="end_date" class="mr-2">To:</label>
+  <input type="date" id="end_date" name="end_date" value="{{ request.GET.end_date }}" class="form-control mr-2">
+  <button type="submit" class="btn btn-primary">Filter</button>
+  <a href="{% url 'dashboard-revenue-analysis' %}" class="btn btn-secondary ml-2">Reset</a>
+  <a href="{% url 'dashboard-revenue-export-csv' %}?start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}" class="btn btn-success ml-2">Export CSV</a>
+</form>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          Daily Revenue Trend
+          {% if request.GET.start_date and request.GET.end_date %}
+            ({{ request.GET.start_date }} to {{ request.GET.end_date }})
+          {% else %}
+            (Last 30 Days)
+          {% endif %}
+        </h3>
+      </div>
+      <div class="card-body"><canvas id="revenueTrendChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Revenue by Vehicle Model (Top 10)</h3>
+      </div>
+      <div class="card-body">
+        <canvas id="revenueByVehicleChart" style="height:300px;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Large, vibrant color palette
+  const palette = [
+    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E91E63', '#00BCD4', '#8BC34A', '#FFC107',
+    '#FF5722', '#607D8B', '#9C27B0', '#3F51B5', '#CDDC39', '#009688', '#795548', '#F44336', '#2196F3', '#FFEB3B'
+  ];
+  // Daily Revenue Trend
+  const revenueTrend = {{ revenue_trend|safe }};
+  new Chart(document.getElementById('revenueTrendChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: revenueTrend.labels,
+      datasets: [{
+        label: 'Revenue',
+        data: revenueTrend.values,
+        backgroundColor: palette.slice(0, revenueTrend.labels.length),
+        borderColor: palette.slice(0, revenueTrend.labels.length),
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#eee' } }
+      }
+    }
+  });
+  // Revenue by Vehicle Model
+  const revenueByVehicle = {{ revenue_by_vehicle|safe }};
+  new Chart(document.getElementById('revenueByVehicleChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: revenueByVehicle.labels,
+      datasets: [{
+        label: 'Revenue',
+        data: revenueByVehicle.values,
+        backgroundColor: palette.slice(0, revenueByVehicle.labels.length),
+        borderColor: palette.slice(0, revenueByVehicle.labels.length),
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#eee' } }
+      }
+    }
+  });
+</script>
+{% endblock %} 

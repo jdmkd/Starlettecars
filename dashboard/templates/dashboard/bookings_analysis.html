@@ -1,0 +1,193 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<h2>Bookings Analysis</h2>
+<form method="get" class="form-inline mb-3">
+  <label for="start_date" class="mr-2">From:</label>
+  <input type="date" id="start_date" name="start_date" value="{{ request.GET.start_date }}" class="form-control mr-2">
+  <label for="end_date" class="mr-2">To:</label>
+  <input type="date" id="end_date" name="end_date" value="{{ request.GET.end_date }}" class="form-control mr-2">
+  <button type="submit" class="btn btn-primary">Filter</button>
+  <a href="{% url 'dashboard-bookings-analysis' %}" class="btn btn-secondary ml-2">Reset</a>
+  <a href="{% url 'dashboard-bookings-export-csv' %}?start_date={{ request.GET.start_date }}&end_date={{ request.GET.end_date }}" class="btn btn-success ml-2">Export CSV</a>
+</form>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          Daily Bookings Trend
+          {% if request.GET.start_date and request.GET.end_date %}
+            ({{ request.GET.start_date }} to {{ request.GET.end_date }})
+          {% else %}
+            (Last 30 Days)
+          {% endif %}
+        </h3>
+      </div>
+      <div class="card-body"><canvas id="bookingsTrendChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Bookings by Payment Method</h3></div>
+      <div class="card-body"><canvas id="bookingsByPaymentChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Bookings by City/Location (Top 10)</h3></div>
+      <div class="card-body"><canvas id="bookingsByCityChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Average Booking Duration by Vehicle (Top 10)</h3></div>
+      <div class="card-body"><canvas id="avgBookingDurationChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Top 5 Users by Bookings</h3></div>
+      <div class="card-body"><canvas id="topUsersChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Bookings by Status Over Time</h3></div>
+      <div class="card-body"><canvas id="bookingsByStatusChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Large, vibrant color palette
+  const palette = [
+    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#E91E63', '#00BCD4', '#8BC34A', '#FFC107',
+    '#FF5722', '#607D8B', '#9C27B0', '#3F51B5', '#CDDC39', '#009688', '#795548', '#F44336', '#2196F3', '#FFEB3B'
+  ];
+  // Bookings Trend
+  const bookingsTrend = {{ bookings_trend|safe }};
+  new Chart(document.getElementById('bookingsTrendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: bookingsTrend.labels,
+      datasets: [{
+        label: 'Bookings',
+        data: bookingsTrend.values,
+        backgroundColor: 'rgba(54, 162, 235, 0.15)',
+        borderColor: palette[1],
+        borderWidth: 3,
+        pointRadius: 4,
+        pointHoverRadius: 7,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: { grid: { color: '#eee' } }
+      }
+    }
+  });
+  // Bookings by Payment Method
+  const bookingsByPayment = {{ bookings_by_payment|safe }};
+  new Chart(document.getElementById('bookingsByPaymentChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: bookingsByPayment.labels,
+      datasets: [{
+        label: 'Bookings',
+        data: bookingsByPayment.values,
+        backgroundColor: palette.slice(0, bookingsByPayment.labels.length),
+        borderColor: '#fff',
+        borderWidth: 2
+      }]
+    },
+    options: {responsive: true, plugins: {legend: { position: 'bottom' }}}
+  });
+  // Bookings by City/Location
+  const bookingsByCity = {{ bookings_by_city|safe }};
+  new Chart(document.getElementById('bookingsByCityChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: bookingsByCity.labels,
+      datasets: [{
+        label: 'Bookings',
+        data: bookingsByCity.values,
+        backgroundColor: palette.slice(0, bookingsByCity.labels.length),
+        borderColor: palette.slice(0, bookingsByCity.labels.length),
+        borderWidth: 2
+      }]
+    },
+    options: {responsive: true, plugins: {legend: { display: false }}}
+  });
+  // Average Booking Duration by Vehicle
+  const avgBookingDuration = {{ avg_booking_duration|safe }};
+  new Chart(document.getElementById('avgBookingDurationChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: avgBookingDuration.labels,
+      datasets: [{
+        label: 'Avg Duration (days)',
+        data: avgBookingDuration.values,
+        backgroundColor: palette.slice(0, avgBookingDuration.labels.length),
+        borderColor: palette.slice(0, avgBookingDuration.labels.length),
+        borderWidth: 2
+      }]
+    },
+    options: {responsive: true, plugins: {legend: { display: false }}}
+  });
+  // Top 5 Users by Bookings
+  const topUsers = {{ top_users|safe }};
+  new Chart(document.getElementById('topUsersChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: topUsers.labels,
+      datasets: [{
+        label: 'Bookings',
+        data: topUsers.values,
+        backgroundColor: palette.slice(0, topUsers.labels.length),
+        borderColor: palette.slice(0, topUsers.labels.length),
+        borderWidth: 2
+      }]
+    },
+    options: {responsive: true, plugins: {legend: { display: false }}}
+  });
+  // Bookings by Status Over Time
+  const bookingsByStatus = {{ bookings_by_status|safe }};
+  new Chart(document.getElementById('bookingsByStatusChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: bookingsByStatus.labels,
+      datasets: bookingsByStatus.datasets.map((ds, i) => ({
+        ...ds,
+        backgroundColor: palette[i % palette.length],
+        borderColor: palette[i % palette.length],
+        borderWidth: 2
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, grid: { color: '#eee' } }
+      }
+    }
+  });
+</script>
+{% endblock %} 

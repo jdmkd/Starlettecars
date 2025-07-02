@@ -1,0 +1,32 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<h2>User Insights</h2>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Active vs. Inactive Users</h3></div>
+      <div class="card-body"><canvas id="userActivityChart" style="height:300px;"></canvas></div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const userActivity = {{ user_activity|safe }};
+  new Chart(document.getElementById('userActivityChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: userActivity.labels,
+      datasets: [{
+        label: 'Users',
+        data: userActivity.values,
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 99, 132, 0.6)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {responsive: true}
+  });
+</script>
+{% endblock %} 
