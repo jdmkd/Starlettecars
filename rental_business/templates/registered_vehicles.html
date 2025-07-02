@@ -1,5 +1,5 @@
-{% extends 'base_new.html' %}
-
+{% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
     Your vehicles
@@ -47,11 +47,13 @@
         {% endfor %}
       </div>
     {% else %}
-      <div class="flex flex-col items-center justify-center min-h-[40vh] text-center space-y-6 py-12 bg-white border rounded-lg shadow-sm mx-auto max-w-xl">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48" class="w-20 h-20 mx-auto text-blue-400"><rect width="48" height="48" rx="24" fill="#e0e7ff"/><path d="M24 14v10l7 4" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <h2 class="text-2xl lg:text-3xl font-bold text-gray-800">No Vehicles Found</h2>
-        <p class="text-gray-600 text-base">You haven't registered any vehicles yet. List your first vehicle now to make it available for rentals.</p>
-        <a href="{% url 'add_vehicle' %}" class="px-4 py-2 bg-blue-600 text-white text-base font-medium rounded-md shadow hover:bg-blue-700 hover:shadow-lg transition-all">Register Your First Vehicle</a>
+      <div class="relative md:absolute left-0 sm:left-[5rem] md:right-3 md:top-14 w-full flex items-center justify-center min-h-[40vh] md:min-h-[60vh] md:items-center md:justify-center">
+        <div class="flex flex-col items-center justify-center w-full max-w-xl md:max-w-2xl lg:max-w-3xl bg-white border rounded-2xl shadow-lg text-center space-y-6 py-10 px-4 md:py-16 md:px-12 mx-2 md:mx-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 48 48" class="w-20 h-20 mx-auto text-blue-400"><rect width="48" height="48" rx="24" fill="#e0e7ff"/><path d="M24 14v10l7 4" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h2 class="text-2xl lg:text-3xl font-bold text-gray-800">No Vehicles Found</h2>
+          <p class="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">You haven't registered any vehicles yet. List your first vehicle now to make it available for rentals.</p>
+          <a href="{% url 'add_vehicle' %}" class="px-6 py-3 bg-blue-600 text-white text-base md:text-lg font-semibold rounded-lg shadow hover:bg-blue-700 hover:shadow-lg transition-all">Register Your First Vehicle</a>
+        </div>
       </div>
     {% endif %}
   {% endif %}
