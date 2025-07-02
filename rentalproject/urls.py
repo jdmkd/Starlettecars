@@ -19,7 +19,11 @@ from django.conf import settings
 # from django.conf.urls import url
 from django.urls import path, re_path, include
 from django.contrib import admin
+from django.shortcuts import redirect
+
 urlpatterns = [
+    path('admin/', lambda request: redirect('admin-dashboard'), name='admin-root-redirect'),
+    path('admin/', include('dashboard.urls')),
     path("admin/", admin.site.urls),
     path("",include("rentalapp.urls")),
     path("rental_business/", include("rental_business.urls")),

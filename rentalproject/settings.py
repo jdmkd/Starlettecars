@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     "rentalapp",
     "rental_business",
+    'dashboard',
     "django_browser_reload",
     
     # "rentalapp.apps.RentalappConfig",
@@ -91,6 +92,7 @@ TEMPLATES = [
                 os.path.join(BASE_DIR / 'templates'),
                 os.path.join(BASE_DIR / 'rentalapp/templates'),
                 os.path.join(BASE_DIR / 'rental_business/templates'),
+                os.path.join(BASE_DIR / 'dashboard/templates')
             ],
         # "DIRS": [BASE_DIR / "templates"],
         "OPTIONS": {

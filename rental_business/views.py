@@ -173,7 +173,7 @@ def dashboard(request):
                 
             }
 
-            return render(request, "dashboard/dashboard_new.html", buss_user_data)
+            return render(request, "business_dashboard/business_dashboard.html", buss_user_data)
     except KeyError as e:
         print("business user is not logged in")
         pass
@@ -229,7 +229,7 @@ def dashboard(request):
         "booking_month_counts": json.dumps(booking_month_counts),
     }
 
-    return render(request, "dashboard/dashboard_new.html", buss_user_data)
+    return render(request, "business_dashboard/business_dashboard.html", buss_user_data)
 
 
 
@@ -581,9 +581,11 @@ def buss_registeration(request):
                 )
 
                 registerdata.save()
-                print("buss user data saved...")
+                # print("buss user data saved...")
+
                 buss_send_mail_after_registration(buss_emailid, buss_auth_token)
-                print("Buss Account Registartion done go to gmail and verify ...")
+                # print("Buss Account Registartion done go to gmail and verify ...")
+
                 messages.success(request, "Buss Account Registration successful!", extra_tags="registration_success")
                 return redirect("login_and_registration")
                 
@@ -595,20 +597,15 @@ def buss_registeration(request):
                 request, "Your Password and Confirm Password does not Matched!!"
             )
             # return redirect("/")
-    else:
-        print("last error occured!")
-        # messages.error(request, "error occured!")
 
-    print("last2 error occured!")
     print(str(uuid.uuid4()))
-    # return render(request, "index.html")
 
     return render(request,"buss_accounts/login_and_registration.html")
 
 def buss_send_mail_after_registration(buss_emailid, buss_auth_token):
     try:
         subject = "Your Business Account needs to be varified."
-
+        print("config('END_POINT_URL') ::", config('END_POINT_URL'))
         message = f"Hi paste the link to varify your account. {config('END_POINT_URL')}/rental_business/email_verify/{buss_auth_token}"
         send_from = settings.EMAIL_HOST_USER
         print("This is send from gmail ::", send_from)
