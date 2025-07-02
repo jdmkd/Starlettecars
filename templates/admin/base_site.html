@@ -1,9 +1,33 @@
 {% extends "admin/base.html" %}
+{% load static %}
 
-{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% block title %}{{ title }} | Admin Dashboard{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'dashboard/admin_dark.css' %}">
+{% endblock %}
+
+{% block header %}
+  <nav class="main-header navbar navbar-expand navbar-dark">
+    <!-- Sidebar toggle button (hamburger) -->
+    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+        <i class="fas fa-bars"></i>
+    </a>
+    {{ block.super }}
+  </nav>
+{% endblock %}
 
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Rental administration') }}</a></h1>
+  <a href="{% url 'admin:index' %}" class="brand-link">
+    <span class="brand-text font-weight-light">Admin Dashboard</span>
+  </a>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
+
+{% comment %} {% block extra_js %}
+    {{ block.super }}
+    <script src="{% static 'admin-lte/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock %} {% endcomment %}
