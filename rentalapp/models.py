@@ -125,11 +125,12 @@ class booking_table(models.Model):
 
     paystatus = models.BooleanField(default=False)
     
-    status = models.CharField(max_length=10,
+    status = models.CharField(max_length=15,
                 choices=[
                     ('pending', 'Pending'),
                     ('approved', 'Approved'),
-                    ('rejected', 'Rejected')
+                    ('rejected', 'Rejected'),
+                    ('completed', 'Completed')
                 ],
                 default='pending'
     )
