@@ -13,11 +13,23 @@
     <!-- font awesome cdn link  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- custom css file link  -->
+    <!-- Litepicker CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
+    <!-- Litepicker JS -->
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/js/litepicker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+    
     <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
     <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
     <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
 
     <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
+
+
+    <!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">
+
 </head>
 <body>
     <header class="header">
@@ -165,49 +177,41 @@
               <div class=" py-[2rem]">
                 {% comment %} <div class="checkout-form-container" > {% endcomment %}
                   <form action="{% url 'vehicle_booking' %}" method="post" >
-                      {% csrf_token %}
-                      <div class="my-5 grid grid-cols-1 sm:grid-cols-2  gap-3">
-                        <div class="relative">
-                          <label for="sdate" class="block text-[1.5rem] font-semibold select-none mb-2 text-gray-700">From Starting</label>
-                          <input id="sdate" type="date" name="sdate" placeholder="starting date" class="block w-full  transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] uppercase select-none" title="Enter a Starting date" required>
+                    {% csrf_token %}
+                    <div class="my-5 grid grid-cols-1 sm:grid-cols-2  gap-3">
+                      <div class="relative mb-2">
+                        <label for="daterange" class="block text-[1.5rem] font-semibold select-none mb-2 text-gray-700">Select Date Range</label>
+                        <input id="daterange" name="daterange" class="block w-full transition-transform py-[1.5rem] px-[2rem] border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] select-none" placeholder="Select date range" required readonly>
+                        <div id="date-range-message" class="hidden mt-2 text-red-600 text-sm font-medium transition-opacity duration-200"></div>
+                        <!-- Legend for calendar -->
+                        <div class="flex items-center mt-2 space-x-2">
+                          <span style="display:inline-block;width:1.5rem;height:1.5rem;background:#f87171;border:2px solid #b91c1c;border-radius:0.25rem;"></span>
+                          <span class="text-sm text-gray-700">Booked (unavailable)</span>
                         </div>
-                        <div class="relative">
-                          <label for="edate" class="block text-[1.5rem] font-semibold mb-2 text-gray-700">To Ending</label>
-                          <input id="edate" type="date" name="edate" placeholder="ending date" class="block w-full transition-transform py-[1rem] px-[5rem] border border-solid border-gray-400 hover:border-blue-500  shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] cursor-pointer uppercase select-none" title="Enter a end date" required>
+                        <!-- Booked periods list -->
+                        <div class="mt-4">
+                          <h4 class="font-semibold text-gray-700">Booked Periods:</h4>
+                          <ul class="text-sm text-gray-600">
+                            {% for range in booked_ranges %}
+                              <li>{{ range.start }} to {{ range.end }}</li>
+                            {% empty %}
+                              <li>No bookings yet!</li>
+                            {% endfor %}
+                          </ul>
                         </div>
-                          <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
-                          <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
-                          {# {% if user.is_authenticated %}#}
-                          {# {% endif %}#}
-                        </div>
-                        <input type="submit" value="checkout" class="btn">
-                        
-                    {% comment %} <div date-rangepicker class="flex items-center">
-                      <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                            </svg>
-                        </div>
-                        <input name="start" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date start">
                       </div>
-                      <span class="mx-4 text-gray-500">to</span>
+                      <input type="hidden" id="sdate" name="sdate" required>
+                      <input type="hidden" id="edate" name="edate" required>
+                      
                       <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                            </svg>
-                        </div>
-                        <input name="end" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date end">
+                        <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
+                        <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
+                      </div>
+                      <input type="submit" id="checkout-btn" value="checkout" class="btn border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.6rem] select-none" disabled>
+                      
                     </div>
-                    </div> {% endcomment %}
-
-
                   </form>
-                {% comment %} </div> {% endcomment %}
               </div>
-
-              
 
               <div class="my-[2rem]">
                 <h2 class="my-[1rem] text-3xl font-semibold text-gray-800">Specification</h2>
@@ -243,28 +247,128 @@
                   <li class="my-[1rem] whitespace-pre">feul :</li>
               </ul>
             </div>
-
-            
           </div>
         </div>
       </div>
 
   </section>
-        
-        
-
-
-
-
-
-
-
-
-
     
     <hr/>
-      
+    {% comment %} <script>
+      const picker = new Litepicker({
+        element: document.getElementById('daterange'),
+        singleMode: false,
+        numberOfMonths: 2,
+        numberOfColumns: 2,
+        selectForward: true,
+        autoApply: true,
+        tooltipText: {
+          one: 'day',
+          other: 'days'
+        },
+        tooltipNumber: (totalDays) => {
+          return totalDays - 1;
+        },
+        setup: (picker) => {
+          picker.on('selected', (date1, date2) => {
+            document.getElementById('sdate').value = date1.format('YYYY-MM-DD');
+            document.getElementById('edate').value = date2.format('YYYY-MM-DD');
+          });
+        }
+      });
+    </script> {% endcomment %}
 
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    {# Use Django's json_script for safe JSON passing #}
+    {{ booked_ranges|json_script:"booked-ranges-data" }}
+    <script>
+      const bookedRanges = JSON.parse(document.getElementById('booked-ranges-data').textContent);
+      const disableRanges = bookedRanges.map(range => ({
+        from: range.start,
+        to: range.end
+      }));
+
+      function updateCheckoutButton() {
+        const sdate = document.getElementById('sdate').value;
+        const edate = document.getElementById('edate').value;
+        const btn = document.getElementById('checkout-btn');
+        const msg = document.getElementById('date-range-message');
+        if (sdate && edate) {
+          btn.disabled = false;
+          btn.classList.remove('opacity-50', 'cursor-not-allowed');
+          msg.classList.add('hidden');
+          msg.textContent = '';
+        } else {
+          btn.disabled = true;
+          btn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+      }
+
+      document.getElementById('daterange').addEventListener('change', updateCheckoutButton);
+      document.getElementById('sdate').addEventListener('change', updateCheckoutButton);
+      document.getElementById('edate').addEventListener('change', updateCheckoutButton);
+
+      if (window.flatpickr) {
+        flatpickr("#daterange", {
+          mode: "range",
+          disable: disableRanges,
+          minDate: "today",
+          dateFormat: "Y-m-d",
+          theme: "material_blue",
+          onChange: function(selectedDates, dateStr, instance) {
+            if (selectedDates.length === 2) {
+              document.getElementById('sdate').value = instance.formatDate(selectedDates[0], "Y-m-d");
+              document.getElementById('edate').value = instance.formatDate(selectedDates[1], "Y-m-d");
+            } else {
+              document.getElementById('sdate').value = "";
+              document.getElementById('edate').value = "";
+            }
+            updateCheckoutButton();
+          },
+          animate: true,
+          showMonths: 1,
+          onDayCreate: function(dObj, dStr, fp, dayElem) {
+            // Enhanced styling for disabled days
+            if (dayElem.classList.contains('flatpickr-disabled')) {
+                dayElem.style.background = '#f87171'; // Tailwind red-400
+                dayElem.style.color = '#fff';
+                dayElem.style.border = '2px solid #b91c1c'; // Tailwind red-700
+                dayElem.style.cursor = 'not-allowed';
+                dayElem.title = 'Booked';
+                dayElem.style.animation = 'bookedPulse 2s infinite';
+                // Optionally, add a lock icon
+                // dayElem.innerHTML += '<span style="font-size:1rem;vertical-align:middle;">&#128274;</span>';
+            }
+          }
+        });
+      }
+
+      // Show message if user tries to submit without selecting a date range
+      document.querySelector('form').addEventListener('submit', function(e) {
+        const sdate = document.getElementById('sdate').value;
+        const edate = document.getElementById('edate').value;
+        const msg = document.getElementById('date-range-message');
+        if (!sdate || !edate) {
+          e.preventDefault();
+          msg.textContent = 'Please select a start and end date to proceed with booking.';
+          msg.classList.remove('hidden');
+          msg.classList.add('opacity-100');
+        }
+      });
+
+      // Initial state
+      updateCheckoutButton();
+    </script>
+
+    <style>
+      @keyframes bookedPulse {
+        0% { box-shadow: 0 0 0 0 #f87171; }
+        70% { box-shadow: 0 0 0 10px rgba(248,113,113,0); }
+        100% { box-shadow: 0 0 0 0 #f87171; }
+      }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>

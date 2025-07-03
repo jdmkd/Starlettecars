@@ -16,27 +16,21 @@
 <body>
     <div class="login-form-container" id="login-form-container">
         <a href="/"><span id="close-login-form" class="fas fa-times"></span></a>
-        <form action="/accounts/login" method="post">
+        <form action="/accounts/login" class="reg" method="post">
             {% csrf_token %}
             <h3>user login </h3>
             
             {% if messages %}
-            <div id="messages" class="messages" style="  
-            /* color: #ff4141; */
-            display: flex;
-            position: relative;
-            align-content: center;
-            justify-content: center;
-            align-items: center;
-            margin: 1rem 1rem;
-            padding: 1rem 1rem;
-            /* background: #00ff111c; */
-            /* color:#2c753a; */
-            /* background: #87fffd88; */
-            /* border:1px solid #70ac6e5e; */
-            border-radius:5px;
-            
-            ">
+                <div id="messages" class="messages" style="  
+                    /* color: #ff4141; */
+                    display: flex;
+                    position: relative;
+                    align-content: center;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 1rem 1rem;
+                    padding: 1rem 1rem;
+                    border-radius:5px;">
 
                     {% for msg in messages %}
                         <div class="alert alert-{{msg.tags}} alert-dismissible fade show m-0" data-bs-toggle="collapse" data-bs-target="collapse" aria-expanded="false" aria-controls="collapse" role="alert" style="font-size:14px; font-weight:400;text-transform: none;">
@@ -48,8 +42,9 @@
                         </button>
                     {% endfor %}
                 
-            </div>
+                </div>
             {% endif %}
+
             <script>
                 // {% comment %} let msg_closebtn = document.getElementsByClassName("close"); {% endcomment %}
                 let msg_closebtn = document.querySelector(".close");
