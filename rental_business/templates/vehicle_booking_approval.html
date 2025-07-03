@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load business_custom_filters %}
 
 {% block title %}
     Pending Booking Approval Requests
@@ -80,11 +81,13 @@
                   {% endif %}
                   </div>
                 </td>
+
                 {% if booked_vdata.is_cancelled %}
                   <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">Cancelled</td>
                 {% else %}
                   <td class="py-2 px-4 sm:py-3 sm:px-6 text-green-600 font-semibold">Not Cancelled</td>
                 {% endif %}
+                
                 {% if booked_vdata.status == 'pending'%}
                   {% if booked_vdata.is_cancelled %}
                     <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
@@ -107,6 +110,7 @@
                       </div>
                     </td>
                   {% endif %}
+
                 {% elif booked_vdata.status == 'approved' %}
                   {% if booked_vdata.is_cancelled %}
                     <td class="py-2 px-4 sm:py-3 sm:px-6 !text-red-600 font-semibold">
@@ -127,6 +131,15 @@
                     </div>
                   </td>
                   {% endif %}
+                {% elif booked_vdata.status == 'completed' %}
+                <td class="py-2 px-4 sm:py-3 sm:px-6 text-blue-600 font-semibold">
+                  <div class=" relative flex items-center text-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48" class="">
+                      <path fill="#c8e6c9" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#4caf50" d="M34.586,14.586l-13.57,13.586l-5.602-5.586l-2.828,2.828l8.434,8.414l16.395-16.414L34.586,14.586z"></path>
+                    </svg>
+                    {{booked_vdata.status}}
+                  </div>
+                </td>
                 {% else %}
                 <td class="py-2 px-4 sm:py-3 sm:px-6  text-red-800 font-semibold">
                   <div class=" relative flex items-center text-left">
@@ -138,35 +151,36 @@
                   </div>
                 </td>
                 {% endif %}
+
                 <td class="py-2 px-4 sm:py-3 sm:px-6 text-left">
-                  {% if not booked_vdata.is_cancelled %}
-                    <form action="" method="post">
+                  {% if not booked_vdata.is_cancelled and booked_vdata.status != 'completed' %}
+                    <form action="" method="post" class="inline-flex items-center gap-2">
                       {% csrf_token %}
                       <input type="hidden" name="booked_vehicle_id" value="{{ booked_vdata.id }}">
-
-                      {% if booked_vdata.status == 'pending' %}
-                          <button type="submit" name="action" value="approve" 
-                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                              Approve
-                          </button>
-                          <button type="submit" name="action" value="reject" 
-                                  class="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600">
-                              Reject
-                          </button>
-                      {% elif booked_vdata.status == 'approved' %}
-                          <button type="submit" name="action" value="reject" 
-                                  class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                              Reject
-                          </button>
-                      {% elif booked_vdata.status == 'rejected' %}
-                          <button type="submit" name="action" value="approve" 
-                                  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                              Approve
-                          </button>
-                      {% endif %}
+                
+                      <select name="action" class="border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:border-blue-400">
+                        {% for key, label in status_choices.items %}
+                          <option value="{{ key }}" {% if key == booked_vdata.status %}selected{% endif %}>
+                            {{ label }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                
+                      <button type="submit" class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm">
+                        Apply
+                      </button>
                     </form>
+                  {% else %}
+                    <span class="text-green-600 font-semibold capitalize">
+                      {{ booked_vdata.get_status_display }}
+                    </span>
                   {% endif %}
                 </td>
+                
+                
+                
+                
+                
               </tr>
             {% endfor %}
           </tbody>
