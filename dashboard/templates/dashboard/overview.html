@@ -1,7 +1,7 @@
 {% extends "dashboard/base.html" %}
 {% block dashboard_content %}
 {% include "dashboard/components/alert.html" %}
-<div class="container-fluid">
+<div class="container-fluid !bg-white !text-black" style="padding: 0; border-radius: 1rem;">
   <h1 class="mb-4">Admin Dashboard Overview</h1>
   <!-- Stat cards and main charts go here (copy from dashboard.html) -->
   {% include "dashboard/components/stat_cards_and_main_charts.html" %}

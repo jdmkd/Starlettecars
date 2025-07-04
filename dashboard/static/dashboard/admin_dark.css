@@ -58,6 +58,11 @@ body, html {
   color: var(--dark-text) !important;
 }
 
+.input-group input[type="search"] {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #333 !important;
+}
 /* Django Admin Header Overrides - Only header styling */
 #header {
   background-color: var(--dark-bg) !important;
@@ -113,7 +118,7 @@ body, html {
 /* Admin Modules */
 .module, .module h2, .module h3 {
   background-color: var(--dark-card) !important;
-  color: var(--dark-text) !important;
+  /* color: var(--dark-text) !important; */
   border: 1px solid var(--dark-border) !important;
 }
 
@@ -134,13 +139,13 @@ body, html {
 
 /* Tables */
 table {
-  background-color: var(--dark-card) !important;
-  color: var(--dark-text) !important;
+  background-color: white !important;
+  color: black !important;
 }
 
 th, td {
-  background-color: var(--dark-card) !important;
-  color: var(--dark-text) !important;
+  background-color: white !important;
+  color: black !important;
   border-color: var(--dark-border) !important;
 }
 
@@ -149,10 +154,8 @@ tr:nth-child(even) {
 }
 
 /* Forms */
-input, select, textarea {
-  background-color: var(--dark-card) !important;
-  color: var(--dark-text) !important;
-  border: 1px solid var(--dark-border) !important;
+#changelist .actions{
+  color: black !important;
 }
 
 input:focus, select:focus, textarea:focus {
@@ -193,12 +196,12 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* Links */
-a {
-  color: var(--primary-color) !important;
-}
+/* a {
+  color: #007bff !important;
+} */
 
 a:hover {
-  color: #fff !important;
+  color: #0056b3 !important;
 }
 
 /* Sidebar Styles */
@@ -207,6 +210,10 @@ a:hover {
   min-height: 100vh;
   border-right: 1px solid var(--dark-border);
   box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+}
+
+.sidebar .user-panel .info a{
+  color: white !important;
 }
 
 .sidebar-header {
@@ -252,6 +259,10 @@ a:hover {
 
 .nav-item {
   margin-bottom: 5px;
+  color: white;
+}
+.nav-item a p,i{
+  color: white;
 }
 
 .nav-link {
@@ -299,7 +310,8 @@ a:hover {
 
 /* Main Content Area */
 .main-content {
-  background: var(--dark-bg);
+  background: white;
+  color: black;
   min-height: 100vh;
   padding: 30px;
 }
@@ -324,7 +336,8 @@ a:hover {
 
 /* Cards */
 .card {
-  background: var(--dark-bg) !important;
+  /* background: var(--dark-bg) !important; */
+  color: black !important;
   border: 1px solid var(--dark-border) !important;
   border-radius: 12px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
@@ -350,7 +363,6 @@ a:hover {
 .card-body {
   /* background: #fff !important; */
   /* color: #333 !important; */
-  color: #fff !important; 
   border-radius: 0 0 12px 12px;
 }
 
@@ -631,15 +643,15 @@ canvas {
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: -100%;
+    /* left: -100%; */
     top: 0;
     z-index: 1000;
     transition: left 0.3s ease;
   }
   
-  .sidebar.show {
+  /* .sidebar.show {
     left: 0;
-  }
+  } */
   
   .main-content {
     padding: 20px;
@@ -732,12 +744,16 @@ canvas {
 
 /* Form styling */
 .form-group label {
-  color: var(--dark-text) !important;
+  color: black !important;
+}
+
+label{
+  color: black !important;
 }
 
 .form-control {
-  background-color: var(--dark-card) !important;
-  color: var(--dark-text) !important;
+
+
   border: 1px solid var(--dark-border) !important;
 }
 
@@ -745,6 +761,7 @@ canvas {
   border-color: var(--primary-color) !important;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
 }
+
 
 /* Messages */
 .messagelist {
@@ -810,9 +827,9 @@ body, .content-wrapper, .main-sidebar, .sidebar, .bg-dark, .bg-black {
 }
 
 /* Force all text to be white */
-p, span, div, h1, h2, h3, h4, h5, h6, label, li, td, th, a, button, input, select, textarea, .text-muted, .text-secondary {
+/* span, label, li, td, th, a, button, input, select, textarea, .text-muted, .text-secondary {
   color: var(--dark-text) !important;
-}
+} */
 
 /* Specific overrides for any remaining colored text */
 .text-dark, .text-black {
@@ -820,9 +837,9 @@ p, span, div, h1, h2, h3, h4, h5, h6, label, li, td, th, a, button, input, selec
 }
 
 /* Ensure links maintain their hover states */
-a:hover {
+/* a:hover {
   color: #fff !important;
-}
+} */
 
 /* Override any Bootstrap or other framework text colors */
 .text-body, .text-body-secondary {
@@ -901,8 +918,8 @@ body, #container, #content, #content-main, .change-list, .module, .results, .res
 }
 
 #content-main, .change-list, .module, .results {
-  background: #111 !important;
-  color: #fff !important;
+  /* background: #111 !important; */
+  color: #000  !important;
 }
 
 .results table, .results thead, .results tbody, .results tr, .results th, .results td {
@@ -959,7 +976,3 @@ fieldset.module {
   border-color: #333 !important;
 }
 
-#changelist .actions{
-  background: #111 !important;
-  color: #fff !important;
-} 

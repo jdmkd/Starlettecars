@@ -1,49 +1,50 @@
+{% load dashboard_custom_filters %}
 <div class="row">
   <!-- Stat Card: Total Users -->
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-info">
-      <div class="inner">
-        <h3>{{ stats.total_users }}</h3>
-        <p>Total Users</p>
+  <div class="col-lg-3 col-6 mb-4">
+    <div class="card d-flex flex-row align-items-center" style="background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-left: 6px solid #17a2b8; min-height: 110px;">
+      <div class="d-flex align-items-center justify-content-center" style="background: #e3f7fa; border-radius: 50%; width: 56px; height: 56px; margin: 1.25rem;">
+        <i class="fas fa-users" style="font-size: 2rem; color: #17a2b8;"></i>
       </div>
-      <div class="icon">
-        <i class="fas fa-users"></i>
+      <div class="flex-grow-1" style="padding: 1.25rem 1rem 1.25rem 0;">
+        <div style="font-size: 2rem; font-weight: 700; color: #222;">{{ stats.total_users }}</div>
+        <div style="font-size: 1rem; color: #888;">Total Users</div>
       </div>
     </div>
   </div>
   <!-- Stat Card: Total Vehicles -->
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-success">
-      <div class="inner">
-        <h3>{{ stats.total_vehicles }}</h3>
-        <p>Total Vehicles</p>
+  <div class="col-lg-3 col-6 mb-4">
+    <div class="card d-flex flex-row align-items-center" style="background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-left: 6px solid #28a745; min-height: 110px;">
+      <div class="d-flex align-items-center justify-content-center" style="background: #e6f9ed; border-radius: 50%; width: 56px; height: 56px; margin: 1.25rem;">
+        <i class="fas fa-car" style="font-size: 2rem; color: #28a745;"></i>
       </div>
-      <div class="icon">
-        <i class="fas fa-car"></i>
+      <div class="flex-grow-1" style="padding: 1.25rem 1rem 1.25rem 0;">
+        <div style="font-size: 2rem; font-weight: 700; color: #222;">{{ stats.total_vehicles }}</div>
+        <div style="font-size: 1rem; color: #888;">Total Vehicles</div>
       </div>
     </div>
   </div>
   <!-- Stat Card: Total Bookings -->
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-warning">
-      <div class="inner">
-        <h3>{{ stats.total_bookings }}</h3>
-        <p>Total Bookings</p>
+  <div class="col-lg-3 col-6 mb-4">
+    <div class="card d-flex flex-row align-items-center" style="background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-left: 6px solid #ffc107; min-height: 110px;">
+      <div class="d-flex align-items-center justify-content-center" style="background: #fffbe6; border-radius: 50%; width: 56px; height: 56px; margin: 1.25rem;">
+        <i class="fas fa-calendar-check" style="font-size: 2rem; color: #ffc107;"></i>
       </div>
-      <div class="icon">
-        <i class="fas fa-calendar-check"></i>
+      <div class="flex-grow-1" style="padding: 1.25rem 1rem 1.25rem 0;">
+        <div style="font-size: 2rem; font-weight: 700; color: #222;">{{ stats.total_bookings }}</div>
+        <div style="font-size: 1rem; color: #888;">Total Bookings</div>
       </div>
     </div>
   </div>
   <!-- Stat Card: Total Revenue -->
-  <div class="col-lg-3 col-6">
-    <div class="small-box bg-danger">
-      <div class="inner">
-        <h3>{{ stats.total_revenue }}</h3>
-        <p>Total Revenue</p>
+  <div class="col-lg-3 col-6 mb-4">
+    <div class="card d-flex flex-row align-items-center" style="background: #fff; border-radius: 1rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); border-left: 6px solid #dc3545; min-height: 110px;">
+      <div class="d-flex align-items-center justify-content-center" style="background: #fae3e6; border-radius: 50%; width: 56px; height: 56px; margin: 1.25rem;">
+        <i class="fas fa-rupee-sign" style="font-size: 2rem; color: #dc3545;"></i>
       </div>
-      <div class="icon">
-        <i class="fas fa-rupee-sign"></i>
+      <div class="flex-grow-1" style="padding: 1.25rem 1rem 1.25rem 0;">
+        <div style="font-size: 2rem; font-weight: 700; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">{{ stats.total_revenue|currency_format }}</div>
+        <div style="font-size: 1rem; color: #888;">Total Revenue</div>
       </div>
     </div>
   </div>
