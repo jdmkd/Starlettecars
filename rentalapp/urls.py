@@ -79,7 +79,7 @@ urlpatterns = [
     # /generate/booked/vehicle/report
     path("generate/booked/vehicle/report", views.generate_booked_vehicle_report, name="generate_booked_vehicle_report",),
 
-    path("apix", views.apix.as_view(), name="apix"),
+    # path("apix", views.apix.as_view(), name="apix"),  # Removed - view doesn't exist
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

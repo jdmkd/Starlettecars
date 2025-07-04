@@ -1435,28 +1435,6 @@ def pass_has_been_changed(request):
 from django.http import HttpResponse
 from django.http import JsonResponse
 
-from rest_framework import generics
-from .models import usertable
-from .serializers import UsertableSerializer
-
-class apix(generics.ListCreateAPIView):
-    queryset = usertable.objects.all()
-    serializer_class = UsertableSerializer
-
-# def apix(request):
-
-#     data = usertable.objects.all()
-#     print(data)
-#     print(type(data))
-
-#     datax = {"data":data}
-#     print(type(datax))
-
-#     return JsonResponse(datax)
-
-
-
-
 def generate_report(request):
     return render(request, "generate_report.html")
 
