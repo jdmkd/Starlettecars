@@ -149,122 +149,186 @@ def feedbackshow(request):
     return redirect("/feedback")
 
 
-# @login_required
+from django.shortcuts import render, redirect
+from .models import buss_vehicle, booking_table, usertable
+from datetime import datetime
+
 def checkout(request, id):
     try:
-        if request.session["log_id"]:
-            uid = request.session["log_id"]
-            userdata = request.session["log_user"]
-            udata = usertable.objects.filter(id=uid)[0]
-    except KeyError:
-        userdata = "Please login!!"
-        udata = "Please login!!"
-    fetch = buss_vehicle.objects.get(id=id)
-    return render(request, "checkout.html", {"vehicle": fetch, "udata":udata})
+        uid = request.session.get("log_id")  # Use .get() safely
+        udata = None
+
+        if uid:
+            udata = usertable.objects.filter(id=uid).first()  # Use .first() to avoid index errors
+        else:
+            udata = None  # User not logged in
+
+        # Get vehicle
+        fetch = buss_vehicle.objects.get(id=id)
+
+        # Fetch all current and future bookings
+        today = datetime.today().date()
+        bookings = booking_table.objects.filter(
+            vehicle_id=fetch
+        ).filter(
+            Q(from_duration__lte=today, from_to__gte=today) | Q(from_duration__gte=today)
+        ).exclude(
+            is_cancelled=True
+        ).exclude(
+            status='completed'
+        )
+
+        # Prepare date ranges
+        booked_ranges = [
+            {
+                "start": booking.from_duration.strftime("%Y-%m-%d"),
+                "end": booking.from_to.strftime("%Y-%m-%d")
+            }
+            for booking in bookings
+        ]
+
+        return render(request, "checkout.html", {
+            "vehicle": fetch,
+            "udata": udata,  # will be None if user not logged in
+            "booked_ranges": booked_ranges
+        })
+
+    except buss_vehicle.DoesNotExist:
+        return redirect("checkout/{}".format(id)) # or return a 404 page
+
+    except Exception as e:
+        print("Error in checkout:", e)
+        return redirect("checkout/{}".format(id))
+
 
 def checkoutform(request):
     return render(request, "checkoutform.html")
 
 def vehicle_booking(request):
-    # print("inside the vehicle booking")
     if request.method == "POST":
         try:
-            if request.session["log_id"]:
-                from_duration = request.POST.get("sdate")
-                to_duration = request.POST.get("edate")
-                uid = request.session["log_id"]
-                vid = request.POST.get("vid")
-                rupee = request.POST.get("rupee")
-                
-                service_charges = 250.0
-                tax_percentage = 18
-                
+            uid = request.session.get("log_id")
+            if not uid:
+                messages.error(request, "Please login to continue.")
+                return redirect("login")
 
+            from_duration = request.POST.get("sdate")
+            to_duration = request.POST.get("edate")
+            vid = request.POST.get("vid")
+            rupee = request.POST.get("rupee")
 
-                date_format = "%Y-%m-%d"
-                from_date = datetime.strptime(str(from_duration), date_format)
-                to_date = datetime.strptime(str(to_duration), date_format)
-                today = datetime.today().date()
-                current_date =datetime.strptime(str(today), date_format)
-                
-                if usertable.objects.get(id=uid):
-                    user=usertable.objects.get(id=uid)
-                    if user.aadhaar_number and user.validate_aadhaar() and user.date_of_birth and user.driver_license_number and user.driver_license_expiry and user.is_license_valid() and user.validate_license():
-                        print("==>>>>>>>>>>")
-                        if from_date < current_date:
-                            messages.error(request, "From date cannot be in the past!")
-                            return redirect("checkout/{}".format(vid))
-                        if to_date < current_date:
-                            messages.error(request, "To date cannot be in the past.")
-                            return redirect("checkout/{}".format(vid))
-                        if from_date > to_date:
-                            messages.error(request, "Please Enter a Valid Date Format!")
-                            return redirect("checkout/{}".format(vid))
-                        # if today(a) and today(to_date):
-                        #     print("today.................")
-                        
+            # Validate required fields
+            if not from_duration or not to_duration:
+                messages.error(request, "Please select both a start and end date for your booking.")
+                return redirect("checkout/{}".format(vid))
 
-                        if to_date > from_date:
-                            delta = to_date - from_date
-                            dayss = int(delta.days)
-                            
-                            amount = dayss * int(rupee)
-                            base_rental = float(amount)  # Assuming `amount` is a field in the model
-                            tax_amount = base_rental * tax_percentage / 100
-                            total_rental_amount = base_rental + service_charges + tax_amount
-                            
-                            vehicle_status = buss_vehicle.objects.get(id=vid)
-                            
-                            if vehicle_status.buss_chassi_number is None:
-                                messages.error(request, "This Vehicle is not approved!!")
-                            if vehicle_status.buss_vehicle_status == "Booked":
-                                messages.success(request, "This Vehicle is Already Booked!")
-                                # print("redirected same vehicle page....")
-                            if vehicle_status.buss_vehicle_status == "Under Maintenance":
-                                messages.success(request, "This Vehicle is in Under Maintenance!")
-                                # print("redirected same vehicle page....")
-                            if vehicle_status.buss_vehicle_status == "Out of Service":
-                                messages.success(request, "This Vehicle is Out of Service!")
-                                # print("redirected same vehicle page....")
+            # Validate user profile
+            try:
+                user = usertable.objects.get(id=uid)
+            except usertable.DoesNotExist:
+                messages.error(request, "User not found. Please login again.")
+                return redirect("login")
 
+            if not (user.aadhaar_number and user.validate_aadhaar() and user.date_of_birth and
+                    user.driver_license_number and user.driver_license_expiry and
+                    user.is_license_valid() and user.validate_license()):
+                messages.error(request, "Please update your profile to validate your authenticity!!")
+                return redirect("editprofile")
 
-                            if vehicle_status.buss_vehicle_status == "Available" and vehicle_status.buss_chassi_number is not None:
-                                vehicle_status.buss_vehicle_status = "Booked"
-                                vehicle_status.save()
+            # Date validation
+            date_format = "%Y-%m-%d"
+            from_date = datetime.strptime(from_duration, date_format).date()
+            to_date = datetime.strptime(to_duration, date_format).date()
+            today = datetime.today().date()
 
-                                bookingdata = booking_table(
-                                    amount=total_rental_amount,
-                                    from_to=to_duration,
-                                    from_duration=from_duration,
-                                    login_id=usertable(id=uid),
-                                    vehicle_id=buss_vehicle(id=vid), #, buss_vehicle_status=vehicle_status
-                                    paystatus=1,
-                                )
-                                bookingdata.save()
-                                messages.success(request, "Booking Done!")
-                                # print("redirected to booking history page....")
-                                return redirect("/booking/history")
-                        else:
-                            # fetch = buss_vehicle.objects.get(vid=vid)
-                            messages.error(request, "Please Enter a Valid Date Formate!!!")
-                    else:
-                        messages.error(request, "please update you profile to validate you authenticity!!")
-                        return redirect("editprofile")
-            # else:
-                # print("session log_id are not available!!")
-        except KeyError:
-            # print("please login to continue.....")
-            messages.error(request,"please login...")
-            pass
+            print("from_date ::", from_date)
+            print("to_date ::", to_date)
+            print("today ::", today)
+
+            if from_date < today:
+                messages.error(request, "From date cannot be in the past!")
+                return redirect("checkout/{}".format(vid))
+            if to_date < today:
+                messages.error(request, "To date cannot be in the past.")
+                return redirect("checkout/{}".format(vid))
+            if from_date > to_date:
+                messages.error(request, "Please enter a valid date range!")
+                return redirect("checkout/{}".format(vid))
+
+            # Vehicle validation
+            try:
+                vehicle = buss_vehicle.objects.get(id=vid)
+            except buss_vehicle.DoesNotExist:
+                messages.error(request, "Vehicle not found.")
+                return redirect("vehicles")
+
+            if vehicle.buss_chassi_number is None:
+                messages.error(request, "This vehicle is not approved!!")
+                return redirect("checkout/{}".format(vid))
+
+            if vehicle.buss_vehicle_status == "Under Maintenance":
+                messages.error(request, "This vehicle is under maintenance!")
+                return redirect("checkout/{}".format(vid))
+
+            if vehicle.buss_vehicle_status == "Out of Service":
+                messages.error(request, "This vehicle is out of service!")
+                return redirect("checkout/{}".format(vid))
+
+            # Check for overlapping bookings (correct logic)
+            overlapping_bookings = booking_table.objects.filter(
+                vehicle_id=vehicle,
+                paystatus=1,
+            ).filter(
+                from_duration__lte=to_date,
+                from_to__gte=from_date
+            ).exclude(
+                is_cancelled=True
+            ).exclude(
+                status='completed'
+            )
+            if overlapping_bookings.exists():
+                messages.error(request, "This vehicle is already booked for the selected period!")
+                return redirect("checkout/{}".format(vid))
+
+            # Calculate rental amount
+            delta = to_date - from_date
+            days = delta.days
+            if days <= 0:
+                messages.error(request, "Please enter a valid date range!")
+                return redirect("checkout/{}".format(vid))
+
+            base_rental = days * int(rupee)
+            service_charges = 250.0
+            tax_percentage = 18
+            tax_amount = base_rental * tax_percentage / 100
+            total_rental_amount = base_rental + service_charges + tax_amount
+
+            # Just create the booking
+            bookingdata = booking_table(
+                amount=total_rental_amount,
+                from_to=to_duration,
+                from_duration=from_duration,
+                login_id=user,
+                vehicle_id=vehicle,
+                paystatus=1,
+            )
+            bookingdata.save()
+            messages.success(request, "Booking done!")
+            return redirect("/booking/history")
+
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+            # Optionally log the error
+
+        # If we reach here, something went wrong
+        vid = request.POST.get("vid")
+        return redirect("checkout/{}".format(vid))
+
     else:
-        messages.error(request, "error occured!")
-        # print("error occured!")
-
-    vid = request.POST.get("vid")
-    return redirect("checkout/{}".format(vid))
+        messages.error(request, "Invalid request method.")
+        return redirect("checkout/{}".format(vid))
 
 
-# @login_required()
 def booking_history(request):
     try:
         if request.session["log_id"]:
@@ -641,25 +705,23 @@ def download_generate_rental_receipt_as_pdf(request):
 def cancelbooking(request, id):
     print("cancelbooking id :::",id)
     try:
-        boooking_history_data = booking_table.objects.get(id=id)
+        booking = booking_table.objects.get(id=id)
 
-        boooking_history_data.is_cancelled = True
-        boooking_history_data.cancelled_at = timezone.now()
+        booking.is_cancelled = True
+        booking.cancelled_at = timezone.now()
+        booking.save()
 
-        if boooking_history_data.vehicle_id.buss_vehicle_status == "Booked":
-            boooking_history_data.vehicle_id.buss_vehicle_status = "Available"
-            boooking_history_data.vehicle_id.save()
-            print("boooking_history_data.vehicle_id.buss_vehicle_status.save()ed") 
-        boooking_history_data.save()
         return redirect("/booking/history")
-        # return render(request, "booking_history.html", {"boooking_history_data": boooking_history_data},)
+
     except booking_table.DoesNotExist:
         print("Booking not found.")
-    except buss_vehicle.DoesNotExist:
-        print("Vehicle not found.")
+
+        # return render(request, "404.html", status=404)
+
     except Exception as e:
-        print("Exception RISED : ",e)
+        print("Unexpected error:", e)
         pass
+
     return render(request,"booking_history.html",{"boooking_history_data": boooking_history_data})
 
 
@@ -1164,6 +1226,7 @@ def login(request):
             print("already loggedIn")
             return redirect("/")
     except Exception as e:
+        print("Exception :",e)
         pass
 
     if request.method == "POST":
