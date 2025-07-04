@@ -8,6 +8,13 @@ node_modules/
 .pnp.js
 .yarn/install-state.gz
 
+# cursor rules
+.cursorrules
+.cursor/
+.cursor/
+
+
+
 # testing
 /coverage
 
@@ -31,6 +38,7 @@ yarn-error.log*
 # local env files
 .env*.local
 */.env/
+.env
 # vercel
 .vercel
 
@@ -106,6 +114,10 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+
+# PythonAnywhere files
+logs/
+*.log
 
 # Flask stuff:
 instance/
