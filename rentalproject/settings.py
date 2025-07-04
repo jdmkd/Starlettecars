@@ -14,7 +14,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import mimetypes
 import os
-from decouple import config
+from decouple import config, Csv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,14 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-h5-x_^t44*3@$z(ne57sne9@s9%q410#qe+ngpufmmdhu6)4!4"
+SECRET_KEY = config('SECRET_KEY', default="django-insecure-h5-x_^t44*3@$z(ne57sne9@s9%q410#qe+ngpufmmdhu6)4!4")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = [
-                    '*',  
-                ]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,192.168.1.2', cast=Csv())
 
 
 # Application definition
@@ -50,11 +48,14 @@ INSTALLED_APPS = [
     "rentalapp",
     "rental_business",
     'dashboard',
-    "django_browser_reload",
     
-    # "rentalapp.apps.RentalappConfig",
-    # "rental_business.apps.RentalBusinessConfig",
+    # Development only apps
+    "django_browser_reload" if DEBUG else None,
 ]
+
+# Remove None values from INSTALLED_APPS
+INSTALLED_APPS = [app for app in INSTALLED_APPS if app is not None]
+
 # X_FRAME_OPTIONS = "SAMEORIGIN"
 # SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
@@ -66,8 +67,11 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+# Add development middleware only in debug mode
+if DEBUG:
+    MIDDLEWARE.append("django_browser_reload.middleware.BrowserReloadMiddleware")
 
 # messages
 MESSAGE_TAGS = {
@@ -113,22 +117,14 @@ WSGI_APPLICATION = "rentalproject.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.sqlite3",
-    #     "NAME": BASE_DIR / "db.sqlite3",
-    # },
-    
-    
-    
     'default': {
-        'ENGINE': config('DATABASE_ENGINE'),
-        'NAME': config('DATABASE_NAME'),
-        'USER': config('DATABASE_USER'),
-        'PASSWORD': config('DATABASE_PASSWORD'),
-        'HOST': config('DATABASE_HOST'),
-        'PORT': config('DATABASE_PORT'),
+        'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': config('DATABASE_NAME', default=BASE_DIR / "db.sqlite3"),
+        'USER': config('DATABASE_USER', default=''),
+        'PASSWORD': config('DATABASE_PASSWORD', default=''),
+        'HOST': config('DATABASE_HOST', default=''),
+        'PORT': config('DATABASE_PORT', default=''),
     }
-    
 }
 
 
@@ -169,7 +165,7 @@ USE_TZ = True
 
 mimetypes.add_type("text/css", ".css", True)
 
-STATIC_URL = "/static/"
+STATIC_URL = config('STATIC_URL', default='/static/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "rentalapp/static"),
     os.path.join(BASE_DIR, "rental_business/static"),
@@ -177,7 +173,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_URL = config('MEDIA_URL', default='/media/')
 
 
 
@@ -194,10 +190,82 @@ EMAIL_BACKEND = config("EMAIL_BACKEND", default="django.core.mail.backends.smtp.
 EMAIL_HOST = config("EMAIL_HOST", default="smtp.gmail.com")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool, default=True)
 EMAIL_PORT = config("EMAIL_PORT", cast=int, default=587)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 
 
 PDFKIT_CONFIG = {
-    'wkhtmltopdf': r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'  # Adjust for your system
+    'wkhtmltopdf': config('PDFKIT_CONFIG_PATH', default=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
 }
+
+# Check if running on PythonAnywhere
+ON_PYTHONANYWHERE = 'PYTHONANYWHERE_SITE' in os.environ
+
+# PythonAnywhere-specific settings
+if ON_PYTHONANYWHERE:
+    # Disable HTTPS features for free tier
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_BROWSER_XSS_FILTER = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
+    
+    # Use console email backend for free tier
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    
+    # Disable browser reload for production
+    if 'django_browser_reload' in INSTALLED_APPS:
+        INSTALLED_APPS.remove('django_browser_reload')
+    
+    # Use local memory cache for free tier
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+    
+    # Session security (disabled for HTTP)
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+else:
+    # Basic production settings for non-PythonAnywhere
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False, cast=bool)
+    SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=False, cast=bool)
+    SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=False, cast=bool)
+    SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=False, cast=bool)
+    X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='SAMEORIGIN')
+    
+    # CSRF settings
+    CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
+    
+    # Session security
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+
+# Simple Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'django.log'),
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+}
+
+# Create logs directory if it doesn't exist
+os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
