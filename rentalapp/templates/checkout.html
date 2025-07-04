@@ -178,52 +178,41 @@
                 {% comment %} <div class="checkout-form-container" > {% endcomment %}
                   <form action="{% url 'vehicle_booking' %}" method="post" >
                     {% csrf_token %}
-                    <div class="my-5 grid grid-cols-1 sm:grid-cols-2  gap-3">
-                      <div class="relative mb-2">
-                        <label for="daterange" class="block text-[1.5rem] font-semibold select-none mb-2 text-gray-700">Select Date Range</label>
-                        <input id="daterange" name="daterange" class="block w-full transition-transform py-[1.5rem] px-[2rem] border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.4rem] select-none" placeholder="Select date range" required readonly>
+                    <div class="my-5 w-full flex flex-col lg:flex-row gap-6">
+                      <!-- Calendar area -->
+                      <div class="flex-1 bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col min-w-[260px]">
+                        <label for="daterange" class="block text-xl font-semibold select-none mb-3 text-gray-700">Select Date Range</label>
+                        <input id="daterange" name="daterange" class="block w-full transition-transform py-4 px-5 border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-md hover:bg-gray-100 rounded-lg text-lg select-none" placeholder="Select date range" required readonly>
                         <div id="date-range-message" class="hidden mt-2 text-red-600 text-sm font-medium transition-opacity duration-200"></div>
                         <!-- Legend for calendar -->
-                        <div class="flex items-center mt-2 space-x-2">
-                          <span style="display:inline-block;width:1.5rem;height:1.5rem;background:#f87171;border:2px solid #b91c1c;border-radius:0.25rem;"></span>
+                        <div class="flex items-center mt-3 space-x-2">
+                          <span class="inline-block w-6 h-6 bg-red-400 border-2 border-red-700 rounded"></span>
                           <span class="text-sm text-gray-700">Booked (unavailable)</span>
                         </div>
-                        <!-- Booked periods list -->
-                        <div class="mt-4">
-                          <h4 class="font-semibold text-gray-700">Booked Periods:</h4>
-                          <ul class="text-sm text-gray-600">
-                            {% for range in booked_ranges %}
-                              <li>{{ range.start }} to {{ range.end }}</li>
-                            {% empty %}
-                              <li>No bookings yet!</li>
-                            {% endfor %}
-                          </ul>
-                        </div>
                       </div>
-                      <input type="hidden" id="sdate" name="sdate" required>
-                      <input type="hidden" id="edate" name="edate" required>
-                      
-                      <div class="relative">
-                        <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
-                        <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
+                      <!-- Booked periods list as a card -->
+                      <div class="flex-1 min-w-[220px] max-w-xs bg-white rounded-xl shadow-lg p-6 border border-gray-200 overflow-y-auto flex flex-col">
+                        <h4 class="font-semibold text-gray-700 mb-3 text-lg flex items-center"><svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Booked Periods</h4>
+                        <ul class="text-sm text-gray-600 space-y-2">
+                          {% for range in booked_ranges %}
+                            <li class="px-3 py-2 rounded bg-gray-100 hover:bg-blue-100 transition-colors cursor-default">{{ range.start }} to {{ range.end }}</li>
+                          {% empty %}
+                            <li>No bookings yet!</li>
+                          {% endfor %}
+                        </ul>
                       </div>
-                      <input type="submit" id="checkout-btn" value="checkout" class="btn border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.6rem] select-none" disabled>
-                      
                     </div>
-                  </form>
-              </div>
-
-              <div class="my-[2rem]">
-                <h2 class="my-[1rem] text-3xl font-semibold text-gray-800">Specification</h2>
-
-                <ul class="mt-2 text-xl text-gray-500 font-semibold">
-                  <li class="my-[1rem] whitespace-pre">location :      {{ vehicle.buss_vehicle_location}}</li>
-                  <li class="my-[1rem] whitespace-pre">type :              {{ vehicle.buss_vehicle_type}}</li>
-                  <li class="my-[1rem] whitespace-pre">color :             {{ vehicle.buss_vehicle_color}}</li>
-                  <li class="my-[1rem] whitespace-pre">number :       {{ vehicle.buss_vehicle_number}}</li>
-                  <li class="my-[1rem] whitespace-pre">feul :</li>
-
-                </ul>
+                    <input type="hidden" id="sdate" name="sdate" required>
+                    <input type="hidden" id="edate" name="edate" required>
+                    
+                    <div class="relative">
+                      <input type="hidden" name="vid" value="{{ vehicle.id }}" class="box">
+                      <input type="hidden" name="rupee" value="{{ vehicle.buss_rent_per_day }}" class="box">
+                    </div>
+                    <input type="submit" id="checkout-btn" value="checkout" class="btn border border-solid border-gray-400 hover:border-blue-500 shadow hover:shadow-sm hover:bg-gray-100 rounded-lg text-[1.6rem] select-none" disabled>
+                    
+                  </div>
+                </form>
               </div>
             </div>
             
@@ -339,7 +328,20 @@
                 dayElem.title = 'Booked';
                 dayElem.style.animation = 'bookedPulse 2s infinite';
                 // Optionally, add a lock icon
-                // dayElem.innerHTML += '<span style="font-size:1rem;vertical-align:middle;">&#128274;</span>';
+                dayElem.innerHTML += '<span style="font-size:1rem;vertical-align:middle;">&#128274;</span>';
+            }
+
+            // Highlight today
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const todayStr = `${yyyy}-${mm}-${dd}`;
+            if (dayElem.dateObj && fp.formatDate(dayElem.dateObj, "Y-m-d") === todayStr) {
+                dayElem.style.background = '#2563eb'; // Tailwind blue-600
+                dayElem.style.color = '#fff';
+                dayElem.style.border = '2px solid #1d4ed8'; // Tailwind blue-700
+                dayElem.title = 'Today';
             }
           }
         });
