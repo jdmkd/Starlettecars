@@ -156,7 +156,7 @@ def bookings_analysis(request):
     for i, day in enumerate(days):
         date_obj = (start + timezone.timedelta(days=i)) if (start_date and end_date) else (now - timezone.timedelta(days=(29-i)))
         for status in status_choices:
-            count = filter_qs.filter(booking_date__date=date_obj.date(), status=status).count()
+            count = filter_qs.filter(booking_date__date=date_obj, status=status).count()
             status_data[status].append(count)
     bookings_by_status = {
         'labels': days,
