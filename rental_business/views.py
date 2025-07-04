@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
@@ -711,26 +711,17 @@ def vehicle_booking_approval(request):
                 action = request.POST.get("action")
                 booked_vehicle_id = request.POST.get("booked_vehicle_id")
 
-                try:
-                    
+                try: 
                     booked_vehicle = booking_table.objects.get(id=booked_vehicle_id)
 
-                    if action == "approve":
-                        booked_vehicle.status = "approved"
-                        booked_vehicle.vehicle_id.buss_vehicle_status = 'Booked'
-                        booked_vehicle.vehicle_id.save()
-                        message = f"Vehicle ID {booked_vehicle_id} has been approved."
+                    if action in ["pending", "approved", "rejected", "completed"]:
+                        # if action == "completed":
 
-                    elif action == "reject":
-                        booked_vehicle.status = "rejected"
-                        booked_vehicle.vehicle_id.buss_vehicle_status="Available"
-                        booked_vehicle.vehicle_id.save()
-                        message = f"Vehicle ID {booked_vehicle_id} has been rejected."
-
+                        booked_vehicle.status = action
+                        message = f"Vehicle ID {booked_vehicle_id} status changed to {action}."
+                        booked_vehicle.save()
                     else:
                         print(f"Wrong request :: action={action} and id={booked_vehicle_id}")
-                    # booked_vehicle.approval_date = timezone.now()
-                    booked_vehicle.save()
 
 
                 except booking_table.DoesNotExist:
@@ -741,10 +732,40 @@ def vehicle_booking_approval(request):
                 vehicle_id__in=buss_vehicle.objects.filter(buss_vehicle_owner_id=id)
             ).order_by('-booking_date')
             
+            STATUS_CHOICES = dict(booking_table._meta.get_field('status').choices)
+
+            ALLOWED_ACTIONS = {}
+
+            today = date.today()
+
+            for booking in fetch_booked_vdata:
+                actions = []
+
+                if booking.status == "pending":
+                    # Allow only if booking period has not yet passed
+                    if today <= booking.from_to:
+                        actions = ["approve", "reject"]
+
+                elif booking.status == "approved":
+                    # Allow completing if booking period is over
+                    if today > booking.from_to:
+                        actions = ["completed"]
+
+                elif booking.status == "rejected":
+                    if today <= booking.from_to:
+                        actions = ["approve"]
+
+                # Attach to dictionary
+                ALLOWED_ACTIONS[booking.id] = actions
+
+
             fetch_booked_vdata = {
                     "buss_udata":buss_udata,
                     "fetch_booked_vdata":fetch_booked_vdata,
+                    "status_choices": STATUS_CHOICES,
+                    "allowed_actions": ALLOWED_ACTIONS,
             }
+
             return render(request,"vehicle_booking_approval.html", fetch_booked_vdata )
         
     except Exception as e:
