@@ -1,152 +1,52 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        {% block title%}
-        <title>Feedback</title>
-        {% endblock %}
-        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        {% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" > {% endcomment %}
-        <!-- custom css file link  -->
+{% extends "master.html" %}
 
-        <link rel="stylesheet" href=" {% static 'css/feedback.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/popup_messages.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/tailwind-output.css' %}">
-        
+{% block title %}Feedback{% endblock %}
 
-    </head>
+{% block content %}
+    {% include "components/shared/messages.html" %}
+{% endblock %}
 
-    <body>
-        <header class="header">
-            <div id="menu-btn" class="fas fa-bars"></div>
-            <a href="/" class="logo"> <span>Starlette</span>cars </a>
-            
-            <div>
-                {% comment %} {% if user.is_authenticated %} {% endcomment %}
-                {% if request.session.log_user %}
-                <div class="headername">
-                    <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
-                </div>
-                {% endif %}
-            </div>
-            <nav class="navbar">
-                <a href="/">home</a>
-                <a href="/vehicles">vehicles</a>
-                <a href="/services">services</a>
-                <!-- <a href=" {% static '#featured' %} ">featured</a> -->
-                <a href=" /feedback ">feedback</a>
-                <a href="/contact">contact</a><br/>
-            
-                
-            </nav>
-            <div class="action">
-                <div class="profile" onclick="menuToggle();">
-                    {% if udata.updProfile_photo %}
-                    <img src="/media/{{ udata.updProfile_photo }}" alt=""/>
-                    {% else %}
-                    <img src="{% static 'image/profileicons/profile-user.png' %}" alt="{% static 'image/profileicons/profile-user.png' %}"/>
-                    {% endif %}
-                                 
-                </div>
-                
-                <div class="umenu">
-                    <h3>My <span>Profile</span></h3>
-                    <ul>
-                        {% if request.session.log_user %}
-                        <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
-                                Profile</a></li>
-                        <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
-                                href="/logout">Logout</a></li>
-                        {% else %}
-                        <li id="login-btn" class="login-btn"><img
-                                src="{% static 'image/profileicons/edit.png' %}"><a href="accounts/login">Login or Reg</a></li>
-                        {% endif %}
-                        <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a></li>
-                        {% if request.session.log_user %}
-                        <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking
-                                History</a></li>
-                        {% endif %}
-                        <li><img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-
-    {% if messages %}
-    <section class="popup_message">
-        {% comment %} <button class="show-modal">Show Modal</button>
-        <span class="overlay"></span> {% endcomment %}
-        {% for message in messages %} 
-            <div class="modal_box">
-                </button>
-                <i class="fa-regular fa-circle-check"></i>
-                <h3>{{ message }}</h3>
-                <div class="buttons">
-                    <button class="close_btn">Ok, Close</button>
-                </div>
-            </div>
-        {% endfor %}            
-    </section>
-    {% endif %}
-    
-
-
-    <section class="mt-[10rem] mb-[3rem]flex flex-row relative items-center justify-center ">
-
-        <div class="px-[.6rem] py-[2rem] rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-xl mx-auto" data-v0-t="card">
-            <div class="flex flex-col space-y-1.5 p-6">
-              <h3 class="whitespace-nowrap text-4xl normal-case font-semibold leading-none tracking-tight">Send us your feedback</h3>
-              <p class="text-lg normal-case text-muted-foreground">We value your input and want to hear your thoughts.</p>
-            </div>
-            <div class="p-6">
-                <form class="max-w-lg mx-auto" action="/feedbackshow" role="form" method="post" id="reused_form">      
-                    {% csrf_token %}
-                    <div class="mb-5">
-                        <label for="name" class="block mb-2 text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Your name</label>
-                        <input type="name" name="name" id="name" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter your name" required />
-                    </div>
-                    <div class="mb-5">
-                        <label for="email" class="block mb-2 text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Your email</label>
-                        <input type="email" name="email" id="email" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50" placeholder="abc@gmail.com" required />
-                    </div>
-                    <div class="mb-5">
-                        <label for="feedbackmessage" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Your message</label>
-                        <textarea id="feedbackmessage" name="comments" rows="4" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50 min-h-[120px]" placeholder="Leave a comment..." required ></textarea>
-                    </div>
-                    <div class="mb-5 flex flex-col justify-center items-center gap-[.5rem]">
-                        <label for="star-rating" class="text-lg">How do you rate your overall experience?</label>
-                        <span class="star-rating m-[.5rem] w-[175px] h-[35px] relative overflow-hidden whitespace-nowrap bg-contain " id="star-rating" name="rating" required>
-                            <input type="radio" class="rating" name="rating1" value="1"><i></i>
-                            <input type="radio" class="rating" name="rating1" value="2"><i></i>
-                            <input type="radio" class="rating" name="rating1" value="3"><i></i>
-                            <input type="radio" class="rating" name="rating1" value="4"><i></i>
-                            <input type="radio" class="rating" name="rating1" value="5"><i></i>
-                        </span>
-                    </div>
-                    <button type="submit" class="h-[4rem] w-full px-5 py-2.5 text-center text-white bg-gray-900/80 hover:bg-blue-800/90 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[1.4rem]  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Feedback</button>
-                </form>
-            </div>
-            <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
-            <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+{% block ourservices %}
+<section class="mt-[10rem] mb-[3rem]flex flex-row relative items-center justify-center ">
+    <div class="px-[.6rem] py-[2rem] rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-xl mx-auto" data-v0-t="card">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="whitespace-nowrap text-4xl normal-case font-semibold leading-none tracking-tight">Send us your feedback</h3>
+          <p class="text-lg normal-case text-muted-foreground">We value your input and want to hear your thoughts.</p>
         </div>
-    </section>
-    
-    <!--    footer-->
-    {% include 'components/footer.html' %}
+        <div class="p-6">
+            <form class="max-w-lg mx-auto" action="/feedbackshow" role="form" method="post" id="reused_form">      
+                {% csrf_token %}
+                <div class="mb-5">
+                    <label for="name" class="block mb-2 text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Your name</label>
+                    <input type="name" name="name" id="name" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50" placeholder="Enter your name" required />
+                </div>
+                <div class="mb-5">
+                    <label for="email" class="block mb-2 text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Your email</label>
+                    <input type="email" name="email" id="email" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50" placeholder="abc@gmail.com" required />
+                </div>
+                <div class="mb-5">
+                    <label for="feedbackmessage" class="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Your message</label>
+                    <textarea id="feedbackmessage" name="comments" rows="4" class="flex normal-case h-[4rem] w-full rounded-md border border-gray-950/60 px-3 py-4 text-[1.3rem] bg-transparent focus:outline-offset-0 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset disabled:cursor-not-allowed disabled:opacity-50 min-h-[120px]" placeholder="Leave a comment..." required ></textarea>
+                </div>
+                <div class="mb-5 flex flex-col justify-center items-center gap-[.5rem]">
+                    <label for="star-rating" class="text-lg">How do you rate your overall experience?</label>
+                    <span class="star-rating m-[.5rem] w-[175px] h-[35px] relative overflow-hidden whitespace-nowrap bg-contain " id="star-rating" name="rating" required>
+                        <input type="radio" class="rating" name="rating1" value="1"><i></i>
+                        <input type="radio" class="rating" name="rating1" value="2"><i></i>
+                        <input type="radio" class="rating" name="rating1" value="3"><i></i>
+                        <input type="radio" class="rating" name="rating1" value="4"><i></i>
+                        <input type="radio" class="rating" name="rating1" value="5"><i></i>
+                    </span>
+                </div>
+                <button type="submit" class="h-[4rem] w-full px-5 py-2.5 text-center text-white bg-gray-900/80 hover:bg-blue-800/90 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[1.4rem]  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit Feedback</button>
+            </form>
+        </div>
+        <div id="success_message" style="width:100%; height:100%; display:none; "> <h3>Posted your feedback successfully!</h3> </div>
+        <div id="error_message" style="width:100%; height:100%; display:none; "> <h3>Error</h3> Sorry there was an error sending your form. </div>
+    </div>
+</section>
+{% endblock %}
 
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
-    <script src=" {% static 'js/script.js' %} "></script>
-    <script src=" {% static 'js/form.js' %}"></script>
-    <!-- <script src=" {% static 'js/form.js' %} "></script> -->
-    <script src=" {% static 'js/passvalid.js' %} "></script>
-    <script src=" {% static 'js/uiconscript.js' %} "></script>
-    <script src=" {% static 'js/buss_script.js' %} "></script>
-    </body>
-</html>
+{% block footer %}
+    {% include "components/layout/footer.html" %}
+{% endblock %} 

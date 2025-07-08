@@ -1,104 +1,17 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    
+{% extends "master.html" %}
 
-    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
-    <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
-    <style>
-        .panel-body {
-            padding: 15px;
-            background: #f1f1f126;
-          }
-
-        .form-gap {
-            padding-top: 70px;
-            margin:0;
-            
-        }
-        .form-control {
-            padding: 20px 12px;
-        }
-        .col-md-4 {
-            width: auto;
-
-            margin:0;
-            left:10vw;
-        }
-        @media (min-width: 992px){
-            .col-md-4 {
-                width: auto;
-                
-            }
-        }
-    </style>
-    <title>reset password</title>
-</head>
-<body>
-    <!-- <div class="form-gap"></div> -->
-    <div class="global_container"  style="
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                            align-content: center;
-                                            text-align: center;
-                                            margin-top: 8rem;
-                                            position: relative;
-                                            ">
-        <div class="card login_form" style="
-                                            margin: 1rem 1rem;
-                                            padding: 1rem 1rem;
-                                            position: relative;
-                                            border: 1px solid #0003;
-                                            width: 40rem;
-                                            top: 10rem;
-                                            ">    
-            <div class="card_body" style=" margin: .5rem .5rem;
-                                            padding: .5rem .2rem;
-                                            display: grid;">
-                    <div class="text-center">
-                        {% comment %} <h3><i class="fa fa-lock fa-4x"></i></h3> {% endcomment %}
-                        <h2 class="text-center">Your password has been changed</h2>
-                        <div class="panel-body" style="margin:2rem 1rem;">
-                            <a href="{% url 'editprofile'%}">Continue your editing profile. </a></br>
-                            <p><a href="/">Go to Home page</a> </p>
-
-                        </div>
-                    </div>
-                  </div>
-                
-              </div>
+{% block content %}
+<div class="global_container flex items-center justify-center text-center mt-32 relative">
+    <div class="card login_form border border-gray-300 w-[40rem] relative top-40 m-4 p-4">
+        <div class="card_body m-2 p-2 grid">
+            <div class="text-center">
+                <h2 class="text-center text-2xl font-semibold">Your password has been changed</h2>
+                <div class="panel-body my-8 mx-4 bg-gray-50 p-4 rounded">
+                    <a href="{% url 'editprofile' %}" class="text-blue-600 hover:underline">Continue your editing profile.</a><br>
+                    <p><a href="/" class="text-blue-600 hover:underline">Go to Home page</a></p>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
-    <script src=" {% static 'js/script.js' %} "></script>
-    <script src=" {% static 'js/passvalid.js' %} "></script>
-    <script src=" {% static 'js/uiconscript.js' %} "></script>
-
-
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-</body>
-</html>
-
-
-{% comment %} {% block footer %}
-{% endblock %} {% endcomment %}
+</div>
+{% endblock %} 

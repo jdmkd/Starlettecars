@@ -1,0 +1,59 @@
+{% load static %}
+{% block header %}
+<header class="header">
+    <div id="menu-btn" class="fas fa-bars"></div>
+    {% block logo %}
+    <a href="/" class="logo"> <span>Starlette</span>cars </a>
+    {% endblock  %}
+    <div >
+        {% if request.session.log_user %}
+            <div class="headername">
+                <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
+            </div>
+        {% endif %}
+    </div>
+    <nav class="navbar">
+        {% block navbar %}
+            {% block 1link %}
+                <a href="/rental_business">Business Acc</a>
+            {% endblock %}
+            <a href="/">home</a>
+            <a href="/vehicles">vehicles</a>
+            <a href="/services">services</a>
+            <a href="/feedback">feedback</a>
+            <a href="/contact">contact</a><br/>
+        {% endblock  %}    
+    </nav>
+    {% block action %}
+        <div class="action">
+            <div class="profile" onclick="menuToggle();">
+                {% if udata.updProfile_photo %}
+                <img src="/media/{{ udata.updProfile_photo }}" alt=""/>
+                {% else %}
+                <img src="{% static 'image/profileicons/profile-user.png' %}" alt="user profile image"/>
+                {% endif %}
+            </div>
+            <div class="umenu">
+                <h3>My <span>Profile</span></h3>
+                <ul>
+                    {% if request.session.log_user %}
+                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
+                            Profile</a></li>
+                    <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
+                            href="/logout">Logout</a></li>
+                    {% else %}
+                    <li id="login-btn" class="login-btn"><img
+                            src="{% static 'image/profileicons/edit.png' %}"><a href="accounts/login">Login or Reg</a></li>
+                    {% endif %}
+                    <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a></li>
+                    {% if request.session.log_user %}
+                    <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking
+                            History</a></li>
+                    {% endif %}
+                    <li><img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    {% endblock %}
+</header>
+{% endblock %} 

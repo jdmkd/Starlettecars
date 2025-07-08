@@ -1,103 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
-
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-
-    <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- custom css file link  -->
-    <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
-    <link rel="stylesheet" href=" {% static 'css/passvalid.css' %} ">
-    <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
-</head>
-<body>
-    <header class="header">
-        <div id="menu-btn" class="fas fa-bars"></div>
-        <a href="/" class="logo"> <span>Starlette</span>cars </a>
-        
-        <div>
-            {% comment %} {% if user.is_authenticated %} {% endcomment %}
-            {% if request.session.log_user %}
-            <div class="headername">
-                <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
-            </div>
-            {% endif %}
-        </div>
-        <nav class="navbar">
-            <a href="/">home</a>
-            <a href="/vehicles">vehicles</a>
-            <a href="/services">services</a>
-            <!-- <a href=" {% static '#featured' %} ">featured</a> -->
-            <a href=" /feedback ">feedback</a>
-            <a href="/contact">contact</a><br/>
-        
-            
-        </nav>
-        <div class="action">
-            <div class="profile" onclick="menuToggle();">
-                {% if udata.updProfile_photo %}
-                <img src="/media/{{ udata.updProfile_photo }}" alt=""/>
-                {% else %}
-                <img src="{% static 'image/profileicons/profile-user.png' %}" alt="{% static 'image/profileicons/profile-user.png' %}"/>
-                {% endif %}
-                             
-            </div>
-            
-            <div class="umenu">
-                <h3>My <span>Profile</span></h3>
-                <ul>
-                    {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
-                            Profile</a></li>
-                    <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
-                            href="/logout">Logout</a></li>
-                    {% else %}
-                    <li id="login-btn" class="login-btn"><img
-                            src="{% static 'image/profileicons/edit.png' %}"><a href="accounts/login">Login or Reg</a></li>
-                    {% endif %}
-                    <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a></li>
-                    {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking
-                            History</a></li>
-                    {% endif %}
-                    <li><img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
-
-    <section class="contact" id="contact" style="margin: 90px 10px;">
-        {% comment %} <h1 class="heading" style="padding: 2rem 2rem;"><span>contact us</span> </h1> {% endcomment %}
-        <div class="row">
-            <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883734.5405313424!2d71.10875065591415!3d22.69997852215749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1648971540844!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
-            <form action="/contactdata" method="post">
-                {% csrf_token %}
-                <h3>get in touch</h3>
-                <input type="text" placeholder="your name" class="box" name="fname" required>
-                <input type="email" placeholder="your email" class="box" name="email" required>
-                <input type="tel" placeholder="your mobile no" class="box" name="phone" required>
-                <textarea placeholder="your message" class="box" cols="30" rows="10" name="mess" required></textarea>
-                <input type="submit" value="send message" class="btn">
-            </form>
-
-        </div>
-
-    </section>
-
-    {% include 'components/footer.html' %}
-
-    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-
-    <script src=" {% static 'js/script.js' %} "></script>
-    <script src=" {% static 'js/passvalid.js' %} "></script>
-    <script src=" {% static 'js/uiconscript.js' %} "></script>
-</body>
-</html>
+{% extends "master.html" %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<section class="contact" id="contact" style="margin: 90px 10px;">
+    <div class="row">
+        <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883734.5405313424!2d71.10875065591415!3d22.69997852215749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1648971540844!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+        <form action="/contactdata" method="post">
+            {% csrf_token %}
+            <h3>get in touch</h3>
+            <input type="text" placeholder="your name" class="box" name="fname" required>
+            <input type="email" placeholder="your email" class="box" name="email" required>
+            <input type="tel" placeholder="your mobile no" class="box" name="phone" required>
+            <textarea placeholder="your message" class="box" cols="30" rows="10" name="mess" required></textarea>
+            <input type="submit" value="send message" class="btn">
+        </form>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{% include "components/scripts.html" %}
+{% endblock %} 

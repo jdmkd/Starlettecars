@@ -1,0 +1,109 @@
+{% load static %}
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/passvalid.js' %}"></script>
+<script src="{% static 'js/uiconscript.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{# Use Django's json_script for safe JSON passing #}
+{{ booked_ranges|json_script:"booked-ranges-data" }}
+<script>
+  const bookedRanges = JSON.parse(document.getElementById('booked-ranges-data').textContent);
+  const disableRanges = bookedRanges.map(range => ({
+    from: range.start,
+    to: range.end
+  }));
+
+  function updateCheckoutButton() {
+    const sdate = document.getElementById('sdate').value;
+    const edate = document.getElementById('edate').value;
+    const btn = document.getElementById('checkout-btn');
+    const msg = document.getElementById('date-range-message');
+    if (sdate && edate) {
+      btn.disabled = false;
+      btn.classList.remove('opacity-50', 'cursor-not-allowed');
+      msg.classList.add('hidden');
+      msg.textContent = '';
+    } else {
+      btn.disabled = true;
+      btn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+  }
+
+  document.getElementById('daterange').addEventListener('change', updateCheckoutButton);
+  document.getElementById('sdate').addEventListener('change', updateCheckoutButton);
+  document.getElementById('edate').addEventListener('change', updateCheckoutButton);
+
+  if (window.flatpickr) {
+    flatpickr("#daterange", {
+      mode: "range",
+      disable: disableRanges,
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      theme: "material_blue",
+      onChange: function(selectedDates, dateStr, instance) {
+        if (selectedDates.length === 2) {
+          document.getElementById('sdate').value = instance.formatDate(selectedDates[0], "Y-m-d");
+          document.getElementById('edate').value = instance.formatDate(selectedDates[1], "Y-m-d");
+        } else {
+          document.getElementById('sdate').value = "";
+          document.getElementById('edate').value = "";
+        }
+        updateCheckoutButton();
+      },
+      animate: true,
+      showMonths: 1,
+      onDayCreate: function(dObj, dStr, fp, dayElem) {
+        // Enhanced styling for disabled days
+        if (dayElem.classList.contains('flatpickr-disabled')) {
+            dayElem.style.background = '#f87171'; // Tailwind red-400
+            dayElem.style.color = '#fff';
+            dayElem.style.border = '2px solid #b91c1c'; // Tailwind red-700
+            dayElem.style.cursor = 'not-allowed';
+            dayElem.title = 'Booked';
+            dayElem.style.animation = 'bookedPulse 2s infinite';
+            // Optionally, add a lock icon
+            dayElem.innerHTML += '<span style="font-size:1rem;vertical-align:middle;">&#128274;</span>';
+        }
+
+        // Highlight today
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const todayStr = `${yyyy}-${mm}-${dd}`;
+        if (dayElem.dateObj && fp.formatDate(dayElem.dateObj, "Y-m-d") === todayStr) {
+            dayElem.style.background = '#2563eb'; // Tailwind blue-600
+            dayElem.style.color = '#fff';
+            dayElem.style.border = '2px solid #1d4ed8'; // Tailwind blue-700
+            dayElem.title = 'Today';
+        }
+      }
+    });
+  }
+
+  // Show message if user tries to submit without selecting a date range
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const sdate = document.getElementById('sdate').value;
+    const edate = document.getElementById('edate').value;
+    const msg = document.getElementById('date-range-message');
+    if (!sdate || !edate) {
+      e.preventDefault();
+      msg.textContent = 'Please select a start and end date to proceed with booking.';
+      msg.classList.remove('hidden');
+      msg.classList.add('opacity-100');
+    }
+  });
+
+  // Initial state
+  updateCheckoutButton();
+</script>
+
+<style>
+  @keyframes bookedPulse {
+    0% { box-shadow: 0 0 0 0 #f87171; }
+    70% { box-shadow: 0 0 0 10px rgba(248,113,113,0); }
+    100% { box-shadow: 0 0 0 0 #f87171; }
+  }
+</style>
+{% block extra_scripts %}{% endblock %} 

@@ -1,0 +1,12 @@
+<div class="h-40 w-40">
+    {% if userdata.updProfile_photo %}
+        <img id="updProfileimg" class="h-full w-full object-cover rounded-full border-1 border-gray-300 shadow-md" src="/media/{{ userdata.updProfile_photo }}" alt="Profile Image" />
+        <div class="absolute -bottom-2 -right-2">
+            <a href="deleteprofile/{{ userdata.id }}" class="bg-red-500 p-2 rounded-full shadow-lg hover:bg-red-600 transition">
+                <img src="{% static 'image/trash_icon/trash.svg' %}" alt="Delete Profile Icon" class="w-5 h-5">
+            </a>
+        </div>
+    {% else %}
+        <img id="updProfileimg" class="h-full w-full object-cover rounded-full border-1 border-gray-300 shadow-md" src="{% static 'image/profileicons/account.png' %}" alt="Default Profile Image" />
+    {% endif %}
+</div> 

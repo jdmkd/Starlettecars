@@ -1,74 +1,17 @@
-{% comment %} {% extends 'master.html' %} {% endcomment %}
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href=" {% static 'css/style.css' %} ">
-        <link rel="stylesheet" href=" {% static 'css/uiconstyle.css' %} ">
-</head>
-<body>
-    <div class="login-form-container" id="login-form-container">
-        <a href="/"><span id="close-login-form" class="fas fa-times"></span></a>
-        <form action="" method="post">
-            {% csrf_token %}
-            <h3>Reset your password</h3>
-            <p>Enter a new password below to change your password.</p>
+{% extends "master.html" %}
 
-            <div id="messages" class="messages" style="  color: #ff4141;
-            display: flex;
-            align-content: center;
-            align-items: center;
-            margin: 10px 0 0 60px;
-            position: relative;">
-                {% if messages %}
-                    {% for msg in messages %}
-                        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show msg" data-bs-toggle="collapse" data-bs-target="collapse" aria-expanded="false" aria-controls="collapse" role="alert" style="font-size:12px;">
-                        <strong>{{ msg }}</strong>
-                        
-                        </div>
-                        <button type="button" class="close btn-close" style="background: none;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    {% endfor %}
-                {% endif %}
-            </div>
-            
-            <input type="password" id="upass" name="new_upass" title="Password is Required.." placeholder="Enter new password" class="box" autocomplete="off" required>
-            <input type="password" id="upass" name="conf_new_upass" title="Password is Required.." placeholder="Confirm new password" class="box" autocomplete="off" required>
-            <input type="submit" value="reset password" class="btn">
-            
-            <p style="color:black">  <a href="/termsandconpage" >Terms & Cons. </a> | <a href="/termsandconpage" > Privacy policy</a> </p>
-        </form>    
-    </div>
-    
-
-
-
-
-
-
-
-
-
-    
-    <script>
-        //let msg_closebtn = document.getElementsByClassName("close");
-        let msg_closebtn = document.querySelector(".close");
-
-        msg_closebtn.addEventListener('click', () =>{
-            messages = document.querySelector(".messages");
-            messages.style.cssText = 'display:none;'
-            
-        });
-    </script>
-</body>
-
-
-</html>
+{% block content %}
+<div class="login-form-container" id="login-form-container">
+    <a href="/"><span id="close-login-form" class="fas fa-times"></span></a>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h3>Reset your password</h3>
+        <p>Enter a new password below to change your password.</p>
+        {% include "components/shared/messages.html" %}
+        <input type="password" id="upass" name="new_upass" title="Password is Required.." placeholder="Enter new password" class="box" autocomplete="off" required>
+        <input type="password" id="upass" name="conf_new_upass" title="Password is Required.." placeholder="Confirm new password" class="box" autocomplete="off" required>
+        <input type="submit" value="reset password" class="btn">
+        <p style="color:black">  <a href="/termsandconpage" >Terms & Cons. </a> | <a href="/termsandconpage" > Privacy policy</a> </p>
+    </form>    
+</div>
+{% endblock %} 
