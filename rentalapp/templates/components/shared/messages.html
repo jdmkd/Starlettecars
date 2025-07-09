@@ -1,1 +1,65 @@
- 
+{% if messages %}
+<div id="toast-messages" class="fixed top-6 right-6 z-[9999] flex flex-col gap-3">
+  {% for message in messages %}
+    {% if message.tags == 'success' %}
+      <div class="toast-message animate-slide-in flex items-center px-5 py-4 rounded-xl shadow-lg border-l-4 bg-green-100 border-green-400 text-green-800 relative min-w-[320px] max-w-xs">
+        <i class="fas fa-check-circle text-2xl mr-3"></i>
+    {% elif message.tags == 'info' %}
+      <div class="toast-message animate-slide-in flex items-center px-5 py-4 rounded-xl shadow-lg border-l-4 bg-blue-100 border-blue-400 text-blue-800 relative min-w-[320px] max-w-xs">
+        <i class="fas fa-info-circle text-2xl mr-3"></i>
+    {% elif message.tags == 'warning' %}
+      <div class="toast-message animate-slide-in flex items-center px-5 py-4 rounded-xl shadow-lg border-l-4 bg-yellow-100 border-yellow-400 text-yellow-800 relative min-w-[320px] max-w-xs">
+        <i class="fas fa-exclamation-triangle text-2xl mr-3"></i>
+    {% elif message.tags == 'error' %}
+      <div class="toast-message animate-slide-in flex items-center px-5 py-4 rounded-xl shadow-lg border-l-4 bg-red-100 border-red-400 text-red-800 relative min-w-[320px] max-w-xs">
+        <i class="fas fa-times-circle text-2xl mr-3"></i>
+    {% else %}
+      <div class="toast-message animate-slide-in flex items-center px-5 py-4 rounded-xl shadow-lg border-l-4 bg-gray-100 border-gray-400 text-gray-800 relative min-w-[320px] max-w-xs">
+        <i class="fas fa-info-circle text-2xl mr-3"></i>
+    {% endif %}
+      <span class="flex-1 text-base font-medium">{{ message }}</span>
+      <button type="button" class="ml-4 text-xl text-gray-400 hover:text-gray-700 focus:outline-none close-toast" aria-label="Close">
+        <span class="fas fa-times"></span>
+      </button>
+    </div>
+  {% endfor %}
+</div>
+<script>
+  // Animate in
+  document.querySelectorAll('.toast-message').forEach(function(el) {
+    el.classList.add('opacity-0', 'translate-x-10');
+    setTimeout(function() {
+      el.classList.remove('opacity-0', 'translate-x-10');
+      el.classList.add('opacity-100', 'translate-x-0');
+    }, 10);
+  });
+  // Auto-dismiss after 4s
+  setTimeout(function() {
+    document.querySelectorAll('.toast-message').forEach(function(el) {
+      el.classList.add('opacity-0', 'translate-x-10');
+      setTimeout(function() { el.remove(); }, 400);
+    });
+  }, 4000);
+  // Manual close
+  document.querySelectorAll('.close-toast').forEach(function(btn) {
+    btn.onclick = function() {
+      var el = btn.closest('.toast-message');
+      el.classList.add('opacity-0', 'translate-x-10');
+      setTimeout(function() { el.remove(); }, 400);
+    };
+  });
+</script>
+<style>
+  .animate-slide-in {
+    transition: all 0.4s cubic-bezier(.4,0,.2,1);
+  }
+  .animate-slide-in.opacity-0 {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  .animate-slide-in.opacity-100 {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>
+{% endif %}
