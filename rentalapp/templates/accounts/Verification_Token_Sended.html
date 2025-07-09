@@ -1,4 +1,7 @@
 {% extends "master.html" %}
+
+{% block header %}{% endblock header %}
+
 {% block content %}
 <div id="animation-login-success" class="z-[999] fixed top-0 left-0 right-0 bottom-0 mx-3 h-screen flex items-center justify-center overflow-hidden shadow-sm">
     {% if associated_user %}
@@ -62,3 +65,5 @@ for (let i = 0; i < 100; i++) {
 }
 </script>
 {% endblock %} 
+
+{% block footer %}{% endblock %}

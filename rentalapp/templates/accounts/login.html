@@ -1,5 +1,7 @@
 {% extends "master.html" %}
 
+{% block header %}{% endblock header %}
+
 {% block content %}
 <div class="login-form-container" id="login-form-container">
     <a href="/"><span id="close-login-form" class="fas fa-times"></span></a>
@@ -9,10 +11,12 @@
         {% include "components/shared/messages.html" %}
         <input type="email" placeholder="email" class="box" name="email" autocomplete="on" required>
         <input type="password" id="upass" name="upass" title="Password is Required.." placeholder="password" class="box" autocomplete="off" required>
-        <p> forget your password <a href="reset_password">click here</a> </p>
+        <p> forget your password <a href="{% url 'resetpassword' %}">click here</a> </p>
         <input type="submit" value="login" class="btn">
-        <p> Don't have an account? <a href="register" id="signup-btn" class="signup-btn">Register or Signup now</a> </p>
+        <p> Don't have an account? <a href="{% url 'register_attempt' %}" id="signup-btn" class="signup-btn">Register or Signup now</a> </p>
         <p style="color:black">  <a href="/termsandconpage" >Terms & Cons. </a> | <a href="/termsandconpage" > Privacy policy</a> </p>
     </form>    
 </div>
 {% endblock %} 
+
+{% block footer %}{% endblock %}

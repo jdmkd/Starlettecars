@@ -1,5 +1,7 @@
 {% extends "master.html" %}
 
+{% block header %}{% endblock header %}
+
 {% block content %}
 <div class="signup-form-container" id="signup-form-container">
     <a href = "/"><span id="close-signup-form" class="fas fa-times"></span></a>
@@ -21,8 +23,11 @@
             </div>
         </div>
         <input type="submit" value="submit" class="btn">
-        <p> Already have an account? <a href="/accounts/login" class="login-btnx" id="login-btnx">Login now</a> </p>
+        <p> Already have an account? <a href="{% url 'login' %}" class="login-btnx" id="login-btnx">Login now</a> </p>
         <p style="color:black">  <a href="/termsandconpage" >Terms & Cons. </a> | <a href="/termsandconpage" > Privacy policy</a> </p>
     </form>
 </div>
 {% endblock %} 
+
+
+{% block footer %}{% endblock %}
