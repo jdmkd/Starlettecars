@@ -7,6 +7,9 @@
         {% block header %}
             {% include "components/layout/header.html" %}
         {% endblock %}
+        {% block messages %}
+            {% include "components/shared/messages.html" %}
+        {% endblock %}
         {% block homeimage %}{% endblock %}
         {% block content %}{% endblock %}
         {% block branches %}{% endblock %}

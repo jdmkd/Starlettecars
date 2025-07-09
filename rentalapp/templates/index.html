@@ -7,7 +7,22 @@
 {% endblock %}
 
 {% block content %}
-    {% include "components/shared/messages.html" %}
+    {% comment %} {% include "components/shared/messages.html" %} {% endcomment %}
+    {% if messages %}
+        
+    {% for message in messages %} 
+      {% if message.message == "Login successful!" %}
+        {% if 'login_success' in message.tags %}
+          {% include 'components/login_success.html' %}
+        {% endif %}
+      
+      {% elif message.message == "Registration successful!" %}  
+        {% if 'registered_success' in message.tags %}
+          {% include 'components/registered_success.html' %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+{% endif %}
 {% endblock %}
 
 {% block homeimage %}
