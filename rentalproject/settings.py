@@ -166,14 +166,16 @@ USE_TZ = True
 mimetypes.add_type("text/css", ".css", True)
 
 STATIC_URL = config('STATIC_URL', default='/static/')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "rentalapp/static"),
     os.path.join(BASE_DIR, "rental_business/static"),
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 MEDIA_URL = config('MEDIA_URL', default='/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
 
@@ -198,39 +200,11 @@ PDFKIT_CONFIG = {
     'wkhtmltopdf': config('PDFKIT_CONFIG_PATH', default=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
 }
 
-# Check if running on PythonAnywhere
-ON_PYTHONANYWHERE = 'PYTHONANYWHERE_SITE' in os.environ
+# Production environment detection
+PRODUCTION = os.environ.get('PRODUCTION', 'False') == 'True'
 
-# PythonAnywhere-specific settings
-if ON_PYTHONANYWHERE:
-    # Disable HTTPS features for free tier
-    SECURE_SSL_REDIRECT = False
-    SECURE_HSTS_SECONDS = 0
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-    SECURE_HSTS_PRELOAD = False
-    SECURE_BROWSER_XSS_FILTER = False
-    SECURE_CONTENT_TYPE_NOSNIFF = False
-    X_FRAME_OPTIONS = 'SAMEORIGIN'
-    
-    # Use console email backend for free tier
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    
-    # Disable browser reload for production
-    if 'django_browser_reload' in INSTALLED_APPS:
-        INSTALLED_APPS.remove('django_browser_reload')
-    
-    # Use local memory cache for free tier
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
-    }
-    
-    # Session security (disabled for HTTP)
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
-else:
-    # Basic production settings for non-PythonAnywhere
+if PRODUCTION:
+    # Production security settings
     SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=False, cast=bool)
     SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=False, cast=bool)
@@ -238,11 +212,39 @@ else:
     SECURE_BROWSER_XSS_FILTER = config('SECURE_BROWSER_XSS_FILTER', default=False, cast=bool)
     SECURE_CONTENT_TYPE_NOSNIFF = config('SECURE_CONTENT_TYPE_NOSNIFF', default=False, cast=bool)
     X_FRAME_OPTIONS = config('X_FRAME_OPTIONS', default='SAMEORIGIN')
-    
+
     # CSRF settings
     CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='', cast=Csv())
-    
+
     # Session security
+    SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+    CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+
+    # Use console email backend for testing, or configure SMTP for real email
+    EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+
+    # Use local memory cache for production (customize as needed)
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        }
+    }
+
+    # Remove development-only apps
+    if 'django_browser_reload' in INSTALLED_APPS:
+        INSTALLED_APPS.remove('django_browser_reload')
+else:
+    # Development settings (safe defaults)
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_BROWSER_XSS_FILTER = False
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    X_FRAME_OPTIONS = 'SAMEORIGIN'
+    CSRF_TRUSTED_ORIGINS = []
     SESSION_COOKIE_SECURE = False
     CSRF_COOKIE_SECURE = False
     SESSION_COOKIE_HTTPONLY = True
