@@ -10,7 +10,7 @@ urlpatterns = [
     path("vehicles", views.vehicles),
     path("showdata", views.showdata),
     path("checklogin", views.checklogin),
-    path("logout", views.logout),
+    path("logout", views.logout, name="logout"),
     path("contact", views.contact),
     path("contactdata", views.contactdata),
     path("feedback", views.feedbackpage),
@@ -81,5 +81,5 @@ urlpatterns = [
 
     # path("apix", views.apix.as_view(), name="apix"),  # Removed - view doesn't exist
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

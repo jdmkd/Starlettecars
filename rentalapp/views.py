@@ -924,13 +924,15 @@ def myprofile(request):
             loguser = request.session["log_user"]
             logid = request.session["log_id"]
             userdata = usertable.objects.filter(id=logid)[0]
+        
         return render(request, "Userprofile/myprofile.html", {"userdata": userdata})
-    except:
+    
+    except Exception as e:
+        print("Exception :::",e)
         userdata = "Please login!!"
-        print(userdata)
         pass
-    return redirect("/")
 
+    return redirect("/")
 
 
 
@@ -1141,13 +1143,7 @@ def register(request):
             messages.error(
                 request, "Your Password and Confirm Password does not Matched!!"
             )
-            # return redirect("/")
-    # else:
-    #     print("last error occured!")
-        # messages.error(request, "error occured!")
 
-    # print(str(uuid.uuid4()))
-    # return render(request, "index.html")
     return render(request, "accounts/register.html")
 
 def Resend_Email_Verification_Token(request):
