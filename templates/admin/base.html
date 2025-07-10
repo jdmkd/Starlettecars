@@ -16,16 +16,16 @@
 <meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
 {% endblock %}
 
-{% block nav_header %}
+{% comment %} {% block nav_header %}
 {% include 'admin/lib/_main_header.html' %}
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block nav_sidebar %}
 {% include 'admin/lib/_main_sidebar.html' %}
 {% endblock %}
 
 {% block content_header %}
-<section class="content-header">
+<section class="content-header m-0">
     <div class="container-fluid">
         {% block breadcrumbs %}
         <ol class="breadcrumb">
