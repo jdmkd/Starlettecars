@@ -5,18 +5,9 @@
     {% block logo %}
     <a href="/" class="logo"> <span>Starlette</span>cars </a>
     {% endblock  %}
-    <div >
-        {% if request.session.log_user %}
-            <div class="headername">
-                <h1><a href="{% url 'myprofile' %}">Welcome, {{udata.fname}} </a></li></h1>
-            </div>
-        {% endif %}
-    </div>
+    
     <nav class="navbar">
         {% block navbar %}
-            {% block 1link %}
-                <a href="/rental_business">Business Acc</a>
-            {% endblock %}
             <a href="/">home</a>
             <a href="/vehicles">vehicles</a>
             <a href="/services">services</a>
@@ -24,6 +15,26 @@
             <a href="/contact">contact</a><br/>
         {% endblock  %}    
     </nav>
+    <!-- Search Icon Button (before profile/umenu) -->
+    <button id="open-search-overlay" class="flex items-center justify-center ml-2 px-5 py-3 text-xl gap-3 font-semibold border border-gray-200 hover:border-gray-300 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 outline-none focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Open search">
+        <svg class="w-6 h-6 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="inline">Search</span>
+    </button>
+    <!-- Search Popup (Top Center, Not Full Overlay) -->
+    <div id="search-overlay" class="w-full flex justify-center fixed left-0 right-0 top-[9rem] z-50 pointer-events-none">
+        <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl px-6 py-4 flex flex-col items-center gap-4 pointer-events-auto border border-gray-200">
+            <form action="{% url 'vehicle_search' %}" method="get" class="flex w-full items-center">
+                <input type="text" name="search" id="search-overlay-input" placeholder="Search..." class="flex-1 bg-transparent outline-none px-4 py-3 text-2xl text-gray-700 placeholder-gray-400 border border-gray-200 rounded-l-xl focus:ring-2 focus:ring-blue-400 h-14" />
+                <button type="submit" class="px-4 h-14 scale-105 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-r-2xl flex items-center text-2xl font-semibold shadow-md transition-all duration-200 outline-none focus:ring-2 focus:ring-blue-400 border-t border-b border-r border-gray-200 transform hover:scale-100">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span class="hidden sm:inline">Search</span>
+                </button>
+                <button id="close-search-overlay" class="ml-5 p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" aria-label="Close search">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </form>
+        </div>
+    </div>
     {% block action %}
         <div class="action">
             <div class="profile" onclick="menuToggle();">
@@ -37,19 +48,27 @@
                 <h3>My <span>Profile</span></h3>
                 <ul>
                     {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/account.png' %}"><a href="{% url 'myprofile' %}">My
-                            Profile</a></li>
-                    <li id="login-btn"><img src="{% static 'image/profileicons/log-out.png' %}"><a
-                            href="{% url 'logout' %}">Logout</a></li>
+                    <li><img src="{% static 'image/profileicons/account.png' %}">
+                        <a href="{% url 'myprofile' %}">My Profile</a>
+                    </li>
+                    <li id="login-btn">
+                        <img src="{% static 'image/profileicons/log-out.png' %}">
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
                     {% else %}
-                    <li id="login-btn" class="login-btn"><img
-                            src="{% static 'image/profileicons/edit.png' %}"><a href="{% url 'login' %}">Login or Reg</a></li>
+                    <li id="login-btn" class="login-btn">
+                        <img src="{% static 'image/profileicons/edit.png' %}">
+                        <a href="{% url 'login' %}">Login or Reg</a>
+                    </li>
                     {% endif %}
-                    <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a></li>
                     {% if request.session.log_user %}
-                    <li><img src="{% static 'image/profileicons/settings.png' %}"><a href="{% url 'booking_history' %}">Booking
-                            History</a></li>
+                        <li>
+                            <img src="{% static 'image/profileicons/settings.png' %}">
+                            <a href="{% url 'booking_history' %}">Booking History</a>
+                        </li>
                     {% endif %}
+                    <li><img src="{% static 'image/car_icon.png' %}"><a href="/rental_business">Business Account</a></li>
+                    <li><img src="{% static 'image/profileicons/inbox.png' %}"><a href="/inbox">Inbox</a></li>
                     <li><img src="{% static 'image/profileicons/help.png' %}"><a href="/helps">Help</a></li>
                 </ul>
             </div>
@@ -57,3 +76,27 @@
     {% endblock %}
 </header>
 {% endblock %} 
+<script>
+// Search popup toggle logic
+const openBtn = document.getElementById('open-search-overlay');
+const closeBtn = document.getElementById('close-search-overlay');
+const overlay = document.getElementById('search-overlay');
+const input = document.getElementById('search-overlay-input');
+if (openBtn && closeBtn && overlay && input) {
+    overlay.classList.add('hidden');
+    openBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        overlay.classList.remove('hidden');
+        setTimeout(() => input.focus(), 100);
+    });
+    closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        overlay.classList.add('hidden');
+    });
+    document.addEventListener('keydown', (e) => {
+        if (!overlay.classList.contains('hidden') && (e.key === 'Escape' || e.key === 'Esc')) {
+            overlay.classList.add('hidden');
+        }
+    });
+}
+</script> 

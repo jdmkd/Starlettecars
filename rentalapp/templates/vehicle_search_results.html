@@ -1,0 +1,66 @@
+{% extends 'master.html' %}
+{% block content %}
+
+
+<section class="bg-gray-50 mx-auto mt-[10rem] mb-10" id="">
+  <h2 class="text-2xl font-bold mb-4">Vehicle Search Results</h2>
+  {% if query %}
+      <p class="mb-4 text-gray-600">Showing results for: <span class="font-semibold">"{{ query }}"</span></p>
+  {% endif %}
+    
+  {% if vehicles %}
+  <div class="swiper vehicles-slider !h-fit">
+    <div class="swiper-wrapper scroll-smooth focus:scroll-auto snap-x overflow-x-scroll">
+      {% for vdata in vehicles %}
+      {% if vdata.buss_vehicle_owner  %}
+      <div class="swiper-slide box relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md scroll-ms-6 snap-start ">
+        <div class="relative flex items-center w-[100%] justify-between top-3 px-3 z-10">
+          <span class=" rounded-lg bg-black px-3 text-center items-center text-xl font-semibold text-white">19% OFF</span>
+          <div class="flex items-center justify-center ">
+            {% if vdata.buss_vehicle_status == "Available" %}
+              <span class="items-center px-3 bg-lime-500/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+            {% elif vdata.buss_vehicle_status == "Booked" %}
+              <span class="items-center  px-3  bg-red-600/80 rounded-lg text-xl font-semibold text-white">{{ vdata.buss_vehicle_status }}</span>
+            {% endif %}
+          </div>
+        </div>
+        <a class="relative mx-3 mt-0 flex h-60 overflow-hidden rounded-xl" href="/vehicle/checkout/{{ vdata.id}}">
+          <img class="object-contain rounded-xl mb-1" src="/media/{{ vdata.buss_vehicle_photo }}" alt="" width="300" height="200" />
+        </a>
+        <div class=" flex flex-col justify-center mt-4 px-5 pb-5">
+          <a href="/vehicle/checkout/{{ vdata.id }}">
+            <h5 class="font-semibold text-2xl tracking-tight text-slate-900 
+                       max-w-[7ch] truncate overflow-hidden whitespace-nowrap">
+              {{ vdata.buss_vehicle_company_name }} - {{ vdata.buss_vehicle_model }}
+            </h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day }}/-</span>
+              <span class="text-lg text-slate-900 line-through"><span class="font-sans">₹</span>{{ vdata.buss_rent_per_day | add:"1200" }}</span>
+            </p>
+            <div class="flex items-center">
+              <!-- SVG stars and rating -->
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <div class="relative flex items-center justify-center">
+            <a href="/vehicle/checkout/{{ vdata.id}}" class="flex items-center justify-center rounded-md bg-slate-900 px-[5rem] py-2.5 text-center text-xl font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+              <!-- SVG icon -->
+              Booking
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  {% else %}
+        <div class="text-gray-500 py-8 text-center">No vehicles found matching your search.</div>
+  {% endif %}
+</section>
+
+{% endblock %} 
