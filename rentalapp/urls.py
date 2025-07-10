@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path("", views.index),
     path("index/", views.index, name="index"),
+    path('search/', views.vehicle_search, name='vehicle_search'),
     path("services", views.services),
     path("vehicles", views.vehicles),
     path("showdata", views.showdata),
@@ -81,5 +82,6 @@ urlpatterns = [
 
     # path("apix", views.apix.as_view(), name="apix"),  # Removed - view doesn't exist
 ]
+
 # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
