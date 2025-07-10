@@ -52,6 +52,27 @@ def index(request):
 
     return render(request,"index.html",{"vehicle": fetchvehicle, "x": x, "udata": udata, "userdata": userdata})
 
+def vehicle_search(request):
+    query = request.GET.get('search', '').strip()
+    vehicles = []
+    if query:
+        vehicles = buss_vehicle.objects.filter(
+            Q(buss_vehicle_company_name__icontains=query) |
+            Q(buss_vehicle_model__icontains=query) |
+            Q(buss_vehicle_color__icontains=query) |
+            Q(buss_vehicle_number__icontains=query) |
+            Q(buss_vehicle_type__icontains=query) |
+            Q(buss_vehicle_location__icontains=query)
+        )
+    context = {
+        'query': query,
+        'vehicles': vehicles,
+    }
+
+    print("query :",query)
+    print("vehicles :",vehicles)
+    return render(request, 'vehicle_search_results.html', context)
+
 
 def termsandconpage(request):
     return render(request, "termsandconpage.html")
