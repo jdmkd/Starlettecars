@@ -1,0 +1,156 @@
+{% load static %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+  .stat-card {
+    font-family: 'Inter', sans-serif;
+    border-radius: 1rem;
+    overflow: hidden;
+    position: relative;
+    border: 1.5px solid rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s, border-color 0.3s, transform 0.2s;
+    min-height: 180px;
+    background-clip: padding-box;
+    will-change: transform, box-shadow, border-color;
+  }
+  .stat-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.12);
+    border-color: #6366f1;
+    transform: translateY(-2px) scale(1.025);
+    z-index: 2;
+  }
+  .stat-card-bg, .stat-card-bg-lg {
+    pointer-events: none;
+    position: absolute;
+    right: -2.5rem;
+    border-radius: 50%;
+    z-index: 0;
+    opacity: 0.25;
+  }
+  .stat-card-bg {
+    top: -2.5rem;
+    width: 8rem;
+    height: 8rem;
+  }
+  .stat-card-bg-lg {
+    top: -5rem;
+    width: 12rem;
+    height: 12rem;
+    opacity: 0.13;
+  }
+  .stat-card .card-body {
+    position: relative;
+    z-index: 1;
+  }
+  .stat-card .icon-bg {
+    padding: 0.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    will-change: transform;
+  }
+  .stat-card:hover .icon-bg {
+    transform: scale(1.12) rotate(-3deg);
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+  }
+  .stat-card .stat-label {
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    opacity: 0.85;
+  }
+  .stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 0.25rem;
+    line-height: 1.1;
+  }
+  .stat-card .stat-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    padding: 0.15rem 0.5rem;
+    display: inline-block;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.04);
+  }
+</style>
+<div class="row g-4 mb-4">
+  <!-- Total Users -->
+  <div class="col-12 col-md-6 col-lg-3">
+    <div class="stat-card" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border-color: #bfdbfe;">
+      <div class="stat-card-bg" style="background: linear-gradient(135deg, #60a5fa33 0%, #3b82f633 100%);"></div>
+      <div class="stat-card-bg-lg" style="background: linear-gradient(135deg, #60a5fa33 0%, #3b82f633 100%);"></div>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="icon-bg" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+            <i class="fas fa-users text-white fs-4"></i>
+          </div>
+          <span class="stat-change" style="background: #dbeafe; color: #2563eb;">+0%</span>
+        </div>
+        <div class="stat-label" style="color: #1d4ed8;">Total Users</div>
+        <div class="stat-value">{{ stats.total_users|default:'0' }}</div>
+        <div class="stat-label" style="color: #2563eb;">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <!-- Total Vehicles -->
+  <div class="col-12 col-md-6 col-lg-3">
+    <div class="stat-card" style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); border-color: #c4b5fd;">
+      <div class="stat-card-bg" style="background: linear-gradient(135deg, #a78bfa33 0%, #8b5cf633 100%);"></div>
+      <div class="stat-card-bg-lg" style="background: linear-gradient(135deg, #a78bfa33 0%, #8b5cf633 100%);"></div>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="icon-bg" style="background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);">
+            <i class="fas fa-car text-white fs-4"></i>
+          </div>
+          <span class="stat-change" style="background: #ede9fe; color: #7c3aed;">+0%</span>
+        </div>
+        <div class="stat-label" style="color: #6d28d9;">Total Vehicles</div>
+        <div class="stat-value">{{ stats.total_vehicles|default:'0' }}</div>
+        <div class="stat-label" style="color: #7c3aed;">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <!-- Total Bookings -->
+  <div class="col-12 col-md-6 col-lg-3">
+    <div class="stat-card" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border-color: #6ee7b7;">
+      <div class="stat-card-bg" style="background: linear-gradient(135deg, #34d39933 0%, #10b98133 100%);"></div>
+      <div class="stat-card-bg-lg" style="background: linear-gradient(135deg, #34d39933 0%, #10b98133 100%);"></div>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="icon-bg" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <i class="fas fa-calendar-check text-white fs-4"></i>
+          </div>
+          <span class="stat-change" style="background: #d1fae5; color: #059669;">+0%</span>
+        </div>
+        <div class="stat-label" style="color: #047857;">Total Bookings</div>
+        <div class="stat-value">{{ stats.total_bookings|default:'0' }}</div>
+        <div class="stat-label" style="color: #059669;">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+  <!-- Total Revenue -->
+  <div class="col-12 col-md-6 col-lg-3">
+    <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-color: #fcd34d;">
+      <div class="stat-card-bg" style="background: linear-gradient(135deg, #fbbf2433 0%, #f59e4233 100%);"></div>
+      <div class="stat-card-bg-lg" style="background: linear-gradient(135deg, #fbbf2433 0%, #f59e4233 100%);"></div>
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div class="icon-bg" style="background: linear-gradient(135deg, #f59e42 0%, #fbbf24 100%);">
+            <i class="fas fa-rupee-sign text-white fs-4"></i>
+          </div>
+          <span class="stat-change" style="background: #fde68a; color: #b45309;">+0%</span>
+        </div>
+        <div class="stat-label" style="color: #b45309;">Total Revenue</div>
+        <div class="stat-value">₹{{ stats.total_revenue|floatformat:2|default:'0' }}</div>
+        <div class="stat-label" style="color: #b45309;">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+</div> 
