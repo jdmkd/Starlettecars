@@ -1,18 +1,35 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
+{% load static i18n %}
 {% load dashboard_custom_filters %}
 
 {% block extrastyle %}
-{{ block.super }}
-<link rel="stylesheet" href="{% static 'dashboard/admin_dark.css' %}">
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'dashboard/admin_dark.css' %}">
+{% endblock %}
+
+{% block nav_header %}
+  {% include 'dashboard/lib/_main_header.html' %}
+{% endblock %} 
+
+{% block content_header %}
+{% comment %} <section class="content-header m-0">
+    <div class="container-fluid">
+        {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'admin:index' %}"><i class="fas fa-tachometer-alt"></i> {% trans 'Home' %}</a></li>
+            {% if title %}  {{ title }}{% endif %}
+        </ol>
+        {% endblock %}
+    </div>
+</section> {% endcomment %}
+
 {% endblock %}
 
 {% block content %}
+
 <div class="row bg-black" style="min-height: 100vh; margin: 0; padding: 0;">
-  <div class="col-md-2" style="padding: 0;">
-    {% include "dashboard/components/sidebar.html" %}
-  </div>
-  <div class="col-md-10" style="padding: 0;">
+  <div class="col-md-12" style="padding: 0;">
     <div class="main-content">
       {% block dashboard_content %}{% endblock %}
     </div>

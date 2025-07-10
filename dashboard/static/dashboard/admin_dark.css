@@ -37,7 +37,6 @@ body, html {
   background-color: var(--dark-bg) !important;
   background: var(--dark-bg) !important;
   color: var(--dark-text) !important;
-  border-bottom: 1px solid var(--dark-border) !important;
 }
 
 /* Force all navbar elements to be dark */
