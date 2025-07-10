@@ -1,0 +1,87 @@
+{% extends "dashboard/base.html" %}
+{% block dashboard_content %}
+<div class="container mx-auto py-8">
+  <h2 class="text-2xl font-bold mb-6">Search Results{% if query %} for "<span class="text-blue-600">{{ query }}</span>"{% endif %}</h2>
+  {% if not query %}
+    <div class="bg-yellow-100 text-yellow-800 rounded p-4">Enter a search term above.</div>
+  {% else %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Users ({{ user_results|length }})</h3>
+        {% if user_results %}
+          <ul class="divide-y">
+            {% for user in user_results %}
+              <li class="py-2 flex flex-col">
+                <span class="font-medium">{{ user.fname }} {{ user.lname }}</span>
+                <span class="text-sm text-gray-600">{{ user.emailid }}</span>
+                <span class="text-xs text-gray-400">Phone: {{ user.phonenum }}</span>
+                <span class="text-xs text-gray-400">Aadhaar: {{ user.aadhaar_number }}</span>
+                <span class="text-xs text-gray-400">Role: {{ user.role }}</span>
+                <a href="/admin/rentalapp/usertable/{{ user.id }}/change/" class="text-blue-500 hover:underline text-xs mt-1">View in Admin</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-gray-400">No users found.</div>
+        {% endif %}
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Business Users ({{ business_results|length }})</h3>
+        {% if business_results %}
+          <ul class="divide-y">
+            {% for buss in business_results %}
+              <li class="py-2 flex flex-col">
+                <span class="font-medium">{{ buss.buss_fname }} {{ buss.buss_lname }}</span>
+                <span class="text-sm text-gray-600">{{ buss.buss_emailid }}</span>
+                <span class="text-xs text-gray-400">Phone: {{ buss.buss_phonenum }}</span>
+                <span class="text-xs text-gray-400">Aadhaar: {{ buss.buss_aadhaar_number }}</span>
+                <span class="text-xs text-gray-400">Role: {{ buss.buss_role }}</span>
+                <a href="/admin/rental_business/business_user/{{ buss.id }}/change/" class="text-blue-500 hover:underline text-xs mt-1">View in Admin</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-gray-400">No business users found.</div>
+        {% endif %}
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Vehicles ({{ vehicle_results|length }})</h3>
+        {% if vehicle_results %}
+          <ul class="divide-y">
+            {% for v in vehicle_results %}
+              <li class="py-2 flex flex-col">
+                <span class="font-medium">{{ v.buss_vehicle_model }} ({{ v.buss_vehicle_company_name }})</span>
+                <span class="text-xs text-gray-400">Type: {{ v.buss_vehicle_type }}</span>
+                <span class="text-xs text-gray-400">Number: {{ v.buss_vehicle_number }}</span>
+                <span class="text-xs text-gray-400">Status: {{ v.buss_vehicle_status }}</span>
+                <a href="/admin/rental_business/buss_vehicle/{{ v.id }}/change/" class="text-blue-500 hover:underline text-xs mt-1">View in Admin</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-gray-400">No vehicles found.</div>
+        {% endif %}
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-2">Bookings ({{ booking_results|length }})</h3>
+        {% if booking_results %}
+          <ul class="divide-y">
+            {% for b in booking_results %}
+              <li class="py-2 flex flex-col">
+                <span class="font-medium">Booking #{{ b.id }}</span>
+                <span class="text-xs text-gray-400">User: {{ b.login_id.emailid }}</span>
+                <span class="text-xs text-gray-400">Vehicle: {{ b.vehicle_id.buss_vehicle_model }}</span>
+                <span class="text-xs text-gray-400">Status: {{ b.status }}</span>
+                <span class="text-xs text-gray-400">Amount: {{ b.amount }}</span>
+                <a href="/admin/rentalapp/booking_table/{{ b.id }}/change/" class="text-blue-500 hover:underline text-xs mt-1">View in Admin</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-gray-400">No bookings found.</div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %} 
