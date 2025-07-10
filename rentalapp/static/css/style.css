@@ -15,7 +15,7 @@
     box-sizing: border-box;
     outline: none; border:none;
     text-decoration: none;
-    text-transform: capitalize;
+    text-transform: none;
     transition: .2s linear;
 }
 .box{
@@ -1152,54 +1152,6 @@ a .my-bookings:hover{
             -2px 0px 4px #e7e7e7,
              0px -2px 4px #eeeeee;
 }
-
-.footer{
-    background: #f6f6f67d;
-    /* background-color: red; */
-
-    padding-bottom: 0px;
-}
-
-.footer .box-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    gap:1.5rem;
-}
-
-
-.footer .box-container .box h3{
-    font-size: 2.2rem;
-    padding:1rem 0;
-    color:var(--black);
-}
-
-.footer .box-container .box a{
-    display: block;
-    font-size: 1.4rem;
-    padding:1rem 0;
-    color:var(--light-color);
-}
-
-.footer .box-container .box a i{
-    padding-right: .5rem;
-    color:var(--black);
-}
-
-.footer .box-container .box a:hover i{
-    padding-right: 2rem;
-}
-
-.footer .credit{
-    text-align: center;
-    padding:1.5rem;
-    padding-top: 2.5rem;
-    margin-top: 2rem;
-    border-top: var(--border);
-    font-size: 2rem;
-    color:var(--black);
-}
-
-
 
 /* change password */
 .main-container-change-password{
