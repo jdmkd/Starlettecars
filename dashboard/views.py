@@ -11,6 +11,8 @@ from django.utils.dateparse import parse_date
 import csv
 from django.http import HttpResponse
 from django.db.models import F, ExpressionWrapper, fields
+from rental_business.models import business_user
+from django.db.models import Q
 
 @staff_member_required
 def dashboard_view(request):
@@ -263,6 +265,50 @@ def user_insights(request):
     context = site.each_context(request)
     context['user_activity'] = json.dumps(user_activity)
     return render(request, 'dashboard/user_insights.html', context)
+
+@staff_member_required
+def global_search_view(request):
+    query = request.GET.get('q', '').strip()
+    user_results = business_results = vehicle_results = booking_results = []
+    if query:
+        user_results = usertable.objects.filter(
+            Q(fname__icontains=query) |
+            Q(lname__icontains=query) |
+            Q(emailid__icontains=query) |
+            Q(phonenum__icontains=query) |
+            Q(aadhaar_number__icontains=query) |
+            Q(driver_license_number__icontains=query)
+        )
+        business_results = business_user.objects.filter(
+            Q(buss_fname__icontains=query) |
+            Q(buss_lname__icontains=query) |
+            Q(buss_emailid__icontains=query) |
+            Q(buss_phonenum__icontains=query) |
+            Q(buss_aadhaar_number__icontains=query) |
+            Q(buss_driver_license_number__icontains=query)
+        )
+        vehicle_results = buss_vehicle.objects.filter(
+            Q(buss_vehicle_company_name__icontains=query) |
+            Q(buss_vehicle_model__icontains=query) |
+            Q(buss_vehicle_number__icontains=query) |
+            Q(buss_vehicle_type__icontains=query) |
+            Q(buss_chassi_number__icontains=query)
+        )
+        booking_results = booking_table.objects.filter(
+            Q(amount__icontains=query) |
+            Q(status__icontains=query) |
+            Q(vehicle_id__buss_vehicle_model__icontains=query) |
+            Q(login_id__emailid__icontains=query)
+        )
+    context = site.each_context(request)
+    context.update({
+        'query': query,
+        'user_results': user_results,
+        'business_results': business_results,
+        'vehicle_results': vehicle_results,
+        'booking_results': booking_results,
+    })
+    return render(request, 'dashboard/search_results.html', context)
 
 @staff_member_required
 def bookings_export_csv(request):

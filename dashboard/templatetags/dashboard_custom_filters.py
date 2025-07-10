@@ -14,4 +14,4 @@ def currency_format(value):
         value = float(value)
         return f"₹{value:,.0f}"
     except (ValueError, TypeError):
-        return "₹0" 
+        return "₹value" 

@@ -10,4 +10,5 @@ urlpatterns = [
     path('dashboard/revenue/export-csv/', views.revenue_export_csv, name='dashboard-revenue-export-csv'),
     path('dashboard/bookings/city/', views.bookings_by_city_analytics, name='dashboard-bookings-by-city'),
     path('dashboard/bookings/city/export-csv/', views.bookings_by_city_export_csv, name='dashboard-bookings-by-city-export-csv'),
+    path('dashboard/search/', views.global_search_view, name='dashboard-global-search'),
 ]
