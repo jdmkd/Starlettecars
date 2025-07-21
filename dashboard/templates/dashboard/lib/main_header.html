@@ -1,0 +1,171 @@
+{% extends 'adminlte/lib/_main_header.html' %}
+{% load adminlte_helpers i18n %}
+{% load static %}
+<nav class="main-header navbar navbar-expand-lg navbar-white navbar-light">
+    {% block nav_bar %}
+    <!-- Left navbar links -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbarResponsive" aria-controls="mainNavbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNavbarResponsive">
+        <ul class="navbar-nav" style="border-bottom: none !important; text-decoration: none;">
+            <li class="nav-item"  style="border-bottom: none !important; text-decoration: none;">
+                <a class="nav-link" data-widget="pushmenu" href="#"  style="border-bottom: none !important; text-decoration: none;"><i class="fas fa-bars"></i></a>
+            </li>
+            <li class="nav-item d-none d-sm-inline-block"  style="border-bottom: none !important; text-decoration: none;">
+                <a href="/admin" class="nav-link"  style="border-bottom: none !important; text-decoration: none;">Home</a>
+            </li>
+            <li class="nav-item dropdown" style="border-bottom: none !important; text-decoration: none;">
+                <a class="nav-link dropdown-toggle " href="#" id="analyticalDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-bottom: none !important; text-decoration: none;">
+                    <i class="fas fa-chart-bar pr-2"  style="border-bottom: none !important; text-decoration: none;"></i> 
+                    Apps
+                </a>
+                <div class="dropdown-menu" aria-labelledby="analyticalDropdown">
+                    <a href="/" class="nav-link"  style="border-bottom: none !important; text-decoration: none;">Starlette</a>
+                    <a href="{% url 'dashboard' %}" class="nav-link"  style="border-bottom: none !important; text-decoration: none;">Business</a>
+                </div>
+            </li>
+            <!-- Mobile search icon -->
+            <li class="nav-item d-lg-none d-md-none" id="openMobileSearchPopup">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-search" style="cursor:pointer;"></i>
+                </a>
+            </li>
+        </ul>
+        {% block nav_bar_center %}
+        <!-- SEARCH FORM -->
+        <nav class="my-0 p-0 justify-content-between" style="border-bottom: none !important; text-decoration: none;">
+            <!-- For medium and up: input + button -->
+            <form action="{% url 'dashboard-global-search' %}" method="get"
+                class="form-inline ml-3 d-none d-md-flex" style="border-bottom: none !important; text-decoration: none;">
+                <input
+                    class="form-control mr-sm-2 py-2 border-1"
+                    type="search"
+                    name="q"
+                    placeholder="Search"
+                    aria-label="Search"
+                >
+                <button class="btn btn-primary py-2" type="submit" style="border-bottom: none !important; text-decoration: none;">
+                    Search
+                </button>
+            </form>
+            <!-- For small screens: only show search icon in navbar, modal handles input -->
+        </nav>
+        <!-- Mobile Search Modal (only for small screens) -->
+        <!-- Custom Mobile Search Popup (no modal, no backdrop) -->
+        <div id="mobileSearchPopup" class="d-md-none" style="
+          display: none;
+          position: fixed;
+          top: 70px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 3000;
+          background: #fff;
+          border-radius: 1rem;
+          box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+          padding: 1rem 1.2rem;
+          min-width: 260px;
+          max-width: 90vw;
+">
+          <form class="mb-0" action="{% url 'dashboard-global-search' %}" method="get">
+            <div class="input-group align-items-center flex-nowrap">
+              <input type="search" name="q" class="form-control rounded-pill shadow-sm px-4 py-2 mr-2 border-0" placeholder="Search..." aria-label="Search" autofocus id="mobileSearchInputPopup" style="font-size: 1.1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border: none !important; outline: none !important; width: auto;">
+              <div class="input-group-append">
+                <button class="btn btn-primary rounded-pill font-weight-bold px-4 py-2 ml-2" type="submit" style="font-size: 1.05rem;">Search</button>
+              </div>
+              <button type="button" class="btn btn-link text-danger ml-2 p-0" id="closeMobileSearchPopup" aria-label="Close">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var popup = document.getElementById('mobileSearchPopup');
+            var openBtnLi = document.getElementById('openMobileSearchPopup');
+            var closeBtn = document.getElementById('closeMobileSearchPopup');
+            if (openBtnLi) {
+              openBtnLi.addEventListener('click', function(e) {
+                e.preventDefault();
+                popup.style.display = 'block';
+                setTimeout(function() {
+                  document.getElementById('mobileSearchInputPopup').focus();
+                }, 100);
+              });
+            }
+            if (closeBtn) {
+              closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                popup.style.display = 'none';
+              });
+            }
+            // Optional: close popup when clicking outside
+            document.addEventListener('click', function(e) {
+              if (popup.style.display === 'block' && !popup.contains(e.target) && !openBtnLi.contains(e.target)) {
+                popup.style.display = 'none';
+              }
+            });
+          });
+        </script>
+
+        
+        {% endblock %}
+        <ul class="navbar-nav ml-auto" style="border-bottom: none !important; text-decoration: none;">
+            <ul class="nav navbar-nav" style="border-bottom: none !important; text-decoration: none;">
+                {% block header_dropdowns %}
+                {% block user_info %}
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item dropdown user-menu" style="border-bottom: none !important; text-decoration: none;">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true" style="border-bottom: none !important; text-decoration: none;">
+                                <img src="{%avatar_url 128 %}" class="user-image img-circle elevation-2" alt="User Image">
+                                <span class="d-none d-md-inline" style="border-bottom: none !important; text-decoration: none;">{% firstof request.user.get_short_name request.user.get_username %}</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <!-- User image -->
+                                <li class="user-header bg-primary">
+                                    <img src="{%avatar_url size=160 %}" class="img-circle elevation-2" alt="User Image">
+                                    <p>
+                                        {% firstof request.user.get_short_name request.user.get_username %} - {% firstof request.user.get_role %}
+                                        <small>Member since : {{ request.user.date_joined }}</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <a href="#">Profile</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Team</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Friends</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <a href="{% block change_password_url %}{% url 'admin:password_change' %}{% endblock %}" class="btn btn-default btn-flat">{% trans 'Change Password'%}</a>
+                                    <a href="{% block logout_url %}{% logout_url %}{% endblock %}" class="btn btn-default btn-flat float-right">{% trans 'Sign Out'%}<a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                {% endblock user_info %}
+                {% endblock header_dropdowns %}
+            </ul>
+        </ul>
+    </div>
+    {% endblock %}
+</nav>
+<style>
+#mobileSearchInputPopup,
+#mobileSearchInputPopup:focus,
+#mobileSearchInputPopup:-webkit-autofill {
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  background-clip: padding-box;
+}
+</style>
