@@ -1,0 +1,90 @@
+{% load adminlte_helpers %}
+{% load static %}
+{% load admin_menu %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+     <!-- Brand Logo -->
+    {% block logo %}
+        <a href="/" class="brand-link">
+            {% comment %} <img src="{%static 'admin-lte/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> {% endcomment %}
+            {% block logo_text %}<span class="brand-text font-weight-light">Dashboard</span>{% endblock %}
+        </a>
+    {% endblock %}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        <!-- Sidebar user panel -->
+        {% block user_panel %}
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel my-2 py-2 d-flex">
+            <div class="image">
+            <img src="{% avatar_url size=90 %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+            <a href="#" class="d-block">{% firstof request.user.get_full_name request.user.username %}</a>
+            </div>
+        </div>
+        {% endblock %}
+
+        {% block form %}{% endblock %}
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        {% block nav_links_ul %}
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                {% block nav_links_outer %}
+                <li class="nav-header">{% block nav_heading %}MAIN NAVIGATION{% endblock %}</li>
+
+                    <!-- Analytical Dropdown Menu -->
+                    <li class="nav-item has-treeview">
+                        <a class="nav-link" href="#">
+                            <i class="nav-icon fas fa-chart-bar pr-2"></i> 
+                            <p>Analytical</p>
+                            <p><i class="fas fa-angle-left right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'admin-dashboard' %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    Overview
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard-bookings-analysis' %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    Bookings Analysis
+                                </a>    
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard-revenue-analysis' %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    Revenue Analysis
+                                </a>    
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard-user-insights' %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    User Insights
+                                </a>    
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard-bookings-by-city' %}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    Bookings by City
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <!-- These are the main sidebar item or main navigation -->
+                    {% block nav_links %}
+                        {% autoescape off %}{% menu %}{% endautoescape %}                        
+                    {% endblock nav_links %}
+
+                {% endblock nav_links_outer %}
+            </ul>
+        </nav>
+        {% endblock nav_links_ul %}
+    </div>
+    <!-- /.sidebar -->
+</aside>
